@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory">Mobicents JAIN SLEE SIP Publication Client Enabler User Guide</title><link rel="stylesheet" href="css/jbossorg.css" type="text/css"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="generator" content="DocBook XSL Stylesheets V1.74.0"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="description" content="TODO"/></head><body><div class="book" lang="en-US"><div class="titlepage"><div><p id="title"><a href="http://www.jboss.org" class="site_href"><strong>JBoss.org</strong></a><a href="http://docs.jboss.org/" class="doc_href"><strong>Community Documentation</strong></a></p><div><h1 class="title"><a id="d0e1"/>Mobicents JAIN SLEE SIP Publication Client Enabler User Guide</h1></div><div><h2 class="subtitle"/></div><div><div xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="authorgroup"><div class="authors">by <span xmlns="http://www.w3.org/1999/xhtml" class="firstname">Bartosz</span> <span xmlns="http://www.w3.org/1999/xhtml" class="surname">Baranowski</span></div><div class="editors"/><div class="others"/></div></div><div><p class="copyright">Copyright © 2009 Red Hat, Inc.</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>TODO</p></div></div></div><hr/></div><div class="toc"><dl><dt><span class="preface"><a href="#preface">Preface</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e34">1. Document Conventions</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e44">1.1. Typographic Conventions</a></span></dt><dt><span class="section"><a href="#d0e260">1.2. Pull-quote Conventions</a></span></dt><dt><span class="section"><a href="#d0e279">1.3. Notes and Warnings</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e299">2. Provide feedback to the authors!</a></span></dt></dl></dd><dt><span class="chapter"><a href="#introduction">1. Introduction
+		to Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</a></span></dt><dt><span class="chapter"><a href="#setup">2. Setup</a></span></dt><dd><dl><dt><span class="section"><a href="#preinstall_requirements_and_prerequisites">2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dd><dl><dt><span class="section"><a href="#hardware_requirements">2.1.1. Hardware Requirements</a></span></dt><dt><span class="section"><a href="#software_prerequisites">2.1.2. Software Prerequisites</a></span></dt></dl></dd><dt><span class="section"><a href="#source_code">2.2. Mobicents JAIN SLEE SIP Publication Client Enabler Source Code</a></span></dt><dd><dl><dt><span class="section"><a href="#release_source_building">2.2.1. Release Source Code Building</a></span></dt><dt><span class="section"><a href="#trunk_source_building">2.2.2. Development Trunk Source Building</a></span></dt></dl></dd><dt><span class="section"><a href="#install">2.3. Installing Mobicents JAIN SLEE SIP Publication Client Enabler</a></span></dt><dt><span class="section"><a href="#uninstall">2.4. Uninstalling Mobicents JAIN SLEE SIP Publication Client Enabler</a></span></dt></dl></dd><dt><span class="chapter"><a href="#integrating">3. Integrating
+		the Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</a></span></dt><dd><dl><dt><span class="section"><a href="#parent_sbb_local_object_interface">3.1. The Parent's SbbLocalObject Interface</a></span></dt><dt><span class="section"><a href="#parent_sbb_abstract_class">3.2. The Parent's Sbb Abstract Class</a></span></dt><dt><span class="section"><a href="#parent_sbb_xml_descriptor">3.3. The Parent Sbb XML Descriptor</a></span></dt></dl></dd><dt><span class="chapter"><a href="#using_the_enabler">4. Using
+		the Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</a></span></dt><dd><dl><dt><span class="section"><a href="#the_child_sbblocalobject_interface">4.1. The Child's SbbLocalObject Interface</a></span></dt><dt><span class="section"><a href="#creating_and_retrieving_the_child_sbb">4.2. Creating And Retrieving The Child Sbb</a></span></dt><dt><span class="section"><a href="#configuring_child_sbb">4.3. Enabler configuration</a></span></dt></dl></dd><dt><span class="chapter"><a href="#logging_traces_and_alarms">5. Traces and Alarms</a></span></dt><dd><dl><dt><span class="section"><a href="#tracers">5.1. Tracers</a></span></dt><dt><span class="section"><a href="#alarms">5.2. Alarms</a></span></dt></dl></dd><dt><span class="appendix"><a href="#revision_history">A. Revision History</a></span></dt><dt><span class="index"><a href="#d0e810">Index</a></span></dt></dl></div><div class="preface" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="preface"/>Preface</h2></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e34"/>1. Document Conventions</h2></div></div></div><p>
+		This manual uses several conventions to highlight certain words and phrases and draw attention to specific pieces of information.
+	</p><p>
+		In PDF and paper editions, this manual uses typefaces drawn from the <a class="ulink" href="https://fedorahosted.org/liberation-fonts/">Liberation Fonts</a> set. The Liberation Fonts set is also used in HTML editions if the set is installed on your system. If not, alternative but equivalent typefaces are displayed. Note: Red Hat Enterprise Linux 5 and later includes the Liberation Fonts set by default.
+	</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e44"/>1.1. Typographic Conventions</h3></div></div></div><p>
+			Four typographic conventions are used to call attention to specific words and phrases. These conventions, and the circumstances they apply to, are as follows.
+		</p><p>
+			<code class="literal">Mono-spaced Bold</code>
+		</p><p>
+			Used to highlight system input, including shell commands, file names and paths. Also used to highlight key caps and key-combinations. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To see the contents of the file <code class="filename">my_next_bestselling_novel</code> in your current working directory, enter the <code class="command">cat my_next_bestselling_novel</code> command at the shell prompt and press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p></blockquote></div><p>
+			The above includes a file name, a shell command and a key cap, all presented in Mono-spaced Bold and all distinguishable thanks to context.
+		</p><p>
+			Key-combinations can be distinguished from key caps by the hyphen connecting each part of a key-combination. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p><p>
+				Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F1</strong></span> to switch to the first virtual terminal. Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F7</strong></span> to return to your X-Windows session.
+			</p></blockquote></div><p>
+			The first sentence highlights the particular key cap to press. The second highlights two sets of three key caps, each set pressed simultaneously.
+		</p><p>
+			If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <code class="literal">Mono-spaced Bold</code>. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				File-related classes include <code class="classname">filesystem</code> for file systems, <code class="classname">file</code> for files, and <code class="classname">dir</code> for directories. Each class has its own associated set of permissions.
+			</p></blockquote></div><p>
+			<span class="application"><strong>Proportional Bold</strong></span>
+		</p><p>
+			This denotes words or phrases encountered on a system, including application names; dialogue box text; labelled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Choose <span class="guimenu"><strong>System &gt; Preferences &gt; Mouse</strong></span> from the main menu bar to launch <span class="application"><strong>Mouse Preferences</strong></span>. In the <span class="guilabel"><strong>Buttons</strong></span> tab, click the <span class="guilabel"><strong>Left-handed mouse</strong></span> check box and click <span class="guibutton"><strong>Close</strong></span> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand).
+			</p><p>
+				To insert a special character into a <span class="application"><strong>gedit</strong></span> file, choose <span class="guimenu"><strong>Applications &gt; Accessories &gt; Character Map</strong></span> from the main menu bar. Next, choose <span class="guimenu"><strong>Search &gt; Find</strong></span> from the <span class="application"><strong>Character Map</strong></span> menu bar, type the name of the character in the <span class="guilabel"><strong>Search</strong></span> field and click <span class="guibutton"><strong>Next</strong></span>. The character you sought will be highlighted in the <span class="guilabel"><strong>Character Table</strong></span>. Double-click this highlighted character to place it in the <span class="guilabel"><strong>Text to copy</strong></span> field and then click the <span class="guibutton"><strong>Copy</strong></span> button. Now switch back to your document and choose <span class="guimenu"><strong>Edit &gt; Paste</strong></span> from the <span class="application"><strong>gedit</strong></span> menu bar.
+			</p></blockquote></div><p>
+			The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in Proportional Bold and all distinguishable by context.
+		</p><p>
+			Note the <span class="guimenu"><strong>&gt;</strong></span> shorthand used to indicate traversal through a menu and its sub-menus. This is to avoid the difficult-to-follow 'Select <span class="guimenuitem"><strong>Mouse</strong></span> from the <span class="guimenu"><strong>Preferences</strong></span> sub-menu in the <span class="guimenu"><strong>System</strong></span> menu of the main menu bar' approach.
+		</p><p>
+			<code class="command"><em class="replaceable"><code>Mono-spaced Bold Italic</code></em></code> or <span class="application"><strong><em class="replaceable"><code>Proportional Bold Italic</code></em></strong></span>
+		</p><p>
+			Whether Mono-spaced Bold or Proportional Bold, the addition of Italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To connect to a remote machine using ssh, type <code class="command">ssh <em class="replaceable"><code>username</code></em>@<em class="replaceable"><code>domain.name</code></em></code> at a shell prompt. If the remote machine is <code class="filename">example.com</code> and your username on that machine is john, type <code class="command">ssh john@example.com</code>.
+			</p><p>
+				The <code class="command">mount -o remount <em class="replaceable"><code>file-system</code></em></code> command remounts the named file system. For example, to remount the <code class="filename">/home</code> file system, the command is <code class="command">mount -o remount /home</code>.
+			</p><p>
+				To see the version of a currently installed package, use the <code class="command">rpm -q <em class="replaceable"><code>package</code></em></code> command. It will return a result as follows: <code class="command"><em class="replaceable"><code>package-version-release</code></em></code>.
+			</p></blockquote></div><p>
+			Note the words in bold italics above  username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
+		</p><p>
+			Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				When the Apache HTTP Server accepts requests, it dispatches child processes or threads to handle them. This group of child processes or threads is known as a <em class="firstterm">server-pool</em>. Under Apache HTTP Server 2.0, the responsibility for creating and maintaining these server-pools has been abstracted to a group of modules called <em class="firstterm">Multi-Processing Modules</em> (<em class="firstterm">MPMs</em>). Unlike other modules, only one module from the MPM group can be loaded by the Apache HTTP Server.
+			</p></blockquote></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e260"/>1.2. Pull-quote Conventions</h3></div></div></div><p>
+			Two, commonly multi-line, data types are set off visually from the surrounding text.
+		</p><p>
+			Output sent to a terminal is set in <code class="computeroutput">Mono-spaced Roman</code> and presented thus:
+		</p><pre class="screen">
+books        Desktop   documentation  drafts  mss    photos   stuff  svn
+books_tests  Desktop1  downloads      images  notes  scripts  svgs
+</pre><p>
+			Source-code listings are also set in <code class="computeroutput">Mono-spaced Roman</code> but are presented and highlighted as follows:
+		</p><pre class="programlisting">
+package org.jboss.book.jca.ex1;
+
+import javax.naming.InitialContext;
+
+public class ExClient
+{
+   public static void main(String args[]) 
+       throws Exception
+   {
+      InitialContext iniCtx = new InitialContext();
+      Object         ref    = iniCtx.lookup("EchoBean");
+      EchoHome       home   = (EchoHome) ref;
+      Echo           echo   = home.create();
+
+      System.out.println("Created Echo");
+
+      System.out.println("Echo.echo('Hello') = " + echo.echo("Hello"));
+   }
+   
+}
+</pre></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e279"/>1.3. Notes and Warnings</h3></div></div></div><p>
+			Finally, we use three visual styles to draw attention to information that might otherwise be overlooked.
+		</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note"><h2>Note</h2><p>
+				A note is a tip or shortcut or alternative approach to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier.
+			</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>
+				Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring Important boxes won't cause data loss but may cause irritation and frustration.
+			</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="warning"><h2>Warning</h2><p>
+				A Warning should not be ignored. Ignoring warnings will most likely cause data loss.
+			</p></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e299"/>2. Provide feedback to the authors!</h2></div></div></div><a id="d0e302" class="indexterm"/><p> If you find a typographical error in this manual, or if you have thought of a way to make this manual better, we would love to hear from you! Please submit a report in the the <a class="ulink" href="http://code.google.com/p/mobicents/issues/list">Issue Tracker</a>, against the product <span class="application"><strong>Mobicents JAIN SLEE SIP Publication Client Enabler</strong></span>, or contact the authors.</p><p> When submitting a bug report, be sure to mention the manual's identifier: JAIN_SLEE_ENABLER_SIPPublicationClient_User_Guide</p><p> If you have a suggestion for improving the documentation, try to be as specific as possible when describing it. If you have found an error, please include the section number and some of the surrounding text so we can find it easily.</p></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="introduction"/>Chapter 1. Introduction
+		to Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</h2></div></div></div><p>The
+		JAIN SLEE SIP Publication Client
+		Enabler allows JAIN SLEE Applications to interact with an Event State Compositor, such as a Presence Server,
+		hiding the network protocol complexity. The Enabler consists
+		of SBB,
+		which can be used in child relations, with a simple synchronous
+		interface.
+	</p><p>Enabler abstracts communication described in <a class="link" href="#">RFC3903</a>.  </p></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="setup"/>Chapter 2. Setup</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#preinstall_requirements_and_prerequisites">2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dd><dl><dt><span class="section"><a href="#hardware_requirements">2.1.1. Hardware Requirements</a></span></dt><dt><span class="section"><a href="#software_prerequisites">2.1.2. Software Prerequisites</a></span></dt></dl></dd><dt><span class="section"><a href="#source_code">2.2. Mobicents JAIN SLEE SIP Publication Client Enabler Source Code</a></span></dt><dd><dl><dt><span class="section"><a href="#release_source_building">2.2.1. Release Source Code Building</a></span></dt><dt><span class="section"><a href="#trunk_source_building">2.2.2. Development Trunk Source Building</a></span></dt></dl></dd><dt><span class="section"><a href="#install">2.3. Installing Mobicents JAIN SLEE SIP Publication Client Enabler</a></span></dt><dt><span class="section"><a href="#uninstall">2.4. Uninstalling Mobicents JAIN SLEE SIP Publication Client Enabler</a></span></dt></dl></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="preinstall_requirements_and_prerequisites"/>2.1. Pre-Install Requirements and Prerequisites</h2></div></div></div><p>Ensure that the following requirements have been met before continuing with the install.</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="hardware_requirements"/>2.1.1. Hardware Requirements</h3></div></div></div><p>The Enabler doesn't change the Mobicents JAIN SLEE Hardware Requirements, refer to Mobicents JAIN SLEE documentation for more information.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="software_prerequisites"/>2.1.2. Software Prerequisites</h3></div></div></div><p>The Enabler requires Mobicents JAIN SLEE properly set, with the SIP Resource Adaptor deployed.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="source_code"/>2.2. Mobicents JAIN SLEE SIP Publication Client Enabler Source Code</h2></div></div></div><p>This section provides instructions on how to obtain and build the SIP Publication Client Enabler from source code.</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="release_source_building"/>2.2.1. Release Source Code Building</h3></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="procedure"><ol class="1"><li><p class="title"><b>Downloading the source code</b></p><div class="important"><h2>Important</h2><p>Subversion is used to manage its source code. Instructions for using Subversion, including install, can be found at <a class="ulink" href="http://svnbook.red-bean.com">http://svnbook.red-bean.com</a></p></div><p>Use SVN to checkout a specific release source, the base URL is http://mobicents.googlecode.com/svn/tags/servers/jain-slee/2.x.y/enablers/sip-publication-client, then add the specific release version, lets consider 1.0.0.CR1.</p><pre class="programlisting">[usr]$ svn co http://mobicents.googlecode.com/svn/tags/servers/jain-slee/2.x.y/enablers/sip-publication-client/1.0.0.CR1 slee-enabler-sip-publication-client-1.0.0.CR1</pre></li><li><p class="title"><b>Building the source code</b></p><div class="important"><h2>Important</h2><p>Maven 2.0.9 (or higher) is used to build the release. Instructions for using Maven2, including install, can be found at <a class="ulink" href="http://maven.apache.org">http://maven.apache.org</a></p></div><p>Use Maven to build the deployable unit binary.</p><pre class="programlisting">
+				    [usr]$ cd slee-enabler-sip-publication-client-1.0.0.CR1
+				    [usr]$ mvn install
+				    </pre><p>Once the process finishes you should have the <code class="literal">deployable-unit</code> jar file in the <code class="filename">target</code> directory, if Mobicents JAIN SLEE is installed and environment variable JBOSS_HOME is pointing to its underlying JBoss Application Server directory, then the deployable unit jar will also be deployed in the container.</p><div class="important"><h2>Important</h2><p>This procedure does not install the Enabler's dependencies</p></div></li></ol></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trunk_source_building"/>2.2.2. Development Trunk Source Building</h3></div></div></div><p>Similar process as for <a class="xref" href="#release_source_building" title="2.2.1. Release Source Code Building">Section 2.2.1, “Release Source Code Building”</a>, the only change is the SVN source code URL, which is http://mobicents.googlecode.com/svn/trunk/servers/jain-slee/enablers/sip-publication-client.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="install"/>2.3. Installing Mobicents JAIN SLEE SIP Publication Client Enabler</h2></div></div></div><p>To install the Enabler simply execute provided ant script <code class="filename">build.xml</code> default target:</p><pre class="programlisting">
+		[usr]$ ant
+		</pre><p>The script will copy the Enabler's deployable unit jar to the <code class="literal">default</code> Mobicents JAIN SLEE server profile deploy directory, to deploy to another server profile use the argument <code class="literal">-Dnode=</code>.</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>This procedure also installs the Enabler's dependencies.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="uninstall"/>2.4. Uninstalling Mobicents JAIN SLEE SIP Publication Client Enabler</h2></div></div></div><p>To uninstall the Enabler simply execute provided ant script <code class="filename">build.xml</code> <code class="literal">undeploy</code> target:</p><pre class="programlisting">
+		[usr]$ ant undeploy-all
+		</pre><p>The script will delete the Enabler's deployable unit jar from the <code class="literal">default</code> Mobicents JAIN SLEE server profile deploy directory, to undeploy from another server profile use the argument <code class="literal">-Dnode=</code>.</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>This procedure also uninstalls the Enabler's dependencies.</p></div></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="integrating"/>Chapter 3. Integrating
+		the Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#parent_sbb_local_object_interface">3.1. The Parent's SbbLocalObject Interface</a></span></dt><dt><span class="section"><a href="#parent_sbb_abstract_class">3.2. The Parent's Sbb Abstract Class</a></span></dt><dt><span class="section"><a href="#parent_sbb_xml_descriptor">3.3. The Parent Sbb XML Descriptor</a></span></dt></dl></div><p>This chapter explains how to setup a JAIN SLEE Service Sbb to use
+		the Enabler.</p><p>In short terms, a Service's Sbb will define the Enabler's Sbb as
+		a child, and to achieve that it will need to setup the XML Descriptor,
+		Abstract Class and SbbLocalObject interface.</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>The Service's Sbb will be referred as the Parent Sbb in the
+			following sections.</p></div><p>Relation betweeen Parent Sbb, Enabler instance and publications in Server look as follows:</p><div class="mediaobject" align="center"><img src="images/design1.png" align="middle"/><div class="caption"><p>JAIN SLEE SIP Publication Client Enabler design
+			</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="parent_sbb_local_object_interface"/>3.1. The Parent's SbbLocalObject Interface</h2></div></div></div><p>The Mobicents
+			JAIN SLEE SIP Publication Client
+			Enabler Sbb provides synchronous callbacks to the Parent's Sbb, and
+			that can only be achieved if the Parent's SbbLocalObject extends a
+			specific Java interface, deployed also by the Enabler, and provides
+			it's SbbLocalObject to the Enabler's Sbb, through a specific method
+			exposed by the latter interface. The Enabler stores the Parent's
+			SbbLocalObject and uses it when a callback to the Parent's Sbb is
+			needed.
+		</p><p>
+			The SbbLocalObject which must be used or extended by the Parent's Sbb
+			is named
+			<code class="literal">org.mobicents.slee.enabler.sip.PublicationClientParentSbbLocalObject
+			</code>
+			, which extends the
+			<code class="literal">org.mobicents.slee.SbbLocalObjectExt</code>
+			and
+			<code class="literal">org.mobicents.slee.enabler.sip.PublicationClientParent
+			</code>
+			interfaces, the latter declares the callbacks which must be
+			implemented in the Parent's Sbb Abstract Class:
+		</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="JAVA"></span>
+<!--  --><br/><span class="java_keyword">package</span><span class="java_plain">&nbsp;org</span><span class="java_separator">.</span><span class="java_plain">mobicents</span><span class="java_separator">.</span><span class="java_plain">slee</span><span class="java_separator">.</span><span class="java_plain">enabler</span><span class="java_separator">.</span><span class="java_plain">sip</span><span class="java_separator">;</span>
+</span>
+<!--  --><br/><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_keyword">interface</span><span class="java_plain">&nbsp;</span><span class="java_type">PublicationClientParent</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;newPublicationSucceed</span><span class="java_separator">(</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;child</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;modifyPublicationSucceed</span><span class="java_separator">(</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;child</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;removePublicationSucceed</span><span class="java_separator">(</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;child</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;newPublicationFailed</span><span class="java_separator">(</span><span class="java_type">int</span><span class="java_plain">&nbsp;errorCode</span><span class="java_separator">,</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;sbbLocalObject</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;modifyPublicationFailed</span><span class="java_separator">(</span><span class="java_type">int</span><span class="java_plain">&nbsp;errorCode</span><span class="java_separator">,</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;sbbLocalObject</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;refreshPublicationFailed</span><span class="java_separator">(</span><span class="java_type">int</span><span class="java_plain">&nbsp;errorCode</span><span class="java_separator">,</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;sbbLocalObject</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;removePublicationFailed</span><span class="java_separator">(</span><span class="java_type">int</span><span class="java_plain">&nbsp;errorCode</span><span class="java_separator">,</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;sbbLocalObject</span><span class="java_separator">);</span>
+<!--  --><br/><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></pre><div class="variablelist"><dl><dt><span class="term">
+					The
+					<code class="literal">newPublicationSucceed(PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that new publication request succeed.</p></dd><dt><span class="term">
+					The
+					<code class="literal">modifyPublicationSucceed(PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that modify publication request succeed.</p></dd><dt><span class="term">
+					The
+					<code class="literal">removePublicationSucceed(PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that remove publication request succeed.</p></dd><dt><span class="term">
+					The
+					<code class="literal">newPublicationFailed(int,PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that new publication request failed. Enabler must be discarded.</p></dd><dt><span class="term">
+					The
+					<code class="literal">refreshPublicationFailed(int,PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that refresh publication request failed. Enabler must be discarded.</p></dd><dt><span class="term">
+					The
+					<code class="literal">modifyPublicationFailed(int,PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that modify publication request failed. Enabler must be discarded.</p></dd><dt><span class="term">
+					The
+					<code class="literal">removePublicationFailed(int,PublicationClientChildSbbLocalObject)</code>
+					method:
+				</span></dt><dd><p>Callback method indicating that remove publication request failed. Enabler must be discarded.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="parent_sbb_abstract_class"/>3.2. The Parent's Sbb Abstract Class</h2></div></div></div><p>
+			The Parent Sbb Abstract Class must implement the callbacks on it's
+			SbbLocalObject, that is, must implement the
+			<code class="literal">org.mobicents.slee.enabler.sip.PublicationClientParent</code>
+			interface discussed in last section.
+		</p><p>
+			The Enabler is a Child Sbb. Parent requires JAIN SLEE 1.1 Child
+			Relation to
+			access Enabler. SLEE specification mandates parent to
+			declare an
+			abstract method to retrieve the
+			<code class="literal">org.mobicents.slee.ChildRelationExt</code>
+			object, which is used to create or access specific Child Sbbs. This
+			method may be declared as follows:
+		</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="JAVA"></span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_keyword">abstract</span><span class="java_plain">&nbsp;</span><span class="java_type">ChildRelationExt</span><span class="java_plain">&nbsp;getSipPublicationClientChildRelation</span><span class="java_separator">();</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></pre></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="parent_sbb_xml_descriptor"/>3.3. The Parent Sbb XML Descriptor</h2></div></div></div><p>The Parent Sbb must define following information in its
+			descriptor
+			</p><div class="variablelist"><dl><dt><span class="term">child reference</span></dt><dd><p>A reference to the Enabler's Child Sbb is defined right after
+						the Parent's Sbb Vendor ID element, using the following XML
+						element:
+			</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="XML"><!-- XML : generated by JHighlight v1.0 (http://jhighlight.dev.java.net) -->
+<span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-ref</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">SipPublicationClientChildSbb</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-vendor</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">org.mobicents</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-vendor</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-version</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">1.0</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-version</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-alias</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">sipPubClientChildSbb</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-alias</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-ref</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+</pre></dd><dt><span class="term">child relation method</span></dt><dd><p>The method name to get the Enabler's ChildRelation object
+						must
+						be defined after the CMP Fields (if any), this XML element links the
+						sbb-alias previously defined with the abstract method declared in
+						the
+						Parent's Sbb Abstract Class:</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="XML"><!-- XML : generated by JHighlight v1.0 (http://jhighlight.dev.java.net) -->
+<span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">get-child-relation-method</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-alias-ref</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">sipPubClientChildSbb</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-alias-ref</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">get-child-relation-method-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">getSipPublicationClientChildRelation</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">get-child-relation-method-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">default-priority</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">0</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">default-priority</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">get-child-relation-method</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+</pre></dd><dt><span class="term">Sbb Local Object</span></dt><dd><p>
+						After the
+						<code class="literal">sbb-abstract-class</code>
+						element the Parent's SbbLocalObject interface name is defined:
+					</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="XML"><!-- XML : generated by JHighlight v1.0 (http://jhighlight.dev.java.net) -->
+<span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-local-interface</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;</span><span class="xml_tag_name">sbb-local-interface-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain">...</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-local-interface-name</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="xml_tag_symbols">&lt;/</span><span class="xml_tag_name">sbb-local-interface</span><span class="xml_tag_symbols">&gt;</span><span class="xml_plain"></span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+<span class="xml_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><br />
+</pre></dd></dl></div></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="using_the_enabler"/>Chapter 4. Using
+		the Mobicents
+		JAIN SLEE SIP Publication Client
+		Enabler
+	</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#the_child_sbblocalobject_interface">4.1. The Child's SbbLocalObject Interface</a></span></dt><dt><span class="section"><a href="#creating_and_retrieving_the_child_sbb">4.2. Creating And Retrieving The Child Sbb</a></span></dt><dt><span class="section"><a href="#configuring_child_sbb">4.3. Enabler configuration</a></span></dt></dl></div><p>In the last chapter we integrated the Enabler in the JAIN SLEE
+		Service's Sbb, the Parent Sbb, in this chapter it is explained how to
+		use the Enabler's Sbb, the Child Sbb.</p><p>Enabler performs following tasks:</p><div class="variablelist"><dl><dt><span class="term">manage publication</span></dt><dd><p>send publication events on behalf of Parent Sbb</p></dd><dt><span class="term">automatic refresh</span></dt><dd><p>based on values exchanged between Enabler and Server,
+					Enabler keeps track of publication life time(expiration)
+					and issues
+					refresh requests to Server</p></dd></dl></div><div class="mediaobject" align="center"><img src="images/interactions1.png" align="middle"/><div class="caption"><p>JAIN
+				SLEE SIP Publication Client
+				Enabler control flow
+			</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="the_child_sbblocalobject_interface"/>4.1. The Child's SbbLocalObject Interface</h2></div></div></div><p>The Mobicents
+			JAIN SLEE SIP Publication Client
+			Enabler Sbb, the Child Sbb, implements the
+			<code class="literal">org.mobicents.slee.enabler.sip.PublicationClientChildSbbLocalObject
+			</code>
+			, which extends the
+			<code class="literal">org.mobicents.slee.SbbLocalObjectExt</code>
+			and
+			<code class="literal">org.mobicents.slee.enabler.sip.PublicationClientChild
+			</code>
+			interfaces, the latter declares the methods which can be used to
+			interact with the Server:
+		</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="JAVA"></span>
+<!--  --><br/><span class="java_keyword">package</span><span class="java_plain">&nbsp;org</span><span class="java_separator">.</span><span class="java_plain">mobicents</span><span class="java_separator">.</span><span class="java_plain">slee</span><span class="java_separator">.</span><span class="java_plain">enabler</span><span class="java_separator">.</span><span class="java_plain">sip</span><span class="java_separator">;</span>
+</span>
+<!--  --><br/><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_keyword">interface</span><span class="java_plain">&nbsp;</span><span class="java_type">PublicationClientChild</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;newPublication</span><span class="java_separator">(</span><span class="java_type">String</span><span class="java_plain">&nbsp;entity</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;eventPackage</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;document</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;contentType</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;contentSubType</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">int</span><span class="java_plain">&nbsp;expires</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;modifyPublication</span><span class="java_separator">(</span><span class="java_type">String</span><span class="java_plain">&nbsp;document</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;contentType</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;contentSubType</span><span class="java_separator">,</span><span class="java_plain">&nbsp;</span><span class="java_type">int</span><span class="java_plain">&nbsp;expires</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;removePublication</span><span class="java_separator">();</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;getEntity</span><span class="java_separator">();</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_type">String</span><span class="java_plain">&nbsp;getETag</span><span class="java_separator">();</span>
+</span>
+<!--  --><br/><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></pre><div class="variablelist"><dl><dt><span class="term">
+					The
+					<code class="literal">String getETag()</code>
+					method:
+				</span></dt><dd><p>Fetches last SIP-ETag value returned by Server.
+					</p></dd><dt><span class="term">
+					The
+					<code class="literal">String getEntity()</code>
+					method:
+				</span></dt><dd><p>Fetches entity for which Enabler manages publication.
+					</p></dd><dt><span class="term">
+					The
+					<code class="literal">newPublication(String entity, String eventPackage, String
+						document, String contentType, String contentSubType, int expires);
+					</code>
+					method:
+				</span></dt><dd><p>
+						Creates new publication in Server.
+						<code class="literal">PUBLISH</code>
+						request is constructed with passed arguments.
+					</p></dd><dt><span class="term">
+					The
+					<code class="literal">modifyPublication(String document, String
+						contentType, String contentSubType, int expires);</code>
+					method:
+				</span></dt><dd><p>
+						Issues modify
+						<code class="literal">PUBLISH</code>
+						request. Request is constructed with data passed as arguments and
+						state stored
+						when
+						<code class="literal">new</code>
+						publication is sent to server(event package, entity, ETag).
+					</p></dd><dt><span class="term">
+					The
+					<code class="literal">removePublication();</code>
+					method:
+				</span></dt><dd><p>
+						Issues remove
+						<code class="literal">PUBLISH</code>
+						request. Request is constructed with data passed as arguments and
+						state stored
+						when previous publications are sent to server (event
+						package, entity,
+						ETag).
+					</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="creating_and_retrieving_the_child_sbb"/>4.2. Creating And Retrieving The Child Sbb</h2></div></div></div><p>The Child Relation in the Parent Sbb Abstract Class is used to
+			create and retrieve the Child Sbb:</p><pre xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="JAVA"></span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_plain">&nbsp;sbb&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;</span><span class="java_literal">null</span><span class="java_separator">;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_operator">//</span><span class="java_plain">&nbsp;creation</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">try</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbb&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;</span><span class="java_separator">(</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_separator">)</span><span class="java_plain">&nbsp;getSipPublicationClientChildRelation</span><span class="java_separator">().</span><span class="java_plain">create</span><span class="java_separator">(</span><span class="java_plain">childName</span><span class="java_separator">);</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">catch</span><span class="java_plain">&nbsp;</span><span class="java_separator">(</span><span class="java_type">Exception</span><span class="java_plain">&nbsp;e</span><span class="java_separator">)</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracer</span><span class="java_separator">.</span><span class="java_plain">severe</span><span class="java_separator">(</span><span class="java_literal">&quot;Failed&nbsp;to&nbsp;create&nbsp;child&nbsp;sbb&quot;</span><span class="java_separator">,</span><span class="java_plain">&nbsp;e</span><span class="java_separator">);</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_operator">//</span><span class="java_plain">&nbsp;retrieval</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">try</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sbb&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;</span><span class="java_separator">(</span><span class="java_type">PublicationClientChildSbbLocalObject</span><span class="java_separator">)</span><span class="java_plain">&nbsp;getSipPublicationClientChildRelation</span><span class="java_separator">().</span><span class="java_plain">get</span><span class="java_separator">(</span><span class="java_plain">childName</span><span class="java_separator">);</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">catch</span><span class="java_plain">&nbsp;</span><span class="java_separator">(</span><span class="java_type">Exception</span><span class="java_plain">&nbsp;e</span><span class="java_separator">)</span><span class="java_plain">&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tracer</span><span class="java_separator">.</span><span class="java_plain">severe</span><span class="java_separator">(</span><span class="java_literal">&quot;Failed&nbsp;to&nbsp;retrieve&nbsp;child&nbsp;sbb&quot;</span><span class="java_separator">,</span><span class="java_plain">&nbsp;e</span><span class="java_separator">);</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></pre></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="configuring_child_sbb"/>4.3. Enabler configuration</h2></div></div></div><p>
+			Enabler can be configured with
+			<acronym class="acronym">SLEE</acronym>
+			environment entries. Currently following entries are supported:
+		</p><div class="table"><a id="d0e702"/><p class="title"><b>Table 4.1. Environment entry table
+			</b></p><div class="table-contents"><table summary="Environment entry table&#xA;&#x9;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/></colgroup><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>
+							<p>server.address
+							</p>
+						</td><td>
+							<p>java.lang.String
+							</p>
+						</td><td>
+							<p>Specifies address to which requests should be forwarded. It has form of ip:port pair.
+							</p>
+						</td></tr><tr><td>
+							<p>expires.drift
+							</p>
+						</td><td>
+							<p>java.lang.Integer
+							</p>
+						</td><td>
+							<p>Specifies time drift, in seconds, between value of Expires/Min-Expires values and automatic refresh performed by enabler. For instance if Expires value passed(and accepted by ECS/PA)
+							is 3600, time drift set to 10, Enabler will refresh publication after 3590 seconds
+							</p>
+						</td></tr></tbody></table></div></div><br class="table-break"/></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="logging_traces_and_alarms"/>Chapter 5. Traces and Alarms</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#tracers">5.1. Tracers</a></span></dt><dt><span class="section"><a href="#alarms">5.2. Alarms</a></span></dt></dl></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="tracers"/>5.1. Tracers</h2></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>Spaces where introduced in log4j category name to properly render page. Please remove them when using copy/paste.</p></div><p>The JAIN SLEE SIP Publication Client Enabler uses a single JAIN SLEE 1.1 Tracer, named <code class="literal">SipPublicationClientChildSbb</code>. 
+		The related log4j category is 
+		<code class="literal">javax.slee.SbbNotification[service=ServiceID[name=</code>
+		<code class="literal">ServiceX,vendor=VendorY,version=VersionZ],</code>
+		<code class="literal">sbb=SbbID[name=SipPublicationClientChildSbb,vendor=org.mobicents,version=1.0]]</code>.
+		Where <code class="literal">ServiceX</code>, <code class="literal">VendorY</code> and <code class="literal">VersionZ</code> need to be replaced by the identifiers of the Service using the Enabler.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="alarms"/>5.2. Alarms</h2></div></div></div><p>The JAIN SLEE SIP Publication Client Enabler does not sets JAIN SLEE Alarms.</p></div></div><div class="appendix" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="revision_history"/>Appendix A. Revision History</h2></div></div></div><p>
+		<div class="revhistory"><table border="0" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 1.0</td><td align="left">Tue Oct 26 2010</td><td align="left"><span class="author"><span class="firstname">Eduardo</span> <span class="surname">Martins</span></span></td></tr><tr><td align="left" colspan="3">
+					<table class="simplelist" border="0" summary="Simple list"><tr><td>Creation of the Mobicents JAIN SLEE SIP Publication Client Enabler User Guide.</td></tr></table>
+				</td></tr></table></div>
+	</p></div><div class="index"><div class="titlepage"><div><div><h2 class="title"><a id="d0e810"/>Index</h2></div></div></div><div class="index"><div class="indexdiv"><h3>F</h3><dl><dt>feedback, <a class="indexterm" href="#d0e299">Provide feedback to the authors!</a></dt></dl></div></div></div></div></body></html>
