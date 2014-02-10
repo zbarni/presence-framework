@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter 2. Installing the Media Server</title><link rel="stylesheet" type="text/css" href="css/telestax_org.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"/><link rel="home" href="index.html" title="Media Server User Guide"/><link rel="up" href="index.html" title="Media Server User Guide"/><link rel="prev" href="ch01.html" title="Chapter 1. Introduction to the Mobicents Media Server"/><link rel="next" href="ch03.html" title="Chapter 3. Configuring the Media Server"/><meta xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body><p xmlns:d="http://docbook.org/ns/docbook" id="title"><a href="http://www.telestax.com" class="site_href"><strong>TeleStax.org</strong></a><a href="http://www.telestax.com/" class="doc_href"><strong>Community Documentation</strong></a></p><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="ch01.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="ch03.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chapter-Installing_the_Media_Server"/>Chapter 2. Installing the Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch02.html#d0e915">2.1. Java Development Kit: Installing, Configuring and Running</a></span></dt><dt><span class="section"><a href="ch02.html#itms-binary-JBoss_Media_Server-Installing_Configuring_and_Running">2.2. 
+			JBoss Application Server 5.x.y embedded Media Server Binary
+			Distribution: Installing, Configuring and Running
+		</a></span></dt><dd><dl><dt><span class="section"><a href="ch02.html#itms-binary-JBoss_Media_Server-PreInstall_Requirements_and_Prerequisites">2.2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dt><span class="section"><a href="ch02.html#itms-binary-JBoss_Media_Server-Downloading">2.2.2. Downloading</a></span></dt><dt><span class="section"><a href="ch02.html#itms-binary-JBoss_Media_Server-Installing">2.2.3. Installing</a></span></dt><dt><span class="section"><a href="ch02.html#itms-binary-JBoss_Media_Server-Running">2.2.4. Running</a></span></dt><dt><span class="section"><a href="ch02.html#itms-JBoss_Server_Structure">2.2.5. Server Structure</a></span></dt><dt><span class="section"><a href="ch02.html#itms-Writing_and_Running_Tests_Against_the_Media_Server">2.2.6. 
+			Writing and Running Tests Against the Media Server
+		</a></span></dt></dl></dd></dl></div><p>
+		The Mobicents Media Server distribution is available in two
+		forms: Standalone and Embedded in JBoss Application Server 5.
+		The standalone version is preferred for carrier production
+		deployment while JBoss Application Server 5 version is convenient for development
+	</p><p>
+		The Media Server is available in both binary and source code
+		distributions. The simplest way to get started with the Media
+		Server is to download the ready-to-run binary distribution.
+		Alternatively, the source code for the Media Server can be
+		obtained by checking it out from its repository using the
+		Subversion version control system (
+		<acronym class="acronym">SVN</acronym>
+		). You can later run a build using Maven. The binary distribution is recommended for most
+		users. Downloading and building the source code is recommended for
+		those who want access to the latest revisions and Media Server
+		capabilities.
+	</p><h2><a id="itms-Installing_the_Java_Development_Kit"/>
+		Installing the Java Development Kit
+	</h2><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e915"/>2.1. Java Development Kit: Installing, Configuring and Running</h2></div></div></div><p>The <span class="application">Mobicents</span><span class="application">JBCP</span> platform is written in Java.  A working Java Runtime Environment (<acronym class="acronym">JRE</acronym>) or Java Development Kit (<acronym class="acronym">JDK</acronym>) must be installed prior to running the server.  The required versiom must be version 5 or higher.</p><p>It is possible to run most <span class="application">Mobicents</span><span class="application">JBCP</span> servers, such as the JAIN SLEE Server, using a Java 6 JRE or JDK.  However, the XML Document Management Server does not run on Java 6.  Check the <a class="ulink" href="http://groups.google.com/group/mobicents-public/topics">public support forum</a> and <a class="ulink" href="http://www.mobicents.org/roadmap.html">project roadmap</a> pages to verify Java 6 support prior to running the XML Document Management Server with Java 6.
+		</p><p><strong>JRE or JDK? </strong>
+			Although <span class="application">Mobicents</span><span class="application">JBCP</span> servers are capable of running on the Java Runtime Environment, this guide assumes the audience is mainly developers interested in developing Java-based, <span class="application">Mobicents</span><span class="application">JBCP</span>-driven solutions.  Therefore, installing the Java Development Kit is covered due to the anticipated audience requirements.
+		</p><p><strong>32-Bit or 64-Bit JDK. </strong>If the system uses 64-Bit Linux or Windows architecure, the 64-bit JDK is strongly recommended over the 32-bit version.  The following heuristics should be considered in determining whether the 64-bit Java Virtual Machine (JVM) is suitable:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Wider datapath: the pipe between RAM and CPU is doubled, which improves the performance of memory-bound applications when using a 64-bit JVM.</p></li><li class="listitem"><p>64-bit memory addressing provides a virtually unlimited (1 exabyte) heap allocation.  Note that large heaps can affect garbage collection.</p></li><li class="listitem"><p>Applications that run with more than 1.5 GB of RAM (including free space for garbage collection optimization) should utilize the 64-bit JVM.</p></li><li class="listitem"><p>Applications that run on a 32-bit JVM and do not require more than minimal heap sizes will gain nothing from a 64-bit JVM.  Excluding memory issues, 64-bit hardware with the same relative clock speed and architecture is not likely to run Java applications faster than the 32-bit version.</p></li></ul></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>The following instructions describe how to download and install the 32-bit JDK, however the steps are nearly identical for installing the 64-bit version.</p></div><p><strong>Downloading. </strong>Download the Sun JDK 5.0 (Java 2 Development Kit) from Sun's website: <a class="ulink" href="http://java.sun.com/javase/downloads/index_jdk5.jsp">http://java.sun.com/javase/downloads/index_jdk5.jsp</a>.  Click the <span class="guilabel">Download</span> link next to "JDK 5.0 Update <em class="replaceable"><code>&lt;x&gt;</code></em>" (where <em class="replaceable"><code>&lt;x&gt;</code></em> is the latest minor version release number).
+		</p><p>The Sun website offers two download options:
+		</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p> A self-extracting RPM (for example, <code class="filename">jdk-1_5_0_16-linux-i586-rpm.bin</code>)</p></li><li class="listitem"><p>A self-extracting file (e.g. <code class="filename">jdk-1_5_0_16-linux-i586.bin</code>)</p></li></ul></div><p>
+	</p><p>If installing the JDK on Red Hat Enterprise Linux, Fedora, or another RPM-based Linux system, it is recommended that the self-extracting file containing the RPM package is selected.  This option will set up and use the SysV service scripts in addition to installing the JDK.  The RPM option is also recommended if the <span class="application">Mobicents</span><span class="application">JBCP</span> platform is being set up in a production environment.
+	</p><p><strong>Installing. </strong>
+			The following procedures detail how to install the Java Development Kit on both Linux and Windows.
+		</p><div class="procedure"><a id="d0e1029"/><p class="title"><strong>Procedure 2.1. Installing the JDK on Linux</strong></p><ul class="procedure"><li class="step"><p>Ensure the file is executable, then run it:</p><pre class="screen">~]$ chmod +x "jdk-1_5_0_&lt;minor_version&gt;-linux-&lt;architecture&gt;-rpm.bin"
+~]$ ./"jdk-1_5_0_&lt;minor_version&gt;-linux-&lt;architecture&gt;-rpm.bin"</pre></li></ul></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Setting up SysV Service Scripts for Non-RPM Files</h2><p>If the non-RPM self-extracting file is selected for an RPM-based system, the SysV service scripts can be configured by downloading and installing one of the <code class="literal">-compat</code> packages from the JPackage project.  Download the <code class="literal">-compat</code> package that corresponds correctly to the minor release number of the installed JDK.  The compat packages are available from <a class="ulink" href="ftp://jpackage.hmdc.harvard.edu/JPackage/1.7/generic/RPMS.non-free/">ftp://jpackage.hmdc.harvard.edu/JPackage/1.7/generic/RPMS.non-free/</a>.</p></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Important</h2><p>A <code class="literal">-compat</code> package is not required for RPM installations.  The <code class="literal">-compat</code> package performs the same SysV service script set up that the RPM version of the JDK installer does.
+		</p></div><div class="procedure"><a id="d0e1060"/><p class="title"><strong>Procedure 2.2. Installing the JDK on Windows</strong></p><ul class="procedure"><li class="step"><p>Using Explorer, double-click the downloaded self-extracting installer and follow the instructions to install the JDK.</p></li></ul></div><p><strong>Configuring. </strong>
+			Configuring the system for the JDK consists of two tasks: setting the <code class="envar">JAVA_HOME</code> environment variable, and ensuring the system is using the proper JDK (or JRE) using the <span class="command"><strong>alternatives</strong></span> command.  Setting <code class="envar">JAVA_HOME</code> generally overrides the values for <span class="command"><strong>java</strong></span>, <span class="command"><strong>javac</strong></span> and <span class="command"><strong>java_sdk_1.5.0</strong></span> in <span class="command"><strong>alternatives</strong></span>, however it is recommended to specify the value for consistency.
+		</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Generic Linux</span></dt><dd><p>
+					After installing the JDK, ensure the <code class="envar">JAVA_HOME</code> environment variable exists and points to the location of the JDK installation.
+				</p><p><strong>Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Linux. </strong>Determine whether <code class="envar">JAVA_HOME</code> is set by executing the following command:</p><pre class="screen">~]$ echo $JAVA_HOME</pre><p>
+					If <code class="envar">JAVA_HOME</code> is not set, the value must be set to the location of the JDK installation on the system.  This can be achieved by adding two lines to the <code class="filename">~/.bashrc</code> configuration file.  Open <code class="filename">~/.bashrc</code> (or create it if it does not exist) and add a line similar to the following one anywhere inside the file:
+				</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">export JAVA_HOME="/usr/lib/jvm/jdk1.5.0_&lt;version&gt;"</pre><p>
+					The changes should also be applied for other users who will be running the <span class="application">Mobicents</span><span class="application">JBCP</span> on the machine (any environment variables <span class="command"><strong>export</strong></span>ed from <code class="filename">~/.bashrc</code> files are local to that user).
+				</p></dd><dt><span class="term">Setting <code class="envar">java</code>, <code class="envar">javac</code> and <code class="envar">java_sdk_1.5.0</code> using the <span class="command"><strong>alternatives</strong></span> command </span></dt><dd><p><strong>Selecting the Correct System JVM on Linux using <span class="command"><strong>alternatives</strong></span>. </strong>On systems with the <span class="command"><strong>alternatives</strong></span> command, including Red Hat Enterprise Linux and Fedora, it is possible to choose which JDK (or JRE) installation to use, as well as which <span class="command"><strong>java</strong></span> and <span class="command"><strong>javac</strong></span> executables should be run when called.</p><p><span class="emphasis"><em>As the superuser</em></span>, call <span class="command"><strong>/usr/sbin/alternatives</strong></span> with the <code class="option">--config java</code> option to select between JDKs and JREs installed on your system:</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+home]$ sudo /usr/sbin/alternatives --config java
+
+There are 3 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+   1           /usr/lib/jvm/jre-1.5.0-gcj/bin/java
+   2           /usr/lib/jvm/jre-1.6.0-sun/bin/java
+*+ 3         /usr/lib/jvm/jre-1.5.0-sun/bin/java
+
+Enter to keep the current selection[+], or type selection number:
+        </pre><p>The Sun JDK, version 5, is required to run the <span class="command"><strong>java</strong></span> executable. In the <span class="command"><strong>alternatives</strong></span> information printout above, a plus (<code class="literal">+</code>) next to a number indicates the option currently being used.  Press <span class="keycap"><strong>Enter</strong></span> to keep the current JVM, or enter the number corresponding to the JVM to select that option.
+				</p><p>As the superuser, repeat the procedure above for the <span class="command"><strong>javac</strong></span> command and the <code class="literal">java_sdk_1.5.0</code> environment variable:	</p><pre class="screen">home]$ sudo /usr/sbin/alternatives --config javac</pre><pre class="screen">home]$ sudo /usr/sbin/alternatives --config java_sdk_1.5.0</pre></dd><dt><span class="term">Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Windows</span></dt><dd><p>For information on how to set environment variables in Windows, refer to <a class="ulink" href="http://support.microsoft.com/kb/931715">http://support.microsoft.com/kb/931715</a>.</p></dd></dl></div><p><strong>Testing. </strong>To ensure the correct JDK or Java version (5 or higher), and that the java executable is in the <code class="envar">PATH</code> environment variable, run the <span class="command"><strong>java -version</strong></span> command in the terminal from the home directory:</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+home]$ java -version
+java version "1.5.0_16"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_16-b03)
+Java HotSpot(TM) Client VM (build 1.5.0_16-b03, mixed mode, sharing)
+</pre><p><strong>Uninstalling. </strong>
+			It is not necessary to remove a particular JDK from a system, because the JDK and JRE version can be switched as required using the <span class="command"><strong>alternatives</strong></span> command, and/or by setting <code class="envar">JAVA_HOME</code>.</p><p><strong>Uninstalling the JDK on Linux. </strong>On RPM-based systems, uninstall the JDK using the <span class="command"><strong>yum remove &lt;jdk_rpm_name&gt;</strong></span> command.</p><p><strong>Uninstalling the JDK on Windows. </strong>On Windows systems, check the JDK entry in the <code class="literal">Start</code> menu for an uninstall option, or use <code class="literal">Add/Remove Programs</code>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="itms-binary-JBoss_Media_Server-Installing_Configuring_and_Running"/>2.2. 
+			JBoss Application Server 5.x.y embedded Media Server Binary
+			Distribution: Installing, Configuring and Running
+		</h2></div></div></div><p>
+			Mobicents Media Server either comes bundled with the
+			JBoss Application Server or Standalone. This section details
+			how to install the Mobicents Media Server that comes bundled
+			with JBoss Application Server 5. For installation of
+			Standalone Mobicents Media Server, refer to <a class="xref" href="">???</a>
+		</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-PreInstall_Requirements_and_Prerequisites"/>2.2.1. Pre-Install Requirements and Prerequisites</h3></div></div></div><p>
+				Ensure that the following requirements have been met
+				before continuing with the installation.
+			</p><div class="variablelist"><a id="itms-binary-JBoss_Media_Server-Hardware_Requirements"/><p class="title"><strong>Hardware Requirements</strong></p><dl class="variablelist"><dt><span class="term">Sufficient Disk Space</span></dt><dd><p>
+							Once unzipped, the JBoss AS embedded Media
+							Server binary release requires
+							<span class="emphasis"><em>at least</em></span>
+							110 MB
+							of free disk space. Keep in mind that disk
+							space requirements may change in future iterations.
+						</p></dd><dt><span class="term">Anything built for Java</span></dt><dd><p>
+							The JBoss embedded Media Server and its
+							bundled servers, JBoss, are 100% Java. The
+							Media Server will run on the same hardware
+							that the JBoss Application Server runs on.
+						</p></dd></dl></div><div class="variablelist"><a id="itms-binary-JBoss_Media_Server-Software_Prerequisites"/><p class="title"><strong>Software Prerequisites</strong></p><dl class="variablelist"><dt><span class="term">JDK 5 or Higher</span></dt><dd><p>
+							A working installation of the Java
+							Development Kit (
+							<acronym class="acronym">JDK</acronym>
+							) version 5 or higher is required in order
+							to run the JBoss embedded Media Server. Note
+							that the JBoss Application Server is a
+							runtime dependency of the Media Server and,
+							as mentioned, comes bundled with the binary
+							distribution.
+						</p></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Downloading"/>2.2.2. Downloading</h3></div></div></div><p>
+				The latest version of the JBoss embedded Media Server is
+				available from
+				<a class="ulink" href="http://www.mobicents.org/mms-downloads.html">http://www.mobicents.org/mms-downloads.html</a>
+				. The top row of the table holds the latest version.
+				Click the
+				<code class="literal">Download</code>
+				link to start the download.
+			</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Installing"/>2.2.3. Installing</h3></div></div></div><p>
+				Once the requirements and prerequisites have been met,
+				the JBoss embedded Media Server can be installed onto
+				the system. Follow the instructions below for the
+				operating system on which the server will reside.
+			</p><div class="procedure"><a id="d0e1330"/><p class="title"><strong>Procedure 2.3. 
+					Installing the JBoss embedded Media Server Binary
+					Distribution on Linux
+				</strong></p><p>
+					It is assumed that the downloaded archive is saved
+					in the home directory, and that a terminal window is
+					open displaying the home directory.
+				</p><ol class="procedure" type="1"><li class="step"><p>
+						Create a subdirectory into which the files can be extracted.
+						For ease of identification, it is recommended
+						that the version number of the binary is
+						included in this directory name.
+					</p><pre class="screen">~]$ mkdir <span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>
+						Move the downloaded zip file into the directory:
+					</p><pre class="screen">~]$ mv <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span> <span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>Move into the directory:</p><pre class="screen">~]$ cd	<span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>
+						Extract the files into the current directory by
+						executing one of the following commands.
+						</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+									Java:
+									</p><pre class="screen">ms-<em class="replaceable"><code>&lt;version&gt;</code></em>]$ jar -xvf <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span></pre><p>
+								</p></li><li class="listitem"><p>
+									Linux:
+									</p><pre class="screen">ms-&lt;version&gt;]$ unzip "mms-3.0.0.FINAL.zip"</pre><p>
+								</p></li></ul></div><p>
+						</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+								Alternatively, use
+								<span class="command"><strong>unzip</strong></span>
+								-d &lt;unzip_to_location&gt; to extract
+								the zip file's contents to a location
+								other than the current directory.
+							</p></div><p>
+					</p></li><li class="step"><p>
+						Consider deleting the archive, if free disk
+						space is an issue.
+					</p><pre class="screen">ms-<em class="replaceable"><code>&lt;version&gt;</code></em>]$ rm <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span></pre></li></ol></div><div class="procedure"><a id="d0e1404"/><p class="title"><strong>Procedure 2.4. 
+					Installing the JBoss embedded Media Server Binary
+					Distribution on Windows
+				</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						For this procedure, it is assumed that the
+						downloaded archive is saved in the
+						<code class="filename">My Downloads</code>
+						folder. You can also choose any convenient folder of your choice.
+					</p></li><li class="step"><p>
+						Create a subfolder in
+						<code class="filename">My Downloads</code>
+						to extract the zip file's contents into. For
+						ease of identification, it is recommended that
+						the version number of the binary is included in
+						the folder name. For example,
+						<code class="filename">ms-&lt;version&gt;</code>
+						.
+					</p></li><li class="step"><p>
+						Extract the contents of the archive, specifying
+						the destination folder as the one created in the
+						previous step.
+					</p></li><li class="step"><p>
+						Alternatively, execute the
+						<span class="command"><strong>jar -xvf</strong></span>
+						command to extract the binary distribution files
+						from the zip archive.
+					</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+								Move the downloaded zip file from
+								<code class="filename">My Downloads</code>
+								to the folder created in the previous
+								step.
+							</p></li><li class="listitem"><p>
+								Open the Windows Command Prompt and
+								navigate to the folder that contains the
+								archive using the
+								<span class="command"><strong>cd</strong></span>
+								command
+							</p></li><li class="listitem"><p>
+								Execute the
+								<span class="command"><strong>jar -xvf</strong></span>
+								command to extract the archive contents
+								into the current folder.
+							</p><pre class="screen">C:\Users\&lt;user&gt;\My Downloads\ms-&lt;version&gt;\jar -xvf "mms-3.0.0.FINAL.zip"</pre></li></ol></div></li><li class="step"><p>
+						It is recommended that the folder holding the
+						JBoss embedded Media Server files (in this
+						example, the folder named
+						<code class="filename">
+							ms-
+							<em class="replaceable"><code>&lt;version&gt;</code></em>
+						</code>
+						) is moved to a user-defined location for
+						storing executable programs. For example, the
+						<code class="filename">Program Files</code>
+						folder.
+					</p></li><li class="step"><p>
+						Consider deleting the archive, if free disk
+						space is an issue.
+					</p><pre class="screen">C:\Users\&lt;user&gt;\My Downloads\ms-&lt;version&gt;\delete "mms-3.0.0.FINAL.zip" </pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Running"/>2.2.4. Running</h3></div></div></div><p>
+				In the Linux terminal or Windows command prompt, the
+				JBoss embedded Media Server has started successfully if
+				the last line of output is similar to the following
+				(ending with
+				<span class="quote">“<span class="quote">Started in 23s:648ms</span>”</span>
+				):
+			</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">11:27:34,663 INFO  [ServerImpl] JBoss (Microcontainer) [5.1.0.GA (build: SVNTag=JBoss_5_1_0_GA date=200905221053)] Started in 37s:637ms</pre><div class="procedure"><a id="d0e1480"/><p class="title"><strong>Procedure 2.5. Running the Media Server on Linux</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						Change the working directory to installation
+						directory (the one into which the zip file's
+						contents was extracted)
+					</p><pre class="screen">
+						downloads]$ cd "mms-server"
+					</pre></li><li class="step"><p>
+						(Optional) Ensure that the
+						<code class="filename">bin/run.sh</code>
+						start script is executable.
+					</p><pre class="screen">ms-&lt;version&gt;]$ chmod +x bin/run.sh</pre></li><li class="step"><p>
+						Execute the
+						<code class="filename">run.sh</code>
+						Bourne shell script.
+					</p><pre class="screen">ms-&lt;version&gt;]$ ./bin/run.sh</pre></li></ol></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+					Instead of executing the Bourne shell script to
+					start the server, the
+					<code class="filename">run.jar</code>
+					executable Java archive can be executed from the
+					<code class="filename">bin</code>
+					directory:
+				</p><pre class="screen">ms-&lt;version&gt;]$ java -jar bin/run.jar</pre></div><div class="procedure"><a id="d0e1515"/><p class="title"><strong>Procedure 2.6. 
+					Running the JBoss embedded Media Server on
+					<span class="productname">Windows</span>™
+				</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						Using Windows Explorer, navigate to the
+						<code class="filename">bin</code>
+						subfolder in the installation directory.
+					</p></li><li class="step"><p>
+						The preferred way to start the JBoss embedded
+						Media Server is from the Command Prompt. The
+						command line interface displays details of the
+						startup process, including any problems
+						encountered during the startup process.
+					</p><p>
+						Open the Command Prompt via the
+						<span class="guilabel">Start</span>
+						menu and navigate to the correct folder:
+					</p><pre class="screen">C:\Users\&lt;user&gt;\My	Downloads&gt; cd "mms-server"</pre></li><li class="step"><p>
+						Start the JBoss Application Server by executing
+						one of the following files:
+						</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+									<code class="filename">run.bat</code>
+									batch file:
+								</p><pre class="screen">C:\Users\&lt;user&gt;\My	Downloads\ms-&lt;version&gt;&gt;bin\run.bat</pre></li><li class="listitem"><p>
+									<code class="filename">run.jar</code>
+									executable Java archive:
+								</p><pre class="screen">C:\Users\&lt;user&gt;My Downloads\ms-&lt;version&gt;&gt;java -jar bin\run.jar</pre></li></ul></div><p>
+					</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-JBoss_Server_Structure"/>2.2.5. Server Structure</h3></div></div></div><p>
+				Now the server is installed, it is important to
+				understand the layout of the server directories. An
+				understanding of the server structure is useful when
+				deploying examples, and making configuration changes. It
+				is also useful to understand what components can be
+				removed to reduce the server boot time.
+			</p><p>
+				The directory structure in the JBoss embedded Media
+				Server installation directory is named using a standard
+				structure.
+				<a class="xref" href="ch02.html#tab-mms-JBoss_Directory-Structure" title="Table 2.1. Directory Structure">Table 2.1, “Directory Structure”</a>
+				describes each directory, and the type of information
+				contained within each location.
+			</p><div class="table"><a id="tab-mms-JBoss_Directory-Structure"/><p class="title"><strong>Table 2.1. Directory Structure</strong></p><div class="table-contents"><table summary="Directory Structure" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/></colgroup><thead><tr><th align="center">Directory Name</th><th align="center">Description</th></tr></thead><tbody><tr><td align="left">bin</td><td align="left">
+								Contains the entry point JARs and
+								start-up scripts included with the Media
+								Server distribution.
+							</td></tr><tr><td align="left">conf</td><td align="left">
+								Contains the core services that are
+								required for the server. This includes
+								the bootstrap descriptor, log files, and
+								the default bootstrap-beans.xml
+								configuration file.
+							</td></tr><tr><td align="left">deploy</td><td align="left">
+								Contains the dynamic deployment content
+								required by the hot deployment service.
+								The deploy location can be overridden by
+								specifying a location in the URL
+								attribute of the URLDeploymentScanner
+								configuration item.
+							</td></tr><tr><td align="left">lib</td><td align="left">
+								Contains the startup JAR files used by
+								the server.
+							</td></tr><tr><td align="left">log</td><td align="left">
+								Contains the logs from the bootstrap
+								logging service. The
+								<code class="filename">log</code>
+								directory is the default directory into
+								which the bootstrap logging service
+								places its logs, however, the location
+								can be overridden by altering the
+								log4j.xml configuration file. This file
+								is located in the
+								<code class="filename">/conf</code>
+								directory.
+							</td></tr></tbody></table></div></div><br class="table-break"/><p>
+				The Media Server uses a number of XML configuration
+				files that control various aspects of the server. In case of embedded Media Server all the files related Media Server are placed in 
+				mms-jboss-5.1.0.GA-&lt;version&gt;/jboss-5.1.0.GA/server/default/deploy/mobicents-media-server
+				<a class="xref" href="ch02.html#tab-mms-JBoss_Core_Configuration_File_Set" title="Table 2.2. Core Configuration File Set">Table 2.2, “Core Configuration File Set”</a>
+				describes the location of the key configuration files,
+				and provides a description of the
+			</p><div class="table"><a id="tab-mms-JBoss_Core_Configuration_File_Set"/><p class="title"><strong>Table 2.2. Core Configuration File Set</strong></p><div class="table-contents"><table summary="Core Configuration File Set" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/></colgroup><thead><tr><th align="center">
+								File Name and Location
+							</th><th align="center">Description</th></tr></thead><tbody><tr><td align="left">conf/bootstrap-beans.xml</td><td align="left">
+								Specifies which additional microcontainer
+deployments are loaded as part of the
+bootstrap phase. bootstrap-beans.xml
+references other configuration files contained
+in the <code class="filename">/conf/bootstrap/</code> directory. For
+a standard configuration, the bootstrap
+configuration files require no alteration.
+							</td></tr><tr><td align="left">conf/log4j.properties</td><td align="left">
+								Specifies the Apache log4j framework
+category priorities and appenders used by the
+Media Server.
+							</td></tr><tr><td align="left">conf/mgcp-conf.xml</td><td align="left">
+								Specifies the configuration for the MGCP
+controller.
+							</td></tr><tr><td align="left">deploy/server-beans.xml</td><td align="left">
+								Configuration file for mms.For more
+information please see chapter 3.
+							</td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-Writing_and_Running_Tests_Against_the_Media_Server"/>2.2.6. 
+			Writing and Running Tests Against the Media Server
+		</h3></div></div></div><p>
+			For information about the different kinds of tests that the
+			Media Server provides, refer to
+			<a class="ulink" href="http://groups.google.com/group/mobicents-public/web/mobicents-ms-tests">
+				Writing and Running Tests Against MMS
+			</a>
+			
+		</p></div></div></div><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="ch01.html"><strong>Prev</strong>Chapter 1. Introduction to the Mobicents Media Se...</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="ch03.html"><strong>Next</strong>Chapter 3. Configuring the Media Server</a></li></ul></body></html>

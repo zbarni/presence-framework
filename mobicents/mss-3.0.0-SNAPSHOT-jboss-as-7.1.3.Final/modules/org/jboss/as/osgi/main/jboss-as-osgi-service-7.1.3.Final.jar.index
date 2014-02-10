@@ -1,0 +1,14 @@
+
+META-INF/maven
+org/jboss
+META-INF/maven/org.jboss.as
+org/jboss/as/osgi/service
+org/jboss/as/osgi/parser
+org/jboss/as/osgi
+META-INF/services
+org/jboss/as/osgi/management
+org/jboss/as
+org
+META-INF
+META-INF/maven/org.jboss.as/jboss-as-osgi-service
+org/jboss/as/osgi/deployment

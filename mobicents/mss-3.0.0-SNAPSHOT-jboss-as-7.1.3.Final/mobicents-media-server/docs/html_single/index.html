@@ -1,0 +1,1338 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Media Server User Guide</title><link rel="stylesheet" type="text/css" href="css/telestax_org.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"/><meta name="description" content="The Mobicents Platform is the first and only open source VoIP platform certified for JAIN SLEE 1.0 and SIP Servlets 1.1 compliance. Mobicents serves as a high-performance core for Service Delivery Platforms (SDPs) and IP Multimedia Subsystems (IMSs) by leveraging J2EE to enable the convergence of data and video in Next-Generation Intelligent Network (NGIN) applications. The Mobicents Platform enables the composition of predefined Service Building Blocks (SBBs) such as Call-Control, Billing, User-Provisioning, Administration and Presence-Sensing. Out-of-the-box monitoring and management of Mobicents components is achieved through JMX Consoles. JSLEE allows popular protocol stacks such as SIP to be plugged in as Resource Adapters (RAs), and Service Building Blocks—which share many similarities with EJBs—allow the easy accommodation and integration of enterprise applications with end points such as the Web, Customer Relationship Management (CRM) systems and Service-Oriented Architectures (SOAs). The Mobicents Platform is the natural choice for telecommunication Operations Support Systems (OSSs) and Network Management Systems (NMSs). In addition to the telecommunication industry, the Mobicents Platform is suitable for a variety of problem domains demanding an Event-Driven Architecture (EDA) for high-volume, low-latency signaling, such as financial trading, online gaming, (RFID) sensor network integration, and distributed control."/><meta xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body><div class="book"><div class="titlepage"><div><p xmlns:d="http://docbook.org/ns/docbook" id="title"><a href="http://www.telestax.com" class="site_href"><strong>TeleStax.org</strong></a><a href="http://www.telestax.com/" class="doc_href"><strong>Community Documentation</strong></a></p><div><h1 class="title"><a id="d0e1"/>Media Server User Guide</h1></div><div><h2 class="subtitle">The <span class="application">Mobicents Platform</span> Media Server Gateway Guide</h2></div><div><h3 class="corpauthor">
+		<span class="inlinemediaobject"><object type="image/svg+xml" data="Common_Content/images/title_logo.svg"/></span>
+	</h3></div><div><div class="authorgroup"><div class="author"><h3 class="author"><span class="firstname">Jared</span> <span class="surname">Morgan</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Engineering Content Services<br/></span></div><code class="email">&lt;<a class="email" href="mailto:jmorgan@redhat.com">jmorgan@redhat.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:jmorgan@redhat.com">jmorgan@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Douglas</span> <span class="surname">Silas</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Engineering Content Services<br/></span></div><code class="email">&lt;<a class="email" href="mailto:dhensley@redhat.com">dhensley@redhat.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:dhensley@redhat.com">dhensley@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Ivelin</span> <span class="surname">Ivanov</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:ivelin.atanasoff.ivanov@gmail.com">ivelin.atanasoff.ivanov@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:iivanov@redhat.com">iivanov@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Vladimir</span> <span class="surname">Ralev</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:vladimir.ralev@gmail.com">vladimir.ralev@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:vralev@redhat.com">vralev@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Eduardo</span> <span class="surname">Martins</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:emmartins@gmail.com">emmartins@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:emartins@redhat.com">emartins@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Jean</span> <span class="surname">Deruelle</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:jean.deruelle@gmail.com">jean.deruelle@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:jderuell@redhat.com">jderuell@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Oleg</span> <span class="surname">Kulikov</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:oleg.kulikoff@gmail.com">oleg.kulikoff@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:okulikov@redhat.com">okulikov@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Amit</span> <span class="surname">Bhayani</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:amit.bhayani@gmail.com">amit.bhayani@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:abhayani@redhat.com">abhayani@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Luis</span> <span class="surname">Barreiro</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:lbbbarreiro@gmail.com">lbbbarreiro@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:lbarreiro@redhat.com">lbarreiro@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Alexandre</span> <span class="surname">Mendonça</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:brainslog@gmail.com">brainslog@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:amendonc@redhat.com">amendonc@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Bartosz</span> <span class="surname">Baranowski</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:baranowb@gmail.com">baranowb@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:bbaranow@redhat.com">bbaranow@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Pavel</span> <span class="surname">Šlégr</span></h3><div class="affiliation"><span class="orgname">Red Hat, <br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:pavel.slegr@gmail.com">pavel.slegr@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:pslegr@redhat.com">pslegr@redhat.com</a>&gt;</code></div><div class="author"><h3 class="author"><span class="firstname">Oifa</span> <span class="surname">Yulian</span></h3><div class="affiliation"><span class="orgname">Sipme Israel<br/></span> <span class="orgdiv">Mobicents<br/></span><span class="orgdiv">JBoss Communications Platform<br/></span></div><code class="email">&lt;<a class="email" href="mailto:oifa.yulian@gmail.com">oifa.yulian@gmail.com</a>&gt;</code><code class="email">&lt;<a class="email" href="mailto:yulian.oifa@telestax.com">yulian.oifa@telestax.com</a>&gt;</code></div></div></div><div><p class="copyright">Copyright © 2013 Telestax Inc</p></div><div><div class="abstract"><p class="title"><strong>Abstract</strong></p><p><span class="application">The Mobicents Platform</span> is the first and only open source <acronym class="acronym">VoIP</acronym> platform certified for <acronym class="acronym">JAIN SLEE</acronym> 1.0 and <acronym class="acronym">SIP</acronym> Servlets 1.1 compliance.  <span class="application">Mobicents</span> serves as a high-performance core for Service Delivery Platforms (<acronym class="acronym">SDP</acronym>s) and <acronym class="acronym">IP</acronym> Multimedia Subsystems (<acronym class="acronym">IMS</acronym>s) by leveraging <acronym class="acronym">J2EE</acronym> to enable the convergence of data and video in Next-Generation Intelligent Network (<acronym class="acronym">NGIN</acronym>) applications.</p><p>The <span class="application">Mobicents Platform</span> enables the composition of predefined Service Building Blocks (<acronym class="acronym">SBB</acronym>s) such as Call-Control, Billing, User-Provisioning, Administration and Presence-Sensing.  Out-of-the-box monitoring and management of <span class="application">Mobicents</span> components is achieved through <acronym class="acronym">JMX</acronym> Consoles. <acronym class="acronym">JSLEE</acronym> allows popular protocol stacks such as <acronym class="acronym">SIP</acronym> to be plugged in as Resource Adapters (<acronym class="acronym">RA</acronym>s), and Service Building Blocks—which share many similarities with <acronym class="acronym">EJB</acronym>s—allow the easy accommodation and integration of enterprise applications with end points such as the Web, Customer Relationship Management (<acronym class="acronym">CRM</acronym>) systems and Service-Oriented Architectures (<acronym class="acronym">SOA</acronym>s). The <span class="application">Mobicents Platform</span> is the natural choice for telecommunication Operations Support Systems (OSSs) and Network Management Systems (NMSs).</p><p>In addition to the telecommunication industry, the <span class="application">Mobicents Platform</span> is suitable for a variety of problem domains demanding an Event-Driven Architecture (<acronym class="acronym">EDA</acronym>) for high-volume, low-latency signaling, such as financial trading, online gaming, (<acronym class="acronym">RFID</acronym>) sensor network integration, and distributed control.</p></div></div></div><hr/></div><div class="toc"><dl><dt><span class="preface"><a href="#d0e318">Preface</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e323">1. Document Conventions</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e333">1.1. Typographic Conventions</a></span></dt><dt><span class="section"><a href="#d0e549">1.2. Pull-quote Conventions</a></span></dt><dt><span class="section"><a href="#d0e568">1.3. Notes and Warnings</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#ittms-Introduction_to_the_Media_Server">1. Introduction to the Mobicents Media Server</a></span></dt><dd><dl><dt><span class="section"><a href="#ittms-Overview-the_Reasoning_and_Need_for_Media_Servers">1.1. 
+			Overview: the Reasoning and Need for Media Server
+		</a></span></dt><dt><span class="section"><a href="#ittms-Technical_specification_and_capacity">1.2. Technical Specification and Capacity</a></span></dt><dt><span class="section"><a href="#ittms-Media_Server_Architecture">1.3. Media Server Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#ittms-High_Level_Component">1.3.1. High level components</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#chapter-Installing_the_Media_Server">2. Installing the Media Server</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e915">2.1. Java Development Kit: Installing, Configuring and Running</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Installing_Configuring_and_Running">2.2. 
+			JBoss Application Server 5.x.y embedded Media Server Binary
+			Distribution: Installing, Configuring and Running
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-PreInstall_Requirements_and_Prerequisites">2.2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Downloading">2.2.2. Downloading</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Installing">2.2.3. Installing</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Running">2.2.4. Running</a></span></dt><dt><span class="section"><a href="#itms-JBoss_Server_Structure">2.2.5. Server Structure</a></span></dt><dt><span class="section"><a href="#itms-Writing_and_Running_Tests_Against_the_Media_Server">2.2.6. 
+			Writing and Running Tests Against the Media Server
+		</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#ctms-Configuring_the_Media_Server">3. Configuring the Media Server</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1668">3.1. 
+	System clock and scheduler
+	</a></span></dt><dt><span class="section"><a href="#d0e1682">3.2. 
+UDP Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1692">3.2.1. 
+ bindAddress and localBindAddress.
+</a></span></dt><dt><span class="section"><a href="#d0e1705">3.2.2. 
+LocalNetwork, localSubnet and useSbc.
+</a></span></dt><dt><span class="section"><a href="#d0e1714">3.2.3. 
+RtpTimeout
+</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1731">3.3. 
+	SS7 Channels Manager
+	</a></span></dt><dt><span class="section"><a href="#d0e1770">3.4. 
+Channel Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1783">3.4.1. 
+Jitter buffer size
+</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1790">3.5. 
+DSP Factory
+</a></span></dt><dt><span class="section"><a href="#d0e1834">3.6. 
+	 Resource Pool
+	 </a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1861">3.6.1.  DtmfDetectorDbi</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1866">3.7. 
+MGCP Controller
+
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1876">3.7.1. 
+	Port Parameter
+	</a></span></dt><dt><span class="section"><a href="#d0e1881">3.7.2. Configuration parameter</a></span></dt><dt><span class="section"><a href="#d0e1889">3.7.3. Pool Size</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1894">3.8. 
+		Media Server
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1904">3.8.1. 
+		Heartbeat Time
+		</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1909">3.9. 
+		Endpoints
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2029">3.9.1. 
+	startChannelID
+	</a></span></dt><dt><span class="section"><a href="#d0e2034">3.9.2.  Channels Manager</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#captms-Controlling_and_Programming_the_Media_Server">4. Controlling and Programming the Mobicents Media Server</a></span></dt><dd><dl><dt><span class="section"><a href="#captms-MMS_Control_Protocols">4.1. MMS Control Protocols</a></span></dt><dd><dl><dt><span class="section"><a href="#captms-Media_Gateway_Control_Protocol_Interface">4.1.1. Media Gateway Control Protocol Interface</a></span></dt><dt><span class="section"><a href="#d0e2081">4.1.2. 
+JSR-309 Control protocol Interface
+</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#S-Event_Packages">5. MMS: Event Packages</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2403">5.1. List of supported packages per Endpoint</a></span></dt></dl></dd><dt><span class="chapter"><a href="#msde-MS_Demonstration_Example">6. MMS Demonstration Example</a></span></dt><dt><span class="chapter"><a href="#msbp-MS-Best_Practices">7. MMS: Best Practices</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2550">7.1. Mobicents Media Server Best Practices</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2555">7.1.1. DTMF Detection Mode: RFC2833 versus Inband versus Auto</a></span></dt><dt><span class="section"><a href="#d0e2586">7.1.2. Transcoding Is CPU-Intensive</a></span></dt></dl></dd></dl></dd><dt><span class="appendix"><a href="#d0e2623">A. Understanding Digital Signal Processing and Streaming</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2628">A.1. Introduction to Digital Signal Processing</a></span></dt><dt><span class="section"><a href="#d0e2633">A.2. Analog and Digital Signals</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2638">A.2.1. Discrete Signals</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e2655">A.3. Sampling, Quantization, and Packetization</a></span></dt><dt><span class="section"><a href="#d0e2664">A.4. Transfer Protocols</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2669">A.4.1. Real-time Transport Protocol</a></span></dt><dt><span class="section"><a href="#d0e2753">A.4.2. Real-time Transport Control Protocol</a></span></dt><dt><span class="section"><a href="#d0e2813">A.4.3. Jitter</a></span></dt></dl></dd></dl></dd><dt><span class="appendix"><a href="#d0e2827">B. Revision History</a></span></dt></dl></div><div class="preface"><div class="titlepage"><div><div><h1 class="title"><a id="d0e318"/>Preface</h1></div></div></div><p> </p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e323"/>1. Document Conventions</h2></div></div></div><p>
+		This manual uses several conventions to highlight certain words and phrases and draw attention to specific pieces of information.
+	</p><p>
+		In PDF and paper editions, this manual uses typefaces drawn from the <a class="ulink" href="https://fedorahosted.org/liberation-fonts/">Liberation Fonts</a> set. The Liberation Fonts set is also used in HTML editions if the set is installed on your system. If not, alternative but equivalent typefaces are displayed. Note: Red Hat Enterprise Linux 5 and later includes the Liberation Fonts set by default.
+	</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e333"/>1.1. Typographic Conventions</h3></div></div></div><p>
+			Four typographic conventions are used to call attention to specific words and phrases. These conventions, and the circumstances they apply to, are as follows.
+		</p><p>
+			<code class="literal">Mono-spaced Bold</code>
+		</p><p>
+			Used to highlight system input, including shell commands, file names and paths. Also used to highlight key caps and key-combinations. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To see the contents of the file <code class="filename">my_next_bestselling_novel</code> in your current working directory, enter the <span class="command"><strong>cat my_next_bestselling_novel</strong></span> command at the shell prompt and press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p></blockquote></div><p>
+			The above includes a file name, a shell command and a key cap, all presented in Mono-spaced Bold and all distinguishable thanks to context.
+		</p><p>
+			Key-combinations can be distinguished from key caps by the hyphen connecting each part of a key-combination. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p><p>
+				Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F1</strong></span> to switch to the first virtual terminal. Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F7</strong></span> to return to your X-Windows session.
+			</p></blockquote></div><p>
+			The first sentence highlights the particular key cap to press. The second highlights two sets of three key caps, each set pressed simultaneously.
+		</p><p>
+			If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <code class="literal">Mono-spaced Bold</code>. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				File-related classes include <code class="classname">filesystem</code> for file systems, <code class="classname">file</code> for files, and <code class="classname">dir</code> for directories. Each class has its own associated set of permissions.
+			</p></blockquote></div><p>
+			<span class="application">Proportional Bold</span>
+		</p><p>
+			This denotes words or phrases encountered on a system, including application names; dialogue box text; labelled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Choose <span class="guimenu">System &gt; Preferences &gt; Mouse</span> from the main menu bar to launch <span class="application">Mouse Preferences</span>. In the <span class="guilabel">Buttons</span> tab, click the <span class="guilabel">Left-handed mouse</span> check box and click <span class="guibutton">Close</span> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand).
+			</p><p>
+				To insert a special character into a <span class="application">gedit</span> file, choose <span class="guimenu">Applications &gt; Accessories &gt; Character Map</span> from the main menu bar. Next, choose <span class="guimenu">Search &gt; Find…</span> from the <span class="application">Character Map</span> menu bar, type the name of the character in the <span class="guilabel">Search</span> field and click <span class="guibutton">Next</span>. The character you sought will be highlighted in the <span class="guilabel">Character Table</span>. Double-click this highlighted character to place it in the <span class="guilabel">Text to copy</span> field and then click the <span class="guibutton">Copy</span> button. Now switch back to your document and choose <span class="guimenu">Edit &gt; Paste</span> from the <span class="application">gedit</span> menu bar.
+			</p></blockquote></div><p>
+			The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in Proportional Bold and all distinguishable by context.
+		</p><p>
+			Note the <span class="guimenu">&gt;</span> shorthand used to indicate traversal through a menu and its sub-menus. This is to avoid the difficult-to-follow 'Select <span class="guimenuitem">Mouse</span> from the <span class="guimenu">Preferences</span> sub-menu in the <span class="guimenu">System</span> menu of the main menu bar' approach.
+		</p><p>
+			<span class="command"><strong><em class="replaceable"><code>Mono-spaced Bold Italic</code></em></strong></span> or <span class="application"><em class="replaceable"><code>Proportional Bold Italic</code></em></span>
+		</p><p>
+			Whether Mono-spaced Bold or Proportional Bold, the addition of Italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To connect to a remote machine using ssh, type <span class="command"><strong>ssh <em class="replaceable"><code>username</code></em>@<em class="replaceable"><code>domain.name</code></em></strong></span> at a shell prompt. If the remote machine is <code class="filename">example.com</code> and your username on that machine is john, type <span class="command"><strong>ssh john@example.com</strong></span>.
+			</p><p>
+				The <span class="command"><strong>mount -o remount <em class="replaceable"><code>file-system</code></em></strong></span> command remounts the named file system. For example, to remount the <code class="filename">/home</code> file system, the command is <span class="command"><strong>mount -o remount /home</strong></span>.
+			</p><p>
+				To see the version of a currently installed package, use the <span class="command"><strong>rpm -q <em class="replaceable"><code>package</code></em></strong></span> command. It will return a result as follows: <span class="command"><strong><em class="replaceable"><code>package-version-release</code></em></strong></span>.
+			</p></blockquote></div><p>
+			Note the words in bold italics above — username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
+		</p><p>
+			Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				When the Apache HTTP Server accepts requests, it dispatches child processes or threads to handle them. This group of child processes or threads is known as a <em class="firstterm">server-pool</em>. Under Apache HTTP Server 2.0, the responsibility for creating and maintaining these server-pools has been abstracted to a group of modules called <em class="firstterm">Multi-Processing Modules</em> (<em class="firstterm">MPMs</em>). Unlike other modules, only one module from the MPM group can be loaded by the Apache HTTP Server.
+			</p></blockquote></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e549"/>1.2. Pull-quote Conventions</h3></div></div></div><p>
+			Two, commonly multi-line, data types are set off visually from the surrounding text.
+		</p><p>
+			Output sent to a terminal is set in <code class="computeroutput">Mono-spaced Roman</code> and presented thus:
+		</p><pre class="screen">
+books        Desktop   documentation  drafts  mss    photos   stuff  svn
+books_tests  Desktop1  downloads      images  notes  scripts  svgs
+</pre><p>
+			Source-code listings are also set in <code class="computeroutput">Mono-spaced Roman</code> but are presented and highlighted as follows:
+		</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="JAVA"></span>
+<!--  --><br/><span class="java_keyword">package</span><span class="java_plain">&nbsp;org</span><span class="java_separator">.</span><span class="java_plain">jboss</span><span class="java_separator">.</span><span class="java_plain">book</span><span class="java_separator">.</span><span class="java_plain">jca</span><span class="java_separator">.</span><span class="java_plain">ex1</span><span class="java_separator">;</span>
+</span>
+<!--  --><br/><span class="java_keyword">import</span><span class="java_plain">&nbsp;javax</span><span class="java_separator">.</span><span class="java_plain">naming</span><span class="java_separator">.</span><span class="java_type">InitialContext</span><span class="java_separator">;</span>
+</span>
+<!--  --><br/><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_keyword">class</span><span class="java_plain">&nbsp;</span><span class="java_type">ExClient</span>
+<!--  --><br/><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">public</span><span class="java_plain">&nbsp;</span><span class="java_keyword">static</span><span class="java_plain">&nbsp;</span><span class="java_type">void</span><span class="java_plain">&nbsp;main</span><span class="java_separator">(</span><span class="java_type">String</span><span class="java_plain">&nbsp;args</span><span class="java_separator">[])</span><span class="java_plain">&nbsp;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_keyword">throws</span><span class="java_plain">&nbsp;</span><span class="java_type">Exception</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;</span><span class="java_separator">{</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">InitialContext</span><span class="java_plain">&nbsp;iniCtx&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;</span><span class="java_keyword">new</span><span class="java_plain">&nbsp;</span><span class="java_type">InitialContext</span><span class="java_separator">();</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">Object</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ref&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;iniCtx</span><span class="java_separator">.</span><span class="java_plain">lookup</span><span class="java_separator">(</span><span class="java_literal">&quot;EchoBean&quot;</span><span class="java_separator">);</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">EchoHome</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;home&nbsp;&nbsp;&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;</span><span class="java_separator">(</span><span class="java_type">EchoHome</span><span class="java_separator">)</span><span class="java_plain">&nbsp;ref</span><span class="java_separator">;</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">Echo</span><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;echo&nbsp;&nbsp;&nbsp;</span><span class="java_operator">=</span><span class="java_plain">&nbsp;home</span><span class="java_separator">.</span><span class="java_plain">create</span><span class="java_separator">();</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">System</span><span class="java_separator">.</span><span class="java_plain">out</span><span class="java_separator">.</span><span class="java_plain">println</span><span class="java_separator">(</span><span class="java_literal">&quot;Created&nbsp;Echo&quot;</span><span class="java_separator">);</span>
+</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="java_type">System</span><span class="java_separator">.</span><span class="java_plain">out</span><span class="java_separator">.</span><span class="java_plain">println</span><span class="java_separator">(</span><span class="java_literal">&quot;Echo.echo('Hello')&nbsp;=&nbsp;&quot;</span><span class="java_plain">&nbsp;</span><span class="java_operator">+</span><span class="java_plain">&nbsp;echo</span><span class="java_separator">.</span><span class="java_plain">echo</span><span class="java_separator">(</span><span class="java_literal">&quot;Hello&quot;</span><span class="java_separator">));</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;</span><span class="java_separator">}</span>
+<!--  --><br/><span class="java_plain">&nbsp;&nbsp;&nbsp;</span>
+<!--  --><br/><span class="java_separator">}</span>
+</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e568"/>1.3. Notes and Warnings</h3></div></div></div><p>
+			Finally, we use three visual styles to draw attention to information that might otherwise be overlooked.
+		</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+				A note is a tip or shortcut or alternative approach to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier.
+			</p></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Important</h2><p>
+				Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring Important boxes won't cause data loss but may cause irritation and frustration.
+			</p></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Warning</h2><p>
+				A Warning should not be ignored. Ignoring warnings will most likely cause data loss.
+			</p></div></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="ittms-Introduction_to_the_Media_Server"/>Chapter 1. Introduction to the Mobicents Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#ittms-Overview-the_Reasoning_and_Need_for_Media_Servers">1.1. 
+			Overview: the Reasoning and Need for Media Server
+		</a></span></dt><dt><span class="section"><a href="#ittms-Technical_specification_and_capacity">1.2. Technical Specification and Capacity</a></span></dt><dt><span class="section"><a href="#ittms-Media_Server_Architecture">1.3. Media Server Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="#ittms-High_Level_Component">1.3.1. High level components</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Overview-the_Reasoning_and_Need_for_Media_Servers"/>1.1. 
+			Overview: the Reasoning and Need for Media Server
+		</h2></div></div></div><p><strong>Media Gateways Bridge Multiple Technologies. </strong>
+				Today, computers play an important role in modern communications. Widespread access to broadband Internet and
+				the ubiquity of Internet Protocol (
+				<acronym class="acronym">IP</acronym>
+				) enable the convergence of voice, data and video. Media
+				gateways provide the ability to switch voice media
+				between a network and its access point. Using Digital
+				Subscriber Line (
+				<acronym class="acronym">DSL</acronym>
+				) and fast-Internet cable technology, a media gateway
+				converts, compresses and packetizes voice data for
+				transmission back-and-forth across the Internet backbone
+				for landline and wireless phones. Media gateways sit at
+				the intersection of Public Switched Telephone Networks (
+				<acronym class="acronym">PSTN</acronym>
+				s) and wireless or IP-based networks.
+			</p><p><strong>Why Media Gateways for VoIP Is Needed. </strong>
+				Multiple market demands are pushing companies to
+				converge all of their media services using media
+				gateways with Voice-over-IP (
+				<acronym class="acronym">VoIP</acronym>
+				) capabilities. Some of the expected benefits of the architecture are as follows:
+			</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">Lowering initial costs</span></dt><dd><p>
+						Capital investment is decreased because low-cost
+						commodity hardware can be used for multiple
+						functions.
+					</p></dd><dt><span class="term">Lowering development costs</span></dt><dd><p>
+						Open system hardware and software standards with
+						well-defined applications reduce costs, and
+						Application Programming Interfaces (
+						<acronym class="acronym">API</acronym>
+						s) accelerate development.
+					</p></dd><dt><span class="term">Handling multiple media types</span></dt><dd><p>
+						Companies want
+						<acronym class="acronym">VoIP</acronym>
+						solutions that are extensible and that will be ready to handle future needs like, video.
+					</p></dd><dt><span class="term">
+					Lowering the costs of deployment and maintenance
+				</span></dt><dd><p>
+						Standardized, modular systems reduce training
+						costs and maintenance while simultaneously
+						improving uptime.
+					</p></dd><dt><span class="term">Enabling rapid time-to-market</span></dt><dd><p>
+						Early market entry hits the window of
+						opportunity and maximizes revenue.
+					</p></dd></dl></div><p><strong>What Is the Mobicents Media Server? </strong>
+				The Mobicents Media Server is an open source Media
+				Server aimed at:
+			</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					Delivering competitive, complete, best-of-breed
+					media gateway functionality of the highest quality.
+				</p></li><li class="listitem"><p>
+					Meeting the demands of converged wireless and
+					landline networks, DSL and cable broadband access,
+					and fixed-mobile converged
+					<acronym class="acronym">VoIP</acronym>
+					—— networks from a singleand
+					singularly-capablemedia gateway platform.
+				</p></li><li class="listitem"><p>
+					Increasing flexibility with a media gateway that
+					supports a wide variety of call control protocols,
+					which possesses an architecture that can scale to
+					meet the demands of small-carrier providers as well
+					as large enterprises.
+				</p></li></ul></div><p>
+			Because Mobicents Media Server is Java based, it is cross
+			platform, easy to install and run on any operating system
+			that supports Java. The available source code is a powerful
+			tool to debug the server and understand processing logic. It
+			also gives you the flexibility to create customized
+			components and configurations.
+		</p><p>
+			Form version 2.0.0, the Mobicents Media Server is available
+			either as embedded in JBoss AS 5.x.y or Standalone.
+		</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Technical_specification_and_capacity"/>1.2. Technical Specification and Capacity</h2></div></div></div><p>The Mobicents Media Server is capable of</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					Media and Coders :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>G711 (a-Law, u-Law)</p></li><li class="listitem"><p>GSM</p></li><li class="listitem"><p>Linear PCM(L16)</p></li><li class="listitem"><p>G729</p></li><li class="listitem"><p>DTMF(RFC 2833, INBAND)</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Media Files :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>WAV</p></li><li class="listitem"><p>GSM</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Signaling and control :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>MGCP</p></li><li class="listitem"><p>Java Media Control API(JSR-309)</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Capacity : Typical media sessions per server
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+								• G.711 , L16 @20ms – 500+ per cpu core </p><p>
+• GSM @ 20ms – 95 GSM mixed with 380 G.711 , L16 , 475 overall per cpu core
+</p><p>
+• G.729 @20ms – 45 GSM mixed with 180 G.711 , L16 , 225 overall per cpu core
+</p><p>
+All benchmark tests  where done on Amazon EC2 cloud instances.
+							</p></li></ul></div><p>
+				</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Media_Server_Architecture"/>1.3. Media Server Architecture</h2></div></div></div><p>
+			Media services have played an important role in the
+			traditional Time Division Multiplexing (
+			<acronym class="acronym">TDM</acronym>
+			)-based telephone network. As the network migrates to an
+			Internet Protocol (
+			<acronym class="acronym">IP</acronym>
+			)-based environment, media services are also moving to new
+			environments.
+		</p><p>
+			One of the most exciting trends is the emergence and
+			adoption of complementary modular standards that leverage
+			the Internet to enable media services to be developed,
+			deployed and updated rapidly. This is carried out in a network
+			architecture that supports the two concepts called
+			<span class="emphasis"><em>provisioning-on-demand</em></span>
+			and
+			<span class="emphasis"><em>scaling-on-demand</em></span>
+			.
+		</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="ittms-High_Level_Component"/>1.3.1. High level components</h3></div></div></div><p>
+				The Media Server's high degree of modularity benefits
+				the application developer in several ways. The
+				already-tight code can be further optimized to support
+				applications that require small footprints. For example,
+				if
+				<acronym class="acronym">PSTN</acronym>
+				interconnection is unnecessary in an application, then
+				the D-channel feature can be removed from the Media Server. In the future, if the same application is
+				deployed within a Signaling System 7 (
+				<acronym class="acronym">SS7</acronym>
+				) network, then the appropriate endpoint can be enabled,
+				and the application is then compatible.
+			</p><div class="mediaobject" align="center"><a id="ittms-mms-MMSArchictecture-dia-MMS"/><img src="images/mms-MMSArchictecture-dia-MMS2.jpg" align="middle"/></div><p>
+				The Media Server architecture assumes that call control
+				intelligence lies outside of the Media Server, and is
+				handled by an external entity. The Media Server also
+				assumes that call controllers will use control
+				procedures such as
+				<acronym class="acronym">MGCP</acronym>
+				,
+				<acronym class="acronym">MEGACO</acronym>
+				or
+				<acronym class="acronym">MSML</acronym>
+				, among others. Each specific control module can be
+				plugged in directly to the server as a standard
+				deployable unit. Utilizing the JBoss Microcontainer for
+				the implementation of control protocol-specific
+				communication logic allows for simple deployment. It is
+				therefore unnecessary for developers to configure
+				low-level transaction and state management details,
+				multi-threading, connection-pooling and other low-level
+				details and
+				<acronym class="acronym">API</acronym>
+				s.
+			</p><p>
+				The Mobicents Media Server call control intelligence can
+				be a JSLEE Application deployed on Mobicents JAIN SLEE
+				Server or any other JAIN SLEE container. In case of
+				Mobicents JSLEE Server there is already MGCP Resource
+				Adaptor available.
+			</p><p>
+				Mobicents Media Server can also be controlled from
+				Mobicents SIP Servlets or any other SIP Servlets
+				container using any of the above call control procedures
+				or using the Mobicents JSR-309 Implementation. Mobicents
+				JSR-309 Implementation internally leverages MGCP
+				protocol to controll Media Server. Mobicents JSR-309
+				implementation details is out of scope of this document.
+			</p><p>
+				It is also possible to control the Mobicents Media
+				Server from any third party Java application (including
+				standalone Java apps) or other technologies like .NET
+				etc as far as they follow standrad protocols like MGCP,
+				MEGACO etc. There is no dependency on call controller
+				but the protocol used between the call controller and
+				Mobicents Media Server.
+			</p><p>
+				Many key features of Mobicents Media Server are provided
+				by integrating individual components operating using
+				generic Service Provider Interface. There are two of
+				types of high level components: Endpoints and
+				Controllers.
+			</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ittms-Endpoints"/>1.3.1.1. Endpoints</h4></div></div></div><p>
+					It is convenient to consider a media gateway as a
+					collection of endpoints. An endpoint is a logical
+					representation of a physical entity such as an
+					analog phone or a channel in a trunk. Endpoints are
+					sources or sinks of data and can be either physical
+					or virtual. Physical endpoint creation requires
+					hardware installation, while software is sufficient
+					for creating virtual endpoints. An interface on a
+					gateway that terminates at a trunk connected to a
+					<acronym class="acronym">PTSN</acronym>
+					switch would be an example of a physical endpoint.
+					An audio source in an audio content server would be
+					an example of a virtual endpoint.
+				</p><p>
+					The type of the endpoint determines its
+					functionality. From the points considered so far, the following basic endpoint types have been identified:
+				</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							digital signal 0 (
+							<acronym class="acronym">DS0</acronym>
+							)
+						</p></li><li class="listitem"><p>analog line</p></li><li class="listitem"><p>announcement server access point</p></li><li class="listitem"><p>conference bridge access point</p></li><li class="listitem"><p>packet relay</p></li><li class="listitem"><p>
+							Asynchronous Transfer Mode (
+							<acronym class="acronym">ATM</acronym>
+							) "trunk side" interface
+						</p></li></ul></div><p>
+					This list is not comprehensive. Other endpoint types may be
+					defined in the future, such as test endpoints which
+					could be used to check network quality, or
+					frame-relay endpoints that could be used to manage
+					audio channels multiplexed over a frame-relay
+					virtual circuit.
+				</p><div class="variablelist"><p class="title"><strong>
+						Descriptions of Various Access Point Types
+					</strong></p><dl class="variablelist"><dt><span class="term">Announcement Server Access Point</span></dt><dd><p>
+								An announcement server endpoint provides
+								access, intuitively, to an announcement
+								server. Upon receiving requests from the
+								call agent, the announcement server
+								<span class="quote">“<span class="quote">plays</span>”</span>
+								a specified announcement. A given
+								announcement endpoint is not expected to
+								support more than one connection at a
+								time. Connections to an announcement
+								server are typically one-way; they are
+								<span class="quote">“<span class="quote">half-duplex</span>”</span>
+								: the announcement server is not
+								expected to listen to audio signals from
+								the connection. Announcement access
+								points are capable of playing
+								announcements; however, these endpoints
+								do not have the capability of
+								transcoding. To achieve transcoding, a
+								Packet Relay must be used. Also note
+								that the announcement server endpoint
+								can generate tones, such as dual-tone
+								multi-frequency (DTMF).
+							</p></dd><dt><span class="term">
+							Interactive Voice Response Access Point
+						</span></dt><dd><p>
+								An Interactive Voice Response (
+								<acronym class="acronym">IVR</acronym>
+								) endpoint provides access to an
+								<acronym class="acronym">IVR</acronym>
+								service. Upon requests from the call
+								agent, the
+								<acronym class="acronym">IVR</acronym>
+								server
+								<span class="quote">“<span class="quote">plays</span>”</span>
+								announcements and tones, and
+								<span class="quote">“<span class="quote">listens</span>”</span>
+								for responses, such as (
+								<acronym class="acronym">DTMF</acronym>
+								) input or voice messages, from the
+								user. A given
+								<acronym class="acronym">IVR</acronym>
+								endpoint is not expected to support more
+								than one connection at a time. Similarly
+								to announcement endpoints, IVR endpoints
+								do not possess media-transcoding
+								capabilities. IVR plays and records in
+								the format in which the media was stored
+								or received.
+							</p></dd><dt><span class="term">Conference Bridge Access Point</span></dt><dd><p>
+								A conference bridge endpoint is used to
+								provide access to a specific conference.
+								Media gateways should be able to
+								establish several connections between
+								the endpoint and packet networks, or
+								between the endpoint and other endpoints
+								in the same gateway. The signals
+								originating from these connections are
+								mixed according to the connection
+								<span class="quote">“<span class="quote">mode</span>”</span>
+								(as specified later in this document).
+								The precise number of connections that
+								an endpoint supports is characteristic
+								of the gateway, and may, in fact, vary
+								according to the allocation of resources
+								within the gateway.
+							</p></dd><dt><span class="term">Packet Relay Endpoint</span></dt><dd><p>
+								A packet relay endpoint is a specific
+								form of conference bridge that typically
+								only supports two connections. Packet
+								relays can be found in firewalls between
+								a protected and an open network, or in
+								transcoding servers used to provide
+								interoperation between incompatible
+								gateways, such as gateways which don't
+								support compatible compression
+								algorithms and gateways which operate
+								over different transmission networks,
+								such as IP or ATM.
+							</p></dd><dt><span class="term">Echo Endpoint</span></dt><dd><p>
+								An echo—or loopback—endpoint is a test
+								endpoint that is used for maintenance
+								and/or continuity testing. The endpoint
+								returns the incoming audio signal from
+								the endpoint back to that same endpoint,
+								thus creating an echo effect
+							</p></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ittms-Controller-Modules"/>1.3.1.2. Controller Modules</h4></div></div></div><p>
+					Controller Modules allows external interfaces to be
+					implemented for the Media Server. Each controller
+					module implements an industry standard control
+					protocol, and uses a generic SPI to control
+					processing components or endpoints.
+				</p><p>
+					One such controller module is the Media Gateway
+					Control Protocol (MGCP). MGCP is designed as an
+					internal protocol within a distributed system that
+					appears to outside as a single VoIP gateway. The
+					MGCP is composed of a Call Agent, and set of
+					gateways including at least one "media gateway" that
+					perform the conversion of media signal between
+					circuit and packets, and at least one "signalling
+					gateway" when connecting to an SS7 controlled
+					network. The Call Agent can be distributed over
+					several computer platforms.
+				</p></div></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chapter-Installing_the_Media_Server"/>Chapter 2. Installing the Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d0e915">2.1. Java Development Kit: Installing, Configuring and Running</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Installing_Configuring_and_Running">2.2. 
+			JBoss Application Server 5.x.y embedded Media Server Binary
+			Distribution: Installing, Configuring and Running
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-PreInstall_Requirements_and_Prerequisites">2.2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Downloading">2.2.2. Downloading</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Installing">2.2.3. Installing</a></span></dt><dt><span class="section"><a href="#itms-binary-JBoss_Media_Server-Running">2.2.4. Running</a></span></dt><dt><span class="section"><a href="#itms-JBoss_Server_Structure">2.2.5. Server Structure</a></span></dt><dt><span class="section"><a href="#itms-Writing_and_Running_Tests_Against_the_Media_Server">2.2.6. 
+			Writing and Running Tests Against the Media Server
+		</a></span></dt></dl></dd></dl></div><p>
+		The Mobicents Media Server distribution is available in two
+		forms: Standalone and Embedded in JBoss Application Server 5.
+		The standalone version is preferred for carrier production
+		deployment while JBoss Application Server 5 version is convenient for development
+	</p><p>
+		The Media Server is available in both binary and source code
+		distributions. The simplest way to get started with the Media
+		Server is to download the ready-to-run binary distribution.
+		Alternatively, the source code for the Media Server can be
+		obtained by checking it out from its repository using the
+		Subversion version control system (
+		<acronym class="acronym">SVN</acronym>
+		). You can later run a build using Maven. The binary distribution is recommended for most
+		users. Downloading and building the source code is recommended for
+		those who want access to the latest revisions and Media Server
+		capabilities.
+	</p><h2><a id="itms-Installing_the_Java_Development_Kit"/>
+		Installing the Java Development Kit
+	</h2><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e915"/>2.1. Java Development Kit: Installing, Configuring and Running</h2></div></div></div><p>The <span class="application">Mobicents</span><span class="application">JBCP</span> platform is written in Java.  A working Java Runtime Environment (<acronym class="acronym">JRE</acronym>) or Java Development Kit (<acronym class="acronym">JDK</acronym>) must be installed prior to running the server.  The required versiom must be version 5 or higher.</p><p>It is possible to run most <span class="application">Mobicents</span><span class="application">JBCP</span> servers, such as the JAIN SLEE Server, using a Java 6 JRE or JDK.  However, the XML Document Management Server does not run on Java 6.  Check the <a class="ulink" href="http://groups.google.com/group/mobicents-public/topics">public support forum</a> and <a class="ulink" href="http://www.mobicents.org/roadmap.html">project roadmap</a> pages to verify Java 6 support prior to running the XML Document Management Server with Java 6.
+		</p><p><strong>JRE or JDK? </strong>
+			Although <span class="application">Mobicents</span><span class="application">JBCP</span> servers are capable of running on the Java Runtime Environment, this guide assumes the audience is mainly developers interested in developing Java-based, <span class="application">Mobicents</span><span class="application">JBCP</span>-driven solutions.  Therefore, installing the Java Development Kit is covered due to the anticipated audience requirements.
+		</p><p><strong>32-Bit or 64-Bit JDK. </strong>If the system uses 64-Bit Linux or Windows architecure, the 64-bit JDK is strongly recommended over the 32-bit version.  The following heuristics should be considered in determining whether the 64-bit Java Virtual Machine (JVM) is suitable:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Wider datapath: the pipe between RAM and CPU is doubled, which improves the performance of memory-bound applications when using a 64-bit JVM.</p></li><li class="listitem"><p>64-bit memory addressing provides a virtually unlimited (1 exabyte) heap allocation.  Note that large heaps can affect garbage collection.</p></li><li class="listitem"><p>Applications that run with more than 1.5 GB of RAM (including free space for garbage collection optimization) should utilize the 64-bit JVM.</p></li><li class="listitem"><p>Applications that run on a 32-bit JVM and do not require more than minimal heap sizes will gain nothing from a 64-bit JVM.  Excluding memory issues, 64-bit hardware with the same relative clock speed and architecture is not likely to run Java applications faster than the 32-bit version.</p></li></ul></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>The following instructions describe how to download and install the 32-bit JDK, however the steps are nearly identical for installing the 64-bit version.</p></div><p><strong>Downloading. </strong>Download the Sun JDK 5.0 (Java 2 Development Kit) from Sun's website: <a class="ulink" href="http://java.sun.com/javase/downloads/index_jdk5.jsp">http://java.sun.com/javase/downloads/index_jdk5.jsp</a>.  Click the <span class="guilabel">Download</span> link next to "JDK 5.0 Update <em class="replaceable"><code>&lt;x&gt;</code></em>" (where <em class="replaceable"><code>&lt;x&gt;</code></em> is the latest minor version release number).
+		</p><p>The Sun website offers two download options:
+		</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p> A self-extracting RPM (for example, <code class="filename">jdk-1_5_0_16-linux-i586-rpm.bin</code>)</p></li><li class="listitem"><p>A self-extracting file (e.g. <code class="filename">jdk-1_5_0_16-linux-i586.bin</code>)</p></li></ul></div><p>
+	</p><p>If installing the JDK on Red Hat Enterprise Linux, Fedora, or another RPM-based Linux system, it is recommended that the self-extracting file containing the RPM package is selected.  This option will set up and use the SysV service scripts in addition to installing the JDK.  The RPM option is also recommended if the <span class="application">Mobicents</span><span class="application">JBCP</span> platform is being set up in a production environment.
+	</p><p><strong>Installing. </strong>
+			The following procedures detail how to install the Java Development Kit on both Linux and Windows.
+		</p><div class="procedure"><a id="d0e1029"/><p class="title"><strong>Procedure 2.1. Installing the JDK on Linux</strong></p><ul class="procedure"><li class="step"><p>Ensure the file is executable, then run it:</p><pre class="screen">~]$ chmod +x "jdk-1_5_0_&lt;minor_version&gt;-linux-&lt;architecture&gt;-rpm.bin"
+~]$ ./"jdk-1_5_0_&lt;minor_version&gt;-linux-&lt;architecture&gt;-rpm.bin"</pre></li></ul></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Setting up SysV Service Scripts for Non-RPM Files</h2><p>If the non-RPM self-extracting file is selected for an RPM-based system, the SysV service scripts can be configured by downloading and installing one of the <code class="literal">-compat</code> packages from the JPackage project.  Download the <code class="literal">-compat</code> package that corresponds correctly to the minor release number of the installed JDK.  The compat packages are available from <a class="ulink" href="ftp://jpackage.hmdc.harvard.edu/JPackage/1.7/generic/RPMS.non-free/">ftp://jpackage.hmdc.harvard.edu/JPackage/1.7/generic/RPMS.non-free/</a>.</p></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Important</h2><p>A <code class="literal">-compat</code> package is not required for RPM installations.  The <code class="literal">-compat</code> package performs the same SysV service script set up that the RPM version of the JDK installer does.
+		</p></div><div class="procedure"><a id="d0e1060"/><p class="title"><strong>Procedure 2.2. Installing the JDK on Windows</strong></p><ul class="procedure"><li class="step"><p>Using Explorer, double-click the downloaded self-extracting installer and follow the instructions to install the JDK.</p></li></ul></div><p><strong>Configuring. </strong>
+			Configuring the system for the JDK consists of two tasks: setting the <code class="envar">JAVA_HOME</code> environment variable, and ensuring the system is using the proper JDK (or JRE) using the <span class="command"><strong>alternatives</strong></span> command.  Setting <code class="envar">JAVA_HOME</code> generally overrides the values for <span class="command"><strong>java</strong></span>, <span class="command"><strong>javac</strong></span> and <span class="command"><strong>java_sdk_1.5.0</strong></span> in <span class="command"><strong>alternatives</strong></span>, however it is recommended to specify the value for consistency.
+		</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Generic Linux</span></dt><dd><p>
+					After installing the JDK, ensure the <code class="envar">JAVA_HOME</code> environment variable exists and points to the location of the JDK installation.
+				</p><p><strong>Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Linux. </strong>Determine whether <code class="envar">JAVA_HOME</code> is set by executing the following command:</p><pre class="screen">~]$ echo $JAVA_HOME</pre><p>
+					If <code class="envar">JAVA_HOME</code> is not set, the value must be set to the location of the JDK installation on the system.  This can be achieved by adding two lines to the <code class="filename">~/.bashrc</code> configuration file.  Open <code class="filename">~/.bashrc</code> (or create it if it does not exist) and add a line similar to the following one anywhere inside the file:
+				</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">export JAVA_HOME="/usr/lib/jvm/jdk1.5.0_&lt;version&gt;"</pre><p>
+					The changes should also be applied for other users who will be running the <span class="application">Mobicents</span><span class="application">JBCP</span> on the machine (any environment variables <span class="command"><strong>export</strong></span>ed from <code class="filename">~/.bashrc</code> files are local to that user).
+				</p></dd><dt><span class="term">Setting <code class="envar">java</code>, <code class="envar">javac</code> and <code class="envar">java_sdk_1.5.0</code> using the <span class="command"><strong>alternatives</strong></span> command </span></dt><dd><p><strong>Selecting the Correct System JVM on Linux using <span class="command"><strong>alternatives</strong></span>. </strong>On systems with the <span class="command"><strong>alternatives</strong></span> command, including Red Hat Enterprise Linux and Fedora, it is possible to choose which JDK (or JRE) installation to use, as well as which <span class="command"><strong>java</strong></span> and <span class="command"><strong>javac</strong></span> executables should be run when called.</p><p><span class="emphasis"><em>As the superuser</em></span>, call <span class="command"><strong>/usr/sbin/alternatives</strong></span> with the <code class="option">--config java</code> option to select between JDKs and JREs installed on your system:</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+home]$ sudo /usr/sbin/alternatives --config java
+
+There are 3 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+   1           /usr/lib/jvm/jre-1.5.0-gcj/bin/java
+   2           /usr/lib/jvm/jre-1.6.0-sun/bin/java
+*+ 3         /usr/lib/jvm/jre-1.5.0-sun/bin/java
+
+Enter to keep the current selection[+], or type selection number:
+        </pre><p>The Sun JDK, version 5, is required to run the <span class="command"><strong>java</strong></span> executable. In the <span class="command"><strong>alternatives</strong></span> information printout above, a plus (<code class="literal">+</code>) next to a number indicates the option currently being used.  Press <span class="keycap"><strong>Enter</strong></span> to keep the current JVM, or enter the number corresponding to the JVM to select that option.
+				</p><p>As the superuser, repeat the procedure above for the <span class="command"><strong>javac</strong></span> command and the <code class="literal">java_sdk_1.5.0</code> environment variable:	</p><pre class="screen">home]$ sudo /usr/sbin/alternatives --config javac</pre><pre class="screen">home]$ sudo /usr/sbin/alternatives --config java_sdk_1.5.0</pre></dd><dt><span class="term">Setting the <code class="envar">JAVA_HOME</code> Environment Variable on Windows</span></dt><dd><p>For information on how to set environment variables in Windows, refer to <a class="ulink" href="http://support.microsoft.com/kb/931715">http://support.microsoft.com/kb/931715</a>.</p></dd></dl></div><p><strong>Testing. </strong>To ensure the correct JDK or Java version (5 or higher), and that the java executable is in the <code class="envar">PATH</code> environment variable, run the <span class="command"><strong>java -version</strong></span> command in the terminal from the home directory:</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+home]$ java -version
+java version "1.5.0_16"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_16-b03)
+Java HotSpot(TM) Client VM (build 1.5.0_16-b03, mixed mode, sharing)
+</pre><p><strong>Uninstalling. </strong>
+			It is not necessary to remove a particular JDK from a system, because the JDK and JRE version can be switched as required using the <span class="command"><strong>alternatives</strong></span> command, and/or by setting <code class="envar">JAVA_HOME</code>.</p><p><strong>Uninstalling the JDK on Linux. </strong>On RPM-based systems, uninstall the JDK using the <span class="command"><strong>yum remove &lt;jdk_rpm_name&gt;</strong></span> command.</p><p><strong>Uninstalling the JDK on Windows. </strong>On Windows systems, check the JDK entry in the <code class="literal">Start</code> menu for an uninstall option, or use <code class="literal">Add/Remove Programs</code>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="itms-binary-JBoss_Media_Server-Installing_Configuring_and_Running"/>2.2. 
+			JBoss Application Server 5.x.y embedded Media Server Binary
+			Distribution: Installing, Configuring and Running
+		</h2></div></div></div><p>
+			Mobicents Media Server either comes bundled with the
+			JBoss Application Server or Standalone. This section details
+			how to install the Mobicents Media Server that comes bundled
+			with JBoss Application Server 5. For installation of
+			Standalone Mobicents Media Server, refer to <a class="xref" href="#">???</a>
+		</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-PreInstall_Requirements_and_Prerequisites"/>2.2.1. Pre-Install Requirements and Prerequisites</h3></div></div></div><p>
+				Ensure that the following requirements have been met
+				before continuing with the installation.
+			</p><div class="variablelist"><a id="itms-binary-JBoss_Media_Server-Hardware_Requirements"/><p class="title"><strong>Hardware Requirements</strong></p><dl class="variablelist"><dt><span class="term">Sufficient Disk Space</span></dt><dd><p>
+							Once unzipped, the JBoss AS embedded Media
+							Server binary release requires
+							<span class="emphasis"><em>at least</em></span>
+							110 MB
+							of free disk space. Keep in mind that disk
+							space requirements may change in future iterations.
+						</p></dd><dt><span class="term">Anything built for Java</span></dt><dd><p>
+							The JBoss embedded Media Server and its
+							bundled servers, JBoss, are 100% Java. The
+							Media Server will run on the same hardware
+							that the JBoss Application Server runs on.
+						</p></dd></dl></div><div class="variablelist"><a id="itms-binary-JBoss_Media_Server-Software_Prerequisites"/><p class="title"><strong>Software Prerequisites</strong></p><dl class="variablelist"><dt><span class="term">JDK 5 or Higher</span></dt><dd><p>
+							A working installation of the Java
+							Development Kit (
+							<acronym class="acronym">JDK</acronym>
+							) version 5 or higher is required in order
+							to run the JBoss embedded Media Server. Note
+							that the JBoss Application Server is a
+							runtime dependency of the Media Server and,
+							as mentioned, comes bundled with the binary
+							distribution.
+						</p></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Downloading"/>2.2.2. Downloading</h3></div></div></div><p>
+				The latest version of the JBoss embedded Media Server is
+				available from
+				<a class="ulink" href="http://www.mobicents.org/mms-downloads.html">http://www.mobicents.org/mms-downloads.html</a>
+				. The top row of the table holds the latest version.
+				Click the
+				<code class="literal">Download</code>
+				link to start the download.
+			</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Installing"/>2.2.3. Installing</h3></div></div></div><p>
+				Once the requirements and prerequisites have been met,
+				the JBoss embedded Media Server can be installed onto
+				the system. Follow the instructions below for the
+				operating system on which the server will reside.
+			</p><div class="procedure"><a id="d0e1330"/><p class="title"><strong>Procedure 2.3. 
+					Installing the JBoss embedded Media Server Binary
+					Distribution on Linux
+				</strong></p><p>
+					It is assumed that the downloaded archive is saved
+					in the home directory, and that a terminal window is
+					open displaying the home directory.
+				</p><ol class="procedure" type="1"><li class="step"><p>
+						Create a subdirectory into which the files can be extracted.
+						For ease of identification, it is recommended
+						that the version number of the binary is
+						included in this directory name.
+					</p><pre class="screen">~]$ mkdir <span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>
+						Move the downloaded zip file into the directory:
+					</p><pre class="screen">~]$ mv <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span> <span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>Move into the directory:</p><pre class="screen">~]$ cd	<span class="quote">“<span class="quote">ms-<em class="replaceable"><code>&lt;version&gt;</code></em></span>”</span></pre></li><li class="step"><p>
+						Extract the files into the current directory by
+						executing one of the following commands.
+						</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+									Java:
+									</p><pre class="screen">ms-<em class="replaceable"><code>&lt;version&gt;</code></em>]$ jar -xvf <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span></pre><p>
+								</p></li><li class="listitem"><p>
+									Linux:
+									</p><pre class="screen">ms-&lt;version&gt;]$ unzip "mms-3.0.0.FINAL.zip"</pre><p>
+								</p></li></ul></div><p>
+						</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+								Alternatively, use
+								<span class="command"><strong>unzip</strong></span>
+								-d &lt;unzip_to_location&gt; to extract
+								the zip file's contents to a location
+								other than the current directory.
+							</p></div><p>
+					</p></li><li class="step"><p>
+						Consider deleting the archive, if free disk
+						space is an issue.
+					</p><pre class="screen">ms-<em class="replaceable"><code>&lt;version&gt;</code></em>]$ rm <span class="quote">“<span class="quote">mms-3.0.0.FINAL.zip</span>”</span></pre></li></ol></div><div class="procedure"><a id="d0e1404"/><p class="title"><strong>Procedure 2.4. 
+					Installing the JBoss embedded Media Server Binary
+					Distribution on Windows
+				</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						For this procedure, it is assumed that the
+						downloaded archive is saved in the
+						<code class="filename">My Downloads</code>
+						folder. You can also choose any convenient folder of your choice.
+					</p></li><li class="step"><p>
+						Create a subfolder in
+						<code class="filename">My Downloads</code>
+						to extract the zip file's contents into. For
+						ease of identification, it is recommended that
+						the version number of the binary is included in
+						the folder name. For example,
+						<code class="filename">ms-&lt;version&gt;</code>
+						.
+					</p></li><li class="step"><p>
+						Extract the contents of the archive, specifying
+						the destination folder as the one created in the
+						previous step.
+					</p></li><li class="step"><p>
+						Alternatively, execute the
+						<span class="command"><strong>jar -xvf</strong></span>
+						command to extract the binary distribution files
+						from the zip archive.
+					</p><div class="orderedlist"><ol class="orderedlist" type="1"><li class="listitem"><p>
+								Move the downloaded zip file from
+								<code class="filename">My Downloads</code>
+								to the folder created in the previous
+								step.
+							</p></li><li class="listitem"><p>
+								Open the Windows Command Prompt and
+								navigate to the folder that contains the
+								archive using the
+								<span class="command"><strong>cd</strong></span>
+								command
+							</p></li><li class="listitem"><p>
+								Execute the
+								<span class="command"><strong>jar -xvf</strong></span>
+								command to extract the archive contents
+								into the current folder.
+							</p><pre class="screen">C:\Users\&lt;user&gt;\My Downloads\ms-&lt;version&gt;\jar -xvf "mms-3.0.0.FINAL.zip"</pre></li></ol></div></li><li class="step"><p>
+						It is recommended that the folder holding the
+						JBoss embedded Media Server files (in this
+						example, the folder named
+						<code class="filename">
+							ms-
+							<em class="replaceable"><code>&lt;version&gt;</code></em>
+						</code>
+						) is moved to a user-defined location for
+						storing executable programs. For example, the
+						<code class="filename">Program Files</code>
+						folder.
+					</p></li><li class="step"><p>
+						Consider deleting the archive, if free disk
+						space is an issue.
+					</p><pre class="screen">C:\Users\&lt;user&gt;\My Downloads\ms-&lt;version&gt;\delete "mms-3.0.0.FINAL.zip" </pre></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-binary-JBoss_Media_Server-Running"/>2.2.4. Running</h3></div></div></div><p>
+				In the Linux terminal or Windows command prompt, the
+				JBoss embedded Media Server has started successfully if
+				the last line of output is similar to the following
+				(ending with
+				<span class="quote">“<span class="quote">Started in 23s:648ms</span>”</span>
+				):
+			</p><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">11:27:34,663 INFO  [ServerImpl] JBoss (Microcontainer) [5.1.0.GA (build: SVNTag=JBoss_5_1_0_GA date=200905221053)] Started in 37s:637ms</pre><div class="procedure"><a id="d0e1480"/><p class="title"><strong>Procedure 2.5. Running the Media Server on Linux</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						Change the working directory to installation
+						directory (the one into which the zip file's
+						contents was extracted)
+					</p><pre class="screen">
+						downloads]$ cd "mms-server"
+					</pre></li><li class="step"><p>
+						(Optional) Ensure that the
+						<code class="filename">bin/run.sh</code>
+						start script is executable.
+					</p><pre class="screen">ms-&lt;version&gt;]$ chmod +x bin/run.sh</pre></li><li class="step"><p>
+						Execute the
+						<code class="filename">run.sh</code>
+						Bourne shell script.
+					</p><pre class="screen">ms-&lt;version&gt;]$ ./bin/run.sh</pre></li></ol></div><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+					Instead of executing the Bourne shell script to
+					start the server, the
+					<code class="filename">run.jar</code>
+					executable Java archive can be executed from the
+					<code class="filename">bin</code>
+					directory:
+				</p><pre class="screen">ms-&lt;version&gt;]$ java -jar bin/run.jar</pre></div><div class="procedure"><a id="d0e1515"/><p class="title"><strong>Procedure 2.6. 
+					Running the JBoss embedded Media Server on
+					<span class="productname">Windows</span>™
+				</strong></p><ol class="procedure" type="1"><li class="step"><p>
+						Using Windows Explorer, navigate to the
+						<code class="filename">bin</code>
+						subfolder in the installation directory.
+					</p></li><li class="step"><p>
+						The preferred way to start the JBoss embedded
+						Media Server is from the Command Prompt. The
+						command line interface displays details of the
+						startup process, including any problems
+						encountered during the startup process.
+					</p><p>
+						Open the Command Prompt via the
+						<span class="guilabel">Start</span>
+						menu and navigate to the correct folder:
+					</p><pre class="screen">C:\Users\&lt;user&gt;\My	Downloads&gt; cd "mms-server"</pre></li><li class="step"><p>
+						Start the JBoss Application Server by executing
+						one of the following files:
+						</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+									<code class="filename">run.bat</code>
+									batch file:
+								</p><pre class="screen">C:\Users\&lt;user&gt;\My	Downloads\ms-&lt;version&gt;&gt;bin\run.bat</pre></li><li class="listitem"><p>
+									<code class="filename">run.jar</code>
+									executable Java archive:
+								</p><pre class="screen">C:\Users\&lt;user&gt;My Downloads\ms-&lt;version&gt;&gt;java -jar bin\run.jar</pre></li></ul></div><p>
+					</p></li></ol></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-JBoss_Server_Structure"/>2.2.5. Server Structure</h3></div></div></div><p>
+				Now the server is installed, it is important to
+				understand the layout of the server directories. An
+				understanding of the server structure is useful when
+				deploying examples, and making configuration changes. It
+				is also useful to understand what components can be
+				removed to reduce the server boot time.
+			</p><p>
+				The directory structure in the JBoss embedded Media
+				Server installation directory is named using a standard
+				structure.
+				<a class="xref" href="#tab-mms-JBoss_Directory-Structure" title="Table 2.1. Directory Structure">Table 2.1, “Directory Structure”</a>
+				describes each directory, and the type of information
+				contained within each location.
+			</p><div class="table"><a id="tab-mms-JBoss_Directory-Structure"/><p class="title"><strong>Table 2.1. Directory Structure</strong></p><div class="table-contents"><table summary="Directory Structure" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/></colgroup><thead><tr><th align="center">Directory Name</th><th align="center">Description</th></tr></thead><tbody><tr><td align="left">bin</td><td align="left">
+								Contains the entry point JARs and
+								start-up scripts included with the Media
+								Server distribution.
+							</td></tr><tr><td align="left">conf</td><td align="left">
+								Contains the core services that are
+								required for the server. This includes
+								the bootstrap descriptor, log files, and
+								the default bootstrap-beans.xml
+								configuration file.
+							</td></tr><tr><td align="left">deploy</td><td align="left">
+								Contains the dynamic deployment content
+								required by the hot deployment service.
+								The deploy location can be overridden by
+								specifying a location in the URL
+								attribute of the URLDeploymentScanner
+								configuration item.
+							</td></tr><tr><td align="left">lib</td><td align="left">
+								Contains the startup JAR files used by
+								the server.
+							</td></tr><tr><td align="left">log</td><td align="left">
+								Contains the logs from the bootstrap
+								logging service. The
+								<code class="filename">log</code>
+								directory is the default directory into
+								which the bootstrap logging service
+								places its logs, however, the location
+								can be overridden by altering the
+								log4j.xml configuration file. This file
+								is located in the
+								<code class="filename">/conf</code>
+								directory.
+							</td></tr></tbody></table></div></div><br class="table-break"/><p>
+				The Media Server uses a number of XML configuration
+				files that control various aspects of the server. In case of embedded Media Server all the files related Media Server are placed in 
+				mms-jboss-5.1.0.GA-&lt;version&gt;/jboss-5.1.0.GA/server/default/deploy/mobicents-media-server
+				<a class="xref" href="#tab-mms-JBoss_Core_Configuration_File_Set" title="Table 2.2. Core Configuration File Set">Table 2.2, “Core Configuration File Set”</a>
+				describes the location of the key configuration files,
+				and provides a description of the
+			</p><div class="table"><a id="tab-mms-JBoss_Core_Configuration_File_Set"/><p class="title"><strong>Table 2.2. Core Configuration File Set</strong></p><div class="table-contents"><table summary="Core Configuration File Set" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/></colgroup><thead><tr><th align="center">
+								File Name and Location
+							</th><th align="center">Description</th></tr></thead><tbody><tr><td align="left">conf/bootstrap-beans.xml</td><td align="left">
+								Specifies which additional microcontainer
+deployments are loaded as part of the
+bootstrap phase. bootstrap-beans.xml
+references other configuration files contained
+in the <code class="filename">/conf/bootstrap/</code> directory. For
+a standard configuration, the bootstrap
+configuration files require no alteration.
+							</td></tr><tr><td align="left">conf/log4j.properties</td><td align="left">
+								Specifies the Apache log4j framework
+category priorities and appenders used by the
+Media Server.
+							</td></tr><tr><td align="left">conf/mgcp-conf.xml</td><td align="left">
+								Specifies the configuration for the MGCP
+controller.
+							</td></tr><tr><td align="left">deploy/server-beans.xml</td><td align="left">
+								Configuration file for mms.For more
+information please see chapter 3.
+							</td></tr></tbody></table></div></div><br class="table-break"/></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="itms-Writing_and_Running_Tests_Against_the_Media_Server"/>2.2.6. 
+			Writing and Running Tests Against the Media Server
+		</h3></div></div></div><p>
+			For information about the different kinds of tests that the
+			Media Server provides, refer to
+			<a class="ulink" href="http://groups.google.com/group/mobicents-public/web/mobicents-ms-tests">
+				Writing and Running Tests Against MMS
+			</a>
+			
+		</p></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="ctms-Configuring_the_Media_Server"/>Chapter 3. Configuring the Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d0e1668">3.1. 
+	System clock and scheduler
+	</a></span></dt><dt><span class="section"><a href="#d0e1682">3.2. 
+UDP Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1692">3.2.1. 
+ bindAddress and localBindAddress.
+</a></span></dt><dt><span class="section"><a href="#d0e1705">3.2.2. 
+LocalNetwork, localSubnet and useSbc.
+</a></span></dt><dt><span class="section"><a href="#d0e1714">3.2.3. 
+RtpTimeout
+</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1731">3.3. 
+	SS7 Channels Manager
+	</a></span></dt><dt><span class="section"><a href="#d0e1770">3.4. 
+Channel Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1783">3.4.1. 
+Jitter buffer size
+</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1790">3.5. 
+DSP Factory
+</a></span></dt><dt><span class="section"><a href="#d0e1834">3.6. 
+	 Resource Pool
+	 </a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1861">3.6.1.  DtmfDetectorDbi</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1866">3.7. 
+MGCP Controller
+
+</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1876">3.7.1. 
+	Port Parameter
+	</a></span></dt><dt><span class="section"><a href="#d0e1881">3.7.2. Configuration parameter</a></span></dt><dt><span class="section"><a href="#d0e1889">3.7.3. Pool Size</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1894">3.8. 
+		Media Server
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e1904">3.8.1. 
+		Heartbeat Time
+		</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e1909">3.9. 
+		Endpoints
+		</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2029">3.9.1. 
+	startChannelID
+	</a></span></dt><dt><span class="section"><a href="#d0e2034">3.9.2.  Channels Manager</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1668"/>3.1. 
+	System clock and scheduler
+	</h2></div></div></div><p>
+	Scheduler is the core component of Media Server. It is responsible for organizing all tasks
+executed by the media server and executing them. Current scheduler implementation is a time wheel
+like implementation. All tasks are executed in 20ms cycle which is best optimized for audio.
+
+</p><p>
+Clock is the class that implements basic clock settings, providing current time and translations
+needed between time unit and time.
+	</p><p>
+	Configuration changes are required only in case you want to develop your own version of scheduler/clock.
+	</p><div class="example"><a id="system-clock-scheduler"/><p class="title"><strong>Example 3.1. System Clock and Scheduler</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+&lt;!-- System clock --&gt;
+&lt;bean name="SystemClock" class="org.mobicents.media.server.scheduler.DefaultClock"/&gt;
+
+&lt;!-- EDF scheduler --&gt;
+&lt;bean name="Scheduler" class="org.mobicents.media.server.scheduler.Scheduler"&gt;
+&lt;property name="clock"&gt;&lt;inject bean="SystemClock"/&gt;&lt;/property&gt;
+&lt;/bean&gt;
+			</pre></div></div><br class="example-break"/></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1682"/>3.2. 
+UDP Manager
+</h2></div></div></div><p>
+UDP manager is responsible for receiving all the data that comes through UDP channels to the Media Server, including RTP packets and control protocol packets, like MGCP.
+</p><div class="example"><a id="UDP-manager"/><p class="title"><strong>Example 3.2. UDP Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+
+&lt;!-- Network interfaces definition --&gt;
+&lt;bean name="localhost" class="org.mobicents.media.server.io.network.UdpManager"&gt;
+&lt;constructor&gt;
+&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+&lt;/constructor&gt;
+&lt;property name="bindAddress"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localBindAddress"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localNetwork"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localSubnet"&gt;255.255.255.255&lt;/property&gt;
+&lt;property name="useSbc"&gt;false&lt;/property&gt;
+&lt;property name="rtpTimeout"&gt;0&lt;/property&gt;
+&lt;/bean&gt;
+ 
+			</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1692"/>3.2.1. 
+ bindAddress and localBindAddress.
+</h3></div></div></div><p>
+Current release of MMS allows 2 network interfaces, a local and a remote interface. By default all RTP
+channels are opened on bindAddress, while MGCP control interface starts on localBindAddress.
+Using both interfaces is useful in the following scenarios:
+</p><p>
+When you want to separate control traffic from data traffic.
+</p><p>
+When you want an SBC like border media server, in this case, the remote interface will send/
+receive data from the UA. The local interface will be used for inter-server traffic and control traffic (MGCP).
+</p><p>
+To establish RTP connection on local interface, you should add TypeOfNetwork.Local local
+connection option to CRCX (create connection) of MGCPrequest.
+</p><p>
+Any RTP connection that will be opened on remote interface will have jitter buffer enabled , while
+any RTP connection that will be opened on local interface will have jitter buffer disabled.
+
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1705"/>3.2.2. 
+LocalNetwork, localSubnet and useSbc.
+</h3></div></div></div><p>
+
+Media server can work in 2 modes : SBC mode and standard mode.
+</p><p>
+
+When useSbc is set to false, MMS will establish a channel based on address/port pair it receives
+from SDP. However, RTP packet is used within a NAT context, data sent in SDP is the
+original data and not the natted IP address/port (this is often the scenario). Furthermore, when useSbc
+is set to false, data will be sent to invalid address and also will not be accepted since MMS does not
+know the correct address of UA. 
+</p><p>
+In order to resolve the above mentioned issue, you  should set useSbc to true. 
+As a result, MMS will wait for first RTP packet; learn remote IP address port and then will send
+data based on learned address and not on SDP data. That said, inter-server traffic will not work since
+ both sides will be waiting for first packet. To resolve this,  you should set local network and local 
+ subnet to range that will include all your media servers. If the media server detects that the IP address and port 
+ in SDP are within the local IP network range, it will start sending packets immediately and not wait. This is similar to when useSbc is set to false.
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1714"/>3.2.3. 
+RtpTimeout
+</h3></div></div></div><p>
+
+Most SIP UA do not support any type of keepalive between 200 OK and BYE response/
+request. Therefore, if the network goes down while a call is established, the call may hang forever.
+That is why RTP traffic should always be sent (the exception to this rule is during recvonly and inactive modes).
+ With the this in mind, MMS enables RTP timeout parameter.
+ </p><p>
+ When RtpTimeout is set to greater than 0,  MMS will monitor RTP traffic
+and if it finds period equal or greater then the RTP timeout ( in seconds ) it will delete connection
+and notify controlling server that connection was removed ( by sending DLCX MGCP command
+). Consequently, any border server will receive a reliable notification that the call is still alive even when the
+communication network is no longer available.
+</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+Note that while enabling RTP timeout, it is recommended that you do not set the mode to inactive/
+sendonly when you expect to receive data (after 180 or 200 OK) depending on your application
+</p></div><div class="example"><a id="call-flow-scenario"/><p class="title"><strong>Example 3.3. Call Flow</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+Similar call flow may be like this
+
+UA ----&gt; INVITE ----&gt; Control Server
+Control Server ----&gt; CRCX with mode inactive ----&gt; Media Server
+Control Server ----&gt; INVITE ----&gt; inside network or to other side
+Inside network or other side ----&gt; 183 with SDP ----&gt; Control Server
+Control Server ---&gt; MDCX with mode sendonly ---&gt; Media Server
+Control Server ---&gt; 183 with SDP ----&gt; UA
+Inside network or other side ----&gt; 200 ----&gt; Control Server
+Control Server ---&gt; MDCX with mode sendrecv ---&gt; Media Server
+Control Server ---&gt; 200 ----&gt; UA
+ 
+			</pre></div></div><br class="example-break"/><p>
+
+In case of 180 or 183 without SDP response , intermediate MDCX is not required.
+</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1731"/>3.3. 
+	SS7 Channels Manager
+	</h2></div></div></div><p>
+	
+	Current release of Media Server supports SS7 channels(DS0 ) makes it possible to communicate with old
+	PSTN networks.
+	</p><p>
+	To allow SS7 B channels to be used, you must install and configure your card properly and enable
+	SS7 manager, dahdi native driver and configure DS0 channels on Media Server. By default SS7 is disabled.
+	</p><p>
+	
+	Below you can see the SS7 manager example configuration. Changes are required only when you
+	want to implement your own version of the manager.
+	
+	</p><div class="example"><a id="channel-manager"/><p class="title"><strong>Example 3.4. Channel Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	  &lt;!-- SS7 interface definition --&gt;
+	
+	&lt;!--
+	&lt;bean name="SS7" class="org.mobicents.media.server.io.ss7.SS7&gt;
+	&lt;constructor&gt;
+	&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+	&lt;/constructor&gt;
+	&lt;/bean&gt;
+	--&gt;
+	  
+				</pre></div></div><br class="example-break"/><p>
+	To compile and create dahdi native library you must get a Media Server code from
+	<a class="ulink" href="http://code.google.com/p/mediaserver/source">http://code.google.com/p/mediaserver/source 
+	</a> by using a GIT
+	</p><p>
+	Once you have the source, you need to build it using Maven from a terminal console as shown below:
+	</p><pre class="screen">
+	 mvn clean install –pdahdilinux
+	</pre>
+	Under <code class="filename">bootstrap/target/mms-server </code> you will have a newly compiled version of media server. 
+	There will be a native dahdi driver included in the sub-directories
+	
+		<div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>
+		Known Issues
+		</h2><p>
+		Currently only dahdi based cards are supported
+		Only linux OS is supported for SS7
+		</p></div><p>
+	You must compile Media Server on the production server on which it will be used. 
+	This must be done for each server that you plan to put in service.
+	</p><p>
+	For help on configuring DS0 channels please see <a class="xref" href="#endpoints-config" title="Example 3.10. Endpoints Configuration">Example 3.10, “Endpoints Configuration”</a> .
+	</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1770"/>3.4. 
+Channel Manager
+</h2></div></div></div><p>
+
+Channel manager is responsible for creating all data channels on media server(RTP data channel ,
+local channel and SS7 channel).
+</p><p>
+Below you can see default configuration. By default, SS7 is disabled and should be enabled only in
+case you want to use DS0 channels. Apart from SS7, no other configuration changes are required.
+
+	</p><div class="example"><a id="Channels-manager"/><p class="title"><strong>Example 3.5. Channel Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+		&lt;!-- Channels manager definition --&gt;
+		&lt;bean name="channelsManager"
+		class="org.mobicents.media.server.impl.rtp.ChannelsManager"&gt;
+		&lt;constructor&gt;
+		&lt;parameter&gt;&lt;inject bean="localhost"/&gt;&lt;/parameter&gt;
+		&lt;/constructor&gt;
+		&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler" /&gt;&lt;/property&gt;
+		&lt;property name="jitterBufferSize"&gt;50&lt;/property&gt;
+		&lt;!--&lt;property name="SS7Manager" &gt; &lt;inject bean="SS7" /&gt;&lt;/property&gt;--&gt;
+		&lt;/bean&gt;
+		</pre></div></div><p><br class="example-break"/>
+</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1783"/>3.4.1. 
+Jitter buffer size
+</h3></div></div></div><p>
+
+Jitter buffer size parameter allows you to set the jitter buffer in milliseconds. 
+Please see the <a class="xref" href="#Channels-manager" title="Example 3.5. Channel Manager">Example 3.5, “Channel Manager”</a> for details about configuring jitterBufferSize.
+</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1790"/>3.5. 
+DSP Factory
+</h2></div></div></div><p>
+DSP factory allows transcoding between different codecs. Currently media server comes with 5 codecs :
+G711 A/U, Linear PCM Raw, GSM and G.729.  ILBC codec is currently being worked on and will 
+be released in future iterations of the Media Server.
+</p><p>
+By default, only 3 are enabled : G711A/U and linear.
+</p><div class="example"><a id="default-codecs"/><p class="title"><strong>Example 3.6. Default Codecs</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	 &lt;!-- Signal processor factory --&gt;
+		&lt;bean name="DSP" class="org.mobicents.media.server.component.DspFactoryImpl"&gt;
+		&lt;property name="codecs"&gt;
+		&lt;list value-type="java.lang.String"&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.l16.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.l16.Decoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.alaw.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.alaw.Decoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.ulaw.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.ulaw.Decoder&lt;/value&gt;
+		&lt;/list&gt;
+		&lt;/property&gt;
+		&lt;/bean&gt;
+		
+	</pre></div></div><br class="example-break"/><p>
+		To enable G729 codec you should add the following values :
+		</p><pre class="screen">
+		<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g729.Encoder&lt;/value&gt;</span>
+		<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio. g729.Decoder&lt;/value&gt;</span>
+		</pre><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>G.729 usage</h2><p>
+			Please note that a valid license is required to use G.729 , therefore you should purchase a license prior to
+			enabling this codec.
+			</p></div><p>
+To enable GSM codec you should add the following values :
+</p><pre class="screen">
+
+<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.gsm.Encoder&lt;/value&gt;</span>
+<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.gsm.Decoder&lt;/value&gt;</span>
+</pre><p>
+	If you decide to use a single codec for encoding or decoding data, you should leave one RAW or 2 Raw pair. 
+	This is useful only in case of a one way activity.
+	</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Use of L16 codec</h2><p>
+	L16 codec is useful only in server to server communication where you have enough
+	network bandwidth. It is not recommended to allow L16 codec for UA – server connections, this can
+	lead to degradation of the signal quality due to increased jitter and packet loss.
+	</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1834"/>3.6. 
+	 Resource Pool
+	 </h2></div></div></div><p>
+	
+	In the current Media Server release, global pool of resources is used to decrease garbage collection and allow
+	faster resources allocation. Any resource may be used by any endpoint. For example, RTP connection 1
+	may be for endpoint 1 and then released and reused by endpoint 2.
+	
+	 </p><p>
+	 
+	You can see default configuration below :
+	 </p><div class="example"><a id="default-codec-config"/><p class="title"><strong>Example 3.7. Default Codecs</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	  &lt;!-- Resources pool definition --&gt;
+		&lt;bean name="resourcesPool" class="org.mobicents.media.core.ResourcesPool"&gt;
+		&lt;constructor&gt;
+		&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+		&lt;parameter&gt;&lt;inject bean="channelsManager"/&gt;&lt;/parameter&gt;
+		&lt;parameter&gt;&lt;inject bean="DSP"/&gt;&lt;/parameter&gt;
+		&lt;/constructor&gt;
+		&lt;property name="defaultPlayers"&gt;5&lt;/property&gt;
+		&lt;property name="defaultRecorders"&gt;5&lt;/property&gt;
+		&lt;property name="defaultDtmfDetectors"&gt;5&lt;/property&gt;
+		&lt;property name="defaultDtmfGenerators"&gt;0&lt;/property&gt;
+		&lt;property name="defaultSignalDetectors"&gt;0&lt;/property&gt;
+		&lt;property name="defaultSignalGenerators"&gt;0&lt;/property&gt;
+		&lt;property name="defaultLocalConnections"&gt;10&lt;/property&gt;
+		&lt;property name="defaultRemoteConnections"&gt;10&lt;/property&gt;
+		&lt;property name="dtmfDetectorDbi"&gt;-35&lt;/property&gt;
+		&lt;/bean&gt;
+	  
+	</pre></div></div><br class="example-break"/><p>
+			As can be seen above, the default pool size is configured for player(audio player),
+			 recorder (audio recorder), DTMF generator (for generation out of band DTMF tones through sl MGCP package ),
+			  DTMF detector(to detect both inband/out of band tones), signal detector(used to detect ss7 tones) and signal
+generator(used to generate ss7 tones).
+</p><p>
+		Signal detector and signal generator are currently used only for connectivity tests for DS0 channel (COT
+		isup signal), CO1, CO2, CT( Continuity transport ) and Loopback test modes are supported by the Media Server. 
+		</p><p>
+		For more information please see <a class="xref" href="#">???</a> 
+		</p><p>
+		Local connections and remote connections pools are also configured here.
+		</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>When the specified resource type is not available</h2><p>
+		Please note that a resource will be automatically allocated if the specified resource type is not available in the resource pool. This will require more memory allocation and in some cases may impact performance. The more resources you have preconfigured on startup in the resource pool, the more memory the media server will require on startup. Its up to you to decide the best trade-off for your setup( greater memory usage on startup vs slower response when new resources are required in runtime )
+		 </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1861"/>3.6.1.  DtmfDetectorDbi</h3></div></div></div><p>
+		Often, audio data is mixed with DTMF inband tones. As a result, Media Server may detect false positive
+		tones, or it may not detect tones which are sent. By setting DTMF detector dbi parameter, 
+		you can optimize tone detection for your server. If you have problems with inband DTMF detection, 
+		you can fine-tune this parameter. However, default value has been tested and found to be the most 
+		appropriate. For best results it, is recommended that you use inband tones only in SS7/IP mixed network.
+		Out-of-band tones are recommended for IP only networks.
+			</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1866"/>3.7. 
+MGCP Controller
+
+</h2></div></div></div><p>
+
+The controller is the main component that allows MGCP control protocol. Enabling MGCP is always required
+as the jsr-309 implementation is based on the current MGCP implementation.
+</p><div class="example"><a id="mgcp-controller"/><p class="title"><strong>Example 3.8. MGCP Controller</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+		
+		&lt;!-- MGCP Controller definition --&gt;
+		&lt;bean name="MGCP" class ="org.mobicents.media.server.mgcp.controller.Controller"&gt;
+		&lt;property name="udpInterface"&gt;&lt;inject bean="localhost"/&gt;&lt;/property&gt;
+		&lt;property name="port"&gt;2427&lt;/property&gt;
+		&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler"/&gt;&lt;/property&gt;
+		&lt;property name="server"&gt;&lt;inject bean="MediaServer"/&gt;&lt;/property&gt;
+		&lt;property name="configuration"&gt;mgcp-conf.xml&lt;/property&gt;
+		&lt;property name="poolSize"&gt;25&lt;/property&gt;
+		&lt;/bean&gt;
+	 
+		</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1876"/>3.7.1. 
+	Port Parameter
+	</h3></div></div></div><p>
+	UDP port is used for MGCP traffic. By default, it is set to 2427. However you can change it to whatever you
+	want to. Note that you will have to change your control server configuration/code in case you decide to 
+	use a number different from the default.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1881"/>3.7.2. Configuration parameter</h3></div></div></div><p>
+		Configuration parameter points to the xml file located in <code class="filename"> conf</code> directory which configures MGCP packages,
+		signals and packages mapping to endpoints.
+		</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1889"/>3.7.3. Pool Size</h3></div></div></div><p>Pool Size is the size of MGCP requests that Media Server will handle concurrently. 
+		The current MGCP offers better performance and ensures that new elements are allocated when there
+		isn't enough in the pool (most requests are executed under 4ms). That said, RQNT can take up 20ms.
+		 </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1894"/>3.8. 
+		Media Server
+		</h2></div></div></div><p>
+		
+		Media server component is the core of the software. Its job is to start all the elements
+		and stop them when the Media Server is stopped.
+		It is recommended that you only change the heartBeatTime parameter if required and leave the rest
+		as default.</p><div class="example"><a id="Media-server"/><p class="title"><strong>Example 3.9. MGCP Controller</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+			&lt;!-- Media Server --&gt;
+			&lt;bean name="MediaServer" class="org.mobicents.media.core.Server"&gt;
+			&lt;property name="clock"&gt;&lt;inject bean="SystemClock"/&gt;&lt;/property&gt;
+			&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler"/&gt;&lt;/property&gt;
+			&lt;property name="udpManager"&gt;&lt;inject bean="localhost"/&gt;&lt;/property&gt;
+			&lt;property name="resourcesPool"&gt;&lt;inject bean="resourcesPool"/&gt;&lt;/property&gt;
+			&lt;property name="heartBeatTime"&gt;0&lt;/property&gt;
+			&lt;incallback method="addInstaller"/&gt;
+			&lt;uncallback method="removeInstaller"/&gt;
+			&lt;/bean&gt;
+		</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1904"/>3.8.1. 
+		Heartbeat Time
+		</h3></div></div></div><p>
+		When you need to debug Media Server, you can set heartBeatTime to a specific value(in seconds). In
+		this case, on each heartBeatTime period, MMS will write one raw to log and will notify that it is alive. This is
+		useful when you suspect communication problems with the Media Server. It will help you
+		get closer to the source of the problem. Enabling hearbeat will let you know if the server is up and running.
+		</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1909"/>3.9. 
+		Endpoints
+		</h2></div></div></div><p>
+		
+		Endpoints configuration allows you to configure all MGCP endpoints groups you want to use with
+		the Media Server instance. For all endpoints types, you can configure the initial size. This value will determine
+		 the number of endpoints that are preloaded on startup. If all available endpoints are used and a request for 
+		 additional endpoint is received, Media Server will allocate a new endpoint and store it in a resource pool. 
+		 The only exception to this rule is DS0 endpoint type. The DS0 endpoint can not be increased as it is directly related to the number
+		of channels available on an E1/T1 card.</p><p>
+		NamePattern is the name to use for all MGCP requests. Note that an integer value will
+		be appended to the name used. For example, a NamePattern called "mobicents/aap" will be 
+		created and accessed as "mobicents/aap/$" (where $ is an interger). 
+	  </p><p>
+		Class is the class of installer. Currently 2 types of installers are available :
+		<code class="filename">VirtualEndpointInstaller</code> which allows you to install most endpoints and
+		<code class="filename">VirtualSS7EndpointInstaller</code> which is used for DS0 endpoints.
+		</p><p>
+		Endpoint class – defines the class which implements endpoints.
+		</p><p>
+		Currently, the following endpoint classes are available :
+		</p><div class="table"><a id="d0e1928"/><p class="title"><strong>Table 3.1. Endpoint Classes</strong></p><div class="table-contents"><table summary="Endpoint Classes" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/><col align="left" class="c3"/><col/></colgroup><thead><tr><th align="left">Endpoint Class</th><th align="left">Available Resources</th><th align="left">Connection Types</th><th align="left">Types</th></tr></thead><tbody><tr><td align="left">org.mobicents.media.core.endpoints.impl.AnnouncementEndpoint</td><td align="left">Player</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.IvrEndpoint</td><td align="left">Player,Recorder,Dtmf
+	Detector,Dtmf Generator</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.ConferenceEndpoint</td><td align="left">None</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.BridgeEndpoint </td><td align="left"> None</td><td align="left">Local+RTP</td><td align="left">Splitter</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.PacketRelayEndpoint</td><td align="left">None</td><td align="left">RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.Ds0Endpoint</td><td align="left">Signal Detector ,Signal
+	Generator</td><td align="left">Local+RTP</td><td align="left">Splitter</td></tr></tbody></table></div></div><br class="table-break"/><p>
+Mixer Type means all connections and resources data will be mixed together. This implies that 
+ it will still be available even without the appropriate setting mode.
+</p><p>
+Bridge endpoint is not the same as the MGCP standard endpoint type. This means that there
+are 2 resources groups. The first group uses local connections whereas the second group uses RTP connections.
+This implies that non RTP connections can communicate with RTP endpoints and none local connections can still
+access local endpoints. The Bridge endpoint type is useful in the scenarios shown below:
+</p><div class="mediaobject" align="center"><a id="mms-bride-endpoint-ivr-conf"/><img src="images/bridge-endpoint-ivr-conference.png" align="middle"/></div><p>
+IVR and Conference endpoints will be connected through Local connection pair to Bridge Endpoint (which is recommended). There will be no cross over of IVR Resources ( player , recorder , etc ) to conference. The same applies to any conference traffic, it will not cross over to IVR. This is useful for recording RTP data for specific groups of users.
+</p><p>
+DS0 endpoint is a type Splitter. All connections, signal detector and signal generator are in group 1, 
+while signalling channel SS7 is placed in group 2. That means that any SS7 channel data 
+will be sent to any connection and signal detector, while data
+from signal generator and any connection will be sent only to SS7 channel.
+</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Endpoint Groups</h2><p>
+In order to configure multiple groups of endpoints of the same type per Media Server instance, you must change
+the name of each group.
+</p></div><p>
+Below you can see an example for endpoints configuration
+</p><div class="example"><a id="endpoints-config"/><p class="title"><strong>Example 3.10. Endpoints Configuration</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+			 &lt;!-- Endpoints --&gt;
+&lt;bean name="Announcement"
+class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/aap/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.AnnouncementEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;1&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="IVR" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/ivr/&lt;/property&gt;
+&lt;property name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.IvrEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+
+&lt;/bean&gt;
+
+&lt;bean name="CNF" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/cnf/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.ConferenceEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="Bridge" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/bridge/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.BridgeEndpoint&lt;/property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="Relay" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/relay/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.PacketRelayEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;1&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;!-- DS0 Endpoints configuration sample --&gt;
+&lt;!--&lt;bean name="DS0"
+class="org.mobicents.media.core.endpoints.VirtualSS7EndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/ds0/&lt;/property&gt;
+&lt;property name="channelsManager"&gt;&lt;inject bean="channelsManager"/&gt;&lt;/property&gt;
+&lt;property name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.Ds0Endpoint&lt;/
+property&gt;
+&lt;property name="startChannelID"&gt;125&lt;/property&gt;
+&lt;property name="initialSize"&gt;15&lt;/property&gt;
+&lt;property name="isALaw"&gt;true&lt;/property&gt;
+&lt;/bean&gt;--&gt;
+			 
+		</pre></div></div><br class="example-break"/><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>SS7 Default</h2><p>
+		 SS7 ( DS0 ) endpoints are disabled by default. There are additional configurable parameters.
+		</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2029"/>3.9.1. 
+	startChannelID
+	</h3></div></div></div><p>
+	Start channel id is the first CIC number. For example, if you have 4E1 card and want to allocate to specific
+	group 50 channels starting from channel 5, on E1 number 2 , you will have to set start channel id to 35 (
+	30 channels per E1) and initial Size to 50. Once agai, the number of DS0 will not be increased by Media Server.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2034"/>3.9.2.  Channels Manager</h3></div></div></div><p>
+		Channels manager is the bean mention in the section  <a class="xref" href="#channel-manager" title="Example 3.4. Channel Manager">Example 3.4, “Channel Manager”</a></p></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="captms-Controlling_and_Programming_the_Media_Server"/>Chapter 4. Controlling and Programming the Mobicents Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#captms-MMS_Control_Protocols">4.1. MMS Control Protocols</a></span></dt><dd><dl><dt><span class="section"><a href="#captms-Media_Gateway_Control_Protocol_Interface">4.1.1. Media Gateway Control Protocol Interface</a></span></dt><dt><span class="section"><a href="#d0e2081">4.1.2. 
+JSR-309 Control protocol Interface
+</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="captms-MMS_Control_Protocols"/>4.1. MMS Control Protocols</h2></div></div></div><p>The Mobicents Media Server adopts a call control architecture where the call control <span class="quote">“<span class="quote">intelligence</span>”</span> is located outside of the Media Server itself, and is handled by external call control elements collectively known as Call State Control Function (CSCF).The media server assumes that these call control elements will synchronize with each other to send coherent commands and responses to the media servers under their control. Server Control Protocols is, in essence, an asynchronous master/slave protocol, where the Server Control Modules are expected to execute commands sent by CSCF. Each Server Control Module is implemented as a JSLEE application, and consists of a set of Service Building Blocks (<acronym class="acronym">SBB</acronym>)s, which are in charge of communicating with media server endpoints via SPI. Such an architecture avoids difficulties with programming concurrency, low-level transaction and state-management details, connection-pooling and other complex APIs.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="captms-Media_Gateway_Control_Protocol_Interface"/>4.1.1. Media Gateway Control Protocol Interface</h3></div></div></div><p>The Media Gateway Control Protocol (MGCP) is a protocol for controlling media gateways (for example, the Media Server) from external call control elements such as media gateway controllers or Call Agents.  The MGCP assumes that the Call Agents, will synchronize with each other to send coherent commands and responses to the gateways under their control.</p><p>The MGCP module is included in the binary distribution.  The Call Agent uses the MGCP to tell the Media Server:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>which events should be reported to the Call Agent;</p></li><li class="listitem"><p>how endpoints should be connected; and,</p></li><li class="listitem"><p>which signals should be played on which endpoints.</p></li></ul></div><p>MGCP is, in essence, a master/slave protocol, where the gateways are expected to execute commands sent by the Call Agents.  The general base architecture and programming interface is described in <a class="ulink" href="http://www.ietf.org/rfc/rfc2805.txt">RFC 2805</a>, and the current specific MGCP definition is located in <a class="ulink" href="http://www.ietf.org/rfc/rfc3435.txt">RFC 3435</a>.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2081"/>4.1.2. 
+JSR-309 Control protocol Interface
+</h3></div></div></div><p>
+JSR-309 defines a programming model and object model for Media Server (MS) control independent of MS control protocols. JSR-309 API is not an API for a specific protocol. It will take advantage of the multiple and evolving Multimedia Server capabilities available in the industry today and also provide an abstraction for commonly used application functions like multi party conferencing, multimedia mixing and interaction dialogs.
+</p><p>
+
+Some of the commonly used MS control protocols are <a class="ulink" href="http://www.mobicents.org/mms/mms-mgcp-main.html">MGCP (RFC 3435)</a>, MEGACO (RFC 3525), Media Server Markup Language (MSML) (RFC 4722) and VoiceXML. The Mobicents implementation of JSR-309 API makes use of MGCP as MS control protocol.
+</p><p>
+The Mobicents JSR-309 Impl is first and only open source implementation of JSR-309 available as of today. To further understand the JSR-309 API, download specs from <a class="ulink" href="http://jcp.org/en/jsr/detail?id=309">here</a>
+</p><p>
+“The latest release of Mobicents JSR-309 Impl is part of binary media server release and can
+be found under clients folder”.
+</p><p>
+The diagram bellow shows the high-level architecture of how application can make use of JSR-309 over MGCP 
+</p><div class="mediaobject" align="center"><a id="mms-jsr309-mgcp"/><img src="images/SipJSR309.jpeg" align="middle"/></div></div></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="S-Event_Packages"/>Chapter 5. MMS: Event Packages</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d0e2403">5.1. List of supported packages per Endpoint</a></span></dt></dl></div><p>
+Announcement Package(A): <code class="literal">org.mobicents.media.server.mgcp.pkg.ann</code>
+ </p><div class="table"><a id="msep-announcement_Package"/><p class="title"><strong>Table 5.1. Announcement Package(A): </strong></p><div class="table-contents"><table summary="Announcement Package(A): " border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Signal Name</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left"> Ann</td><td align="left">Play Announcement</td></tr><tr><td align="left"> oc</td><td align="left">Operation Completed</td></tr><tr><td align="left">of</td><td align="left">Operation Failed</td></tr></tbody></table></div></div><br class="table-break"/><p> 
+	For more information please see: <a class="ulink" href="https://tools.ietf.org/html/rfc3660#section-2.12">https://tools.ietf.org/html/rfc3660#section-2.12</a>
+	</p><p/><p> 
+		<code class="literal">Advanced Audio Package(AU): org.mobicents.media.server.mgcp.pkg.au</code>
+		</p><div class="table"><a id="msep-advanced_audio_Package"/><p class="title"><strong>Table 5.2. Advanced Audio Package(AU): </strong></p><div class="table-contents"><table summary="Advanced Audio Package(AU): " border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Signal Name</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left"> pa</td><td align="left">Play Announcement</td></tr><tr><td align="left"> pc</td><td align="left">Play Collect</td></tr><tr><td align="left">pr</td><td align="left">Play Record</td></tr><tr><td align="left">es</td><td align="left">End Signal</td></tr><tr><td align="left">oc</td><td align="left">Operation Completed</td></tr><tr><td align="left">of</td><td align="left">Operation Failed</td></tr></tbody></table></div></div><br class="table-break"/><p>
+	For more information please see: <a class="ulink" href="https://tools.ietf.org/html/rfc2897">https://tools.ietf.org/html/rfc2897</a> 
+	</p><p/><p> 
+		<code class="literal">Trunk Package(T): org.mobicents.media.server.mgcp.pkg.trunk</code>
+		</p><div class="table"><a id="msep-trunk_package"/><p class="title"><strong>Table 5.3. Trunk Package(T): </strong></p><div class="table-contents"><table summary="Trunk Package(T): " border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Signal Name</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left"> co1</td><td align="left">Continuity 1</td></tr><tr><td align="left"> co2</td><td align="left">Continuity 2</td></tr><tr><td align="left">lp</td><td align="left">Loopback</td></tr><tr><td align="left">ct</td><td align="left">Continuity Transpoder</td></tr><tr><td align="left">oc</td><td align="left">Operation Completed</td></tr><tr><td align="left">of</td><td align="left">Operation Failed</td></tr></tbody></table></div></div><br class="table-break"/><p>
+	For more information please see: <a class="ulink" href="https://tools.ietf.org/html/rfc3660#section-2.3">https://tools.ietf.org/html/rfc3660#section-2.3</a>
+	</p><p/><p> Dtmf Package(D): <code class="literal">org.mobicents.media.server.mgcp.pkg.dtmf</code>
+		</p><div class="table"><a id="msep-dtmf_package"/><p class="title"><strong>Table 5.4. Dtmf Package(D): </strong></p><div class="table-contents"><table summary="Dtmf Package(D): " border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Signal Name</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">0</td><td align="left">Tone 0</td></tr><tr><td align="left">1</td><td align="left">Tone 1</td></tr><tr><td align="left">2</td><td align="left">Tone 2</td></tr><tr><td align="left">3</td><td align="left">Tone 3</td></tr><tr><td align="left">4</td><td align="left">Tone 4</td></tr><tr><td align="left">5</td><td align="left">Tone 5</td></tr><tr><td align="left">6</td><td align="left">Tone 6</td></tr><tr><td align="left">7</td><td align="left">Tone 7</td></tr><tr><td align="left">8</td><td align="left">Tone 8</td></tr><tr><td align="left">9</td><td align="left">Tone 9</td></tr><tr><td align="left">*</td><td align="left">Tone *</td></tr><tr><td align="left">#</td><td align="left">Tone #</td></tr><tr><td align="left">A</td><td align="left">Tone A</td></tr><tr><td align="left">B</td><td align="left">Tone B</td></tr><tr><td align="left">C</td><td align="left">Tone C</td></tr><tr><td align="left">D</td><td align="left">Tone D</td></tr><tr><td align="left">oc</td><td align="left">Tone Operation Completed</td></tr><tr><td align="left">oc</td><td align="left">Operation Failed</td></tr></tbody></table></div></div><br class="table-break"/><p>
+ For more information please see: <a class="ulink" href="https://tools.ietf.org/html/rfc3660#section-2.2">https://tools.ietf.org/html/rfc3660#section-2.2</a>
+ </p><p/><p>
+  <code class="literal">Signal List Package (SL): org.mobicents.media.server.mgcp.pkg.sl </code>
+		</p><div class="table"><a id="msep-signal_list_Package"/><p class="title"><strong>Table 5.5. Signal List Package (SL): </strong></p><div class="table-contents"><table summary="Signal List Package (SL): " border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Signal Name</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">s</td><td align="left">List of signals to be generated</td></tr><tr><td align="left">oc</td><td align="left">Operation Completed</td></tr><tr><td align="left">of</td><td align="left">Operation Failed</td></tr></tbody></table></div></div><br class="table-break"/><p>
+For more information please see: <a class="ulink" href="https://tools.ietf.org/html/rfc3660#section-2.8">https://tools.ietf.org/html/rfc3660#section-2.8</a>
+</p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2403"/>5.1. List of supported packages per Endpoint</h2></div></div></div><p>
+Configuration of supported packages and events can be done through the mgcp-conf.xml
+configuration file that is located in the <code class="filename">conf</code> directory.
+</p><p>
+The table belows shows supported packages and the related enabled endpoints
+</p><div class="table"><a id="msep-supported_Packages"/><p class="title"><strong>Table 5.6. List of Supported Packages per Endpoint</strong></p><div class="table-contents"><table summary="List of Supported Packages per Endpoint" border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Package name</th><th align="left">Endpoints</th></tr></thead><tbody><tr><td align="left"> Ann</td><td align="left">Play announcement</td></tr><tr><td align="left">Announcement</td><td align="left">IVR, Announcements</td></tr><tr><td align="left">Advanced Audio</td><td align="left">IVR</td></tr><tr><td align="left">Trunk</td><td align="left">DSO</td></tr><tr><td align="left">Dtmf</td><td align="left">IVR</td></tr><tr><td align="left">Signal List</td><td align="left">IVR</td></tr></tbody></table></div></div><br class="table-break"/></div></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="msde-MS_Demonstration_Example"/>Chapter 6. MMS Demonstration Example</h1></div></div></div><p>
+	MMS 3.0.0.FINAL is a standalone media software. Control panels servers are required in order
+	to make MMS part of your network architecture. Two controlling protocols (JSR-309 and MGCP) are
+	currently enabled to work with MMS 3.0.0.FINAL.
+</p><p>
+Depending on your needs, <a class="ulink" href="https://code.google.com/p/jain-slee/">Jain-slee </a> ,
+ <a class="ulink" href="http://code.google.com/p/sipservlets/">Sip Servlets </a> or
+ <a class="ulink" href="http://code.google.com/p/restcomm/">RestComm</a> can be used to control the media
+server. The examples below are included in the  software.
+	</p><p>To get Jain-Slee examples please see following examples that are part of mobicents / telestax jain
+Slee release :</p><div class="table"><a id="msde-jain-slee"/><p class="title"><strong>Table 6.1. Example for Jain-Slee </strong></p><div class="table-contents"><table summary="Example for Jain-Slee " border="1"><colgroup><col align="left" class="col1"/></colgroup><thead><tr><th align="left">Jain-Slee Example List</th></tr></thead><tbody><tr><td align="left">call-controller2 which uses MGCP to control </td></tr><tr><td align="left">mgcp-demo which uses MGCP to control </td></tr><tr><td align="left">mscontrol-demo which uses JSR-309 to control </td></tr></tbody></table></div></div><br class="table-break"/><p>For more information please see <a class="ulink" href="https://code.google.com/p/jain-slee/source/browse?repo=media#git%2Fexamples">Jain-Slee documentation </a>that comes with this examples.
+	</p><p>The following examples use MMS with Mobicents/TELESTAX SIP Servlets :</p><div class="table"><a id="msde-sip-servlets-examples"/><p class="title"><strong>Table 6.2. Examples for SIP Servlets </strong></p><div class="table-contents"><table summary="Examples for SIP Servlets " border="1"><colgroup><col align="left" class="col1"/></colgroup><thead><tr><th align="left">SIP Servlets Example List</th></tr></thead><tbody><tr><td align="left">conference-demo jsr-309</td></tr><tr><td align="left">media-jsr-309-servlet</td></tr><tr><td align="left">shopping-demo-jsr309</td></tr></tbody></table></div></div><br class="table-break"/><p>All servlets examples are using jsr-309 control protocol.</p><p>For more information please see
+	 <a class="ulink" href="http://code.google.com/p/sipservlets/source/browse/?name=ts1-snmp#git%2Fsip-servlets-examples">SIP Servlets documentation
+	 </a> 
+	 that comes with these examples.
+	</p><div class="table"><a id="msde-restcomm-examples"/><p class="title"><strong>Table 6.3. 	Using MMS with RestComm </strong></p><div class="table-contents"><table summary="&#x9;Using MMS with RestComm " border="1"><colgroup><col align="left" class="col1"/></colgroup><thead><tr><th align="left"> with RestComm</th></tr></thead><tbody><tr><td align="left">
+MMS is required in order to successfully work with RestComm. Consequently,
+any example created to demonstrate the use of RestComm will incorporate Mobicents Media Server (MMS). RestComm use MGCP as the controlling 
+protocol for MMS.
+
+</td></tr></tbody></table></div></div><br class="table-break"/><p>
+For more information please see Mobicents/Telestax <a class="ulink" href="http://code.google.com/p/restcomm-demo/source/browse/#git%2Fapp">RestComm documentation.</a>
+	</p></div><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="msbp-MS-Best_Practices"/>Chapter 7. MMS: Best Practices</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#d0e2550">7.1. Mobicents Media Server Best Practices</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e2555">7.1.1. DTMF Detection Mode: RFC2833 versus Inband versus Auto</a></span></dt><dt><span class="section"><a href="#d0e2586">7.1.2. Transcoding Is CPU-Intensive</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2550"/>7.1. Mobicents Media Server Best Practices</h2></div></div></div><p>Note: these best practices apply to Mobicents Media Server version 3.0.0.FINAL and later</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2555"/>7.1.1. DTMF Detection Mode: RFC2833 versus Inband versus Auto</h3></div></div></div><p>The Mobicents Media Server will block the resource depending on the DTMF detection mode configured in <span class="emphasis"><em>jboss-service.xml</em></span> at start-up time. Inband is highly resource-intensive and must perform many more calculations in order to detect DTMF when compared to RFC2833. So if your application already knows that User Agents (UAs) support RFC2833, it is always better to configure DTMF mode as <span class="emphasis"><em>RFC2833</em></span> rather than as <span class="emphasis"><em>Inband</em></span> or <span class="emphasis"><em>Auto</em></span>. Also, please note that <span class="emphasis"><em>Auto</em></span> is even more resource-intensive because it does not know beforehand whether DTMF would be Inband or <span class="emphasis"><em>RFC2833</em></span>, and hence both detection methods must be started. The default detection mode is <span class="emphasis"><em>RFC2833</em></span>. </p><p>All of the Conference, Packet Relay and IVR endpoints have DTMF detection enabled; the mode can be configured using <span class="emphasis"><em>jboss-service.xml</em></span>. We advise retaining the same mode for all three, but this is not a necessity.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2586"/>7.1.2. Transcoding Is CPU-Intensive</h3></div></div></div><p>Digital Signal Processing (DSP) is very costly and should be avoided as much as possible. By default, Announcement endpoints and IVR endpoints do not have DSP enabled. What this means is that your application needs to know beforehand which codecs are supported by your UA; you can then ask Announcement or IVR to play an audio file which has been pre-encoded in one of these formats. The onus of deciding which pre-encoded file to play lies with the application.  For example, if I am writing a simple announcement application that would only play announcements to the end user, and I know that my end users have one of either the <span class="emphasis"><em>PCMU</em></span> or <span class="emphasis"><em>GSM</em></span> codecs, then I would make sure to have pre-encoded audio files such as <span class="emphasis"><em>helloworld-pcmu.wav</em></span> and <span class="emphasis"><em>helloworld-gsm.gsm</em></span>. Then, when the UA attempts to connect to the Media Server, my application knows which codecs the UA supports and can ask the  to play the respective file.</p><p>This strategy will work fine because, most of the time in the telecommunications world, applications have a known set of supported codecs, .However if this is not true, or if you are writing a simple demo application and need or want all codecs to be supported, you can put a Packet Relay endpoint in front of Announcement or IVR endpoint. This way, the Packet Relay will do all necessary digital signal processing, and your application need not bother about which audio file to play. The audio file in this case will be encoded in <span class="emphasis"><em>Linear</em></span> format, and all UAs, irrespective of whether they support <span class="emphasis"><em>PCMU</em></span>, <span class="emphasis"><em>PCMA</em></span>, <span class="emphasis"><em>Speex</em></span>, <span class="emphasis"><em>G729</em></span> or <span class="emphasis"><em>GSM</em></span> codecs, would be able to hear the announcement.</p></div></div></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a id="d0e2623"/>Appendix A. Understanding Digital Signal Processing and Streaming</h1></div></div></div><p>The following information provides a basic introduction to Digital Signal Processing, and Streaming technologies.  These two technologies are used extensively in the Media Server, therefore understanding these concepts will assist developers in creating customized media services for the Media Server.</p><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2628"/>A.1. Introduction to Digital Signal Processing</h2></div></div></div><p>Digital Signal Processing, as the name suggests, is the processing of signals by digital means.  A signal in this context can mean a number of different things.  Historically the origins of signal processing are in electrical engineering, and a signal here means an electrical signal carried by a wire or telephone line, or perhaps by a radio wave. More generally, however, a signal is a stream of information representing anything from stock prices to data from a remote-sensing satellite. The term "digital" originates from the word "digit", meaning a number, therefore "digital" literally means numerical.  This introduction to DSP will focus primary on two types digital signals: audio and voice.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2633"/>A.2. Analog and Digital Signals</h2></div></div></div><p>Data can already be in a digital format (for example, the data stream from a Compact Disk player), and will not require any coversion.  In many cases however, a signal is received in the form of an analog electrical voltage or current, produced by a microphone or other type of transducer.  Before DSP techniques can be applied to an analog signal, it must be converted into digital form.  Analog electrical voltage signals can be digitized using an analog-to-digital converter (ADC), which generates a digital output as a stream of binary numbers.  These numbers represent the electrical voltage input to the device at each sampling instant.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2638"/>A.2.1. Discrete Signals</h3></div></div></div><p>When converting a continuous analog signal to a digital signal, the analog signal must be converted to a signal format that computers can analyze and perform complex calculations on.  Discrete Signals are easily stored and transmitted over digital networks and have the ability to be discrete in magnitude, time, or both.</p><p>Discrete-in-time values only exist at certain points in time.  For example, if a sample of discrete-in-time data is taken at a point in time where there is no data, the result is zero.</p><div class="mediaobject" align="center"><a id="udspas-Discrete-Signals-Discrete_in_Time"/><img src="images/mms-DiscreteSignals-dia-Discrete_In_Time.png" align="middle"/></div><p>Discrete-In-Magnitude values exist across a time range, however, the value of the datum in each time range consists of one constant result, rather than a variable set of results.</p><div class="mediaobject" align="center"><a id="udspas-Discrete-Signals-Discrete_in_Magnitude"/><img src="images/mms-DiscreteSignals-dia-Discrete_In_Magnitude.png" align="middle"/></div><p>By converting continuous analog signals to discrete signals, finer computer data analysis is possible, and the signal can be stored and tranmitted efficiently over digital networks.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2655"/>A.3. Sampling, Quantization, and Packetization</h2></div></div></div><p>Sampling is the process of recording the values of a signal at given points in time.  For ADCs, these points in time are equidistant, with the number of samples taken during one second dictating the called sample rate.  It's important to understand that these samples are still analogue values.  The mathematic description of the ideal sampling is the multiplication of the signal with a sequence of direct pulses.</p><p>Quantization is the process of representing the value of an analog signal by a fixed number of bits.  The value of the analog signal is compared to a set of pre-defined levels.  Each level is represented by a unique binary number, and the binary number that corresponds to the level closest to the analog signal value is chosen to represent that sample.</p><p>Sampling and quantization prepare digitized media for future processing or streaming.  However, streaming and processing over individual samples is not effective for high volumes of data transferred via a network.  The risk of data-loss is much higher when a large portion of data is transferred in a block.  Networked media should be transmitted using media packets that carry several samples, thereby reducing the risk of data loss through the transmission process.  This process is referred to as packetization.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e2664"/>A.4. Transfer Protocols</h2></div></div></div><p>The Real-time Streaming Protocol (RTSP), Real-time Transport Protocol (RTP) and the Real-time Transport Control Protocol (RTCP) were specifically designed to stream media over networks. The latter two are built on top of UDP. </p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2669"/>A.4.1. Real-time Transport Protocol</h3></div></div></div><p>RTP provides end-to-end network transport functions suitable for applications transmitting real-time data, such as audio, video or simulation data, over multicast or unicast network services.  RTP does not address resource reservation and does not guarantee quality-of-service for real-time services.  The data transport is augmented by the Real-time Control Protocol (RTCP) to allow monitoring of the data delivery in a manner scalable to large multicast networks, and to provide minimal control and identification functionality.  RTP and RTCP are designed to be independent of the underlying transport and network layers. </p><p>A RTP packet consists of a RTP header, followed by the data to send.  In the RTP specification, this data is referred to as the payload.  The header is transmitted in network byte order, just like the IP header.  The Figure 5 shows the RTP header format.</p><div class="mediaobject" align="center"><a id="udspas-RealTimeTransportProtocol-dia-RTP_Header"/><img src="images/mms-RealTimeTransportProtocol-dia-RTP_Header.png" align="middle"/></div><div class="table"><a id="udspas-RTP_Header_Format"/><p class="title"><strong>Table A.1. Supported RTP Formats</strong></p><div class="table-contents"><table summary="Supported RTP Formats" border="1"><colgroup><col align="left" class="col1"/><col align="left" class="col2"/></colgroup><thead><tr><th align="left">Header Component</th><th align="left">Description</th></tr></thead><tbody><tr><td align="left">V (Version)</td><td align="left">Contains the version number of the RTP protocol.  For example, the current version number is <code class="literal">2</code>.  This part of the header consumes 2 bits of the RTP packet.</td></tr><tr><td align="left">P (Padding)</td><td align="left">Contains padding bytes, which are excluded from the payload data count.  The last padding byte contains the number of padding bytes present in the packet.  Padding may be required for certain encryption algorithms that need the payload to be aligned on a multi-byte boundary.</td></tr><tr><td align="left">X (Extension)</td><td align="left">Specifies whether the header contains an Extension Header.</td></tr><tr><td align="left">CC (CSRC Count)</td><td align="left">Specifies how many contributing sources are specified in the header.</td></tr><tr><td align="left">M (Marker)</td><td align="left">Contains arbitrary data that can be interpreted by an application.  The RTP specification does not limit the information type contained in this component of the header.  For example, the Marker component might specify that media data is contained within the packet.</td></tr><tr><td align="left">PT (Payload Type)</td><td align="left">Specifies the type of data the packet contains, which determines how an application receiving the packet interprets the payload.</td></tr><tr><td align="left">Sequence Number</td><td align="left">Contains a unique numerical value, that can be used by applications to place received packets in the correct order.  Video streams rely on the sequence number to order the packets for individual video frames received by an application.  The starting number for a packet stream is randomized for security reasons.</td></tr><tr><td align="left">Time Stamp</td><td align="left">Contains the synchronization information for a stream of packets.  The value specifies when the first byte of the payload was sampled.  The starting number for the Time Stamp is also randomized for security reasons.  For audio, the timestamp is typically incremented with the amount of samples in the packet so the receiving application can play the audio data at exactly the right time.  For video, the timestamp is typically incremented per image.  One image of a video will generally be sent in several packets, therefore the pieces of data will have the same Time Stamp, but use a different Sequence Number.</td></tr><tr><td align="left">SSRC ID</td><td align="left">Contains the packet Synchronization Source (SSRC) identifier of the sender.  The information contained in this component of the header is used to correctly order multiple RTP streams contained in a packet.  This scenario often occurs when an application sends both video and audio RTP streams in one packet.  So the receiving application can correctly order and synchronize the data, the identifier is chosen randomly.  This reduces the chance of a packet in both streams having the same identifier.  </td></tr><tr><td align="left">CSRC ID</td><td align="left">Contains one (or more) Contributing Source (CSRC) identifiers for each RTP stream present in the packet.  To assist audio streams re-assembly, the SSRC IDs can be appended to this packet component.  The SSRC ID of the packet then becomes the source identifier for the forwarded packet.</td></tr><tr><td align="left">Extension Header</td><td align="left">Contains arbitrary information, specified by the application.  The RTP defines the extension mechanism only.  The extensions contained within the Extension Header are controlled by the application.  </td></tr></tbody></table></div></div><br class="table-break"/><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>RTP headers do not contain a payload length field.  The protocol relies on the underlying protocol to determine the end of the payload.  For example, in the TCP/IP architecture, RTP is used on top of UDP, which does contain length information. Using this, an application can determine the size of the whole RTP packet and after its header has been processed, the application automatically knows the amount of data in its payload section.</p></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2753"/>A.4.2. Real-time Transport Control Protocol</h3></div></div></div><p>The RTP is accompanied by a control protocol, the Real-time Transport Control Protocol (RTCP).  Each participant of a RTP session periodically sends RTCP packets to all other participants in the session for the following reasons: </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>To provide feedback on the quality of data distribution.  The information can be used by the application to perform flow and congestion control functions, and be used for diagnostic purposes.</p></li><li class="listitem"><p>To distribute identifiers that are used to group different streams together (for example, audio and video).  Such a mechanism is necessary since RTP itself does not provide this information. </p></li><li class="listitem"><p>To observe the number of participants.  The RTP data cannot be used to determine the number of participants because participants may not be sending packets, only receiving them.  For example, students listening to an on-line lecture. </p></li><li class="listitem"><p>To distribute information about a participant.  For example, information used to identify students in the lecturer's conferencing user-interface. </p></li></ul></div><p>There are several types of RTCP packets that provide this functionality.</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Sender</p></li><li class="listitem"><p>Receiver</p></li><li class="listitem"><p>Source Description</p></li><li class="listitem"><p>Application-specific Data</p></li></ul></div><p>Sender reports (SR) are used by active senders to distribute transmission and reception statistics.  If a participant is not an active sender, reception statistics are still transmitted by sending receiver reports (RR).</p><p>Descriptive participant information is transmitted in the form of Source Description (SDES) items.  SDES items give general information about a participant, such as their name and e-mail.  However, it also includes a canonical name (CNAME) string, which identifies the sender of the RTP packets.  Unlike the SSRC identifier, the SDES item stays constant for a given participant, is independent of the current session, and is normally unique for each participant.  Thanks to this identifier it is possible to group different streams coming from the same source.</p><p>There is a packet type that allows application-specific data (APP) to be transmitted with RTP data.  When a participant is about to leave the session, a goodbye (BYE) packet is transmitted. </p><p>The transmission statistics which an active sender distributes, include both the number of bytes sent and the number of packets sent.  The statistics also include two timestamps:  a Network Time Protocol (NTP) timestamp, which gives the time when this report was created, and a RTP timestamp, which describes the same time, but in the same units and with the same random offset of the timestamps in the RTP packets. </p><p>This is particularly useful when several RTP packet streams have to be associated with each other.  For example, if both video and audio signals are distributed, there has to be synchronization between these two media types on playback, called inter-media synchronization.  Since their RTP timestamps have no relation whatsoever, there has to be some other way to do this.  By giving the relation between each timestamp format and the NTP time, the receiving application can do the necessary calculations to synchronize the streams. </p><p>A participant to a RTP session distributes reception statistics about each sender in the session. For a specific sender, a reception report includes the following information: </p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>Fraction of lost packets since the last report.  An increase of this value can be used as an indication of congestion.</p></li><li class="listitem"><p>Total amount of lost packets since the start of the session. </p></li><li class="listitem"><p>Amount of inter-arrival jitter, measured in timestamp units.  When the jitter increases, this is also a possible indication of congestion. </p></li><li class="listitem"><p>Information used by the sender to measure the round-trip propagation time to this receiver.  The round-trip propagation time is the time it takes for a packet to travel to this receiver and back. </p></li></ul></div><p>Because the RTCP packets are sent periodically by each participant to all destinations, the packet broadcast interval should be reduced as much as possible.  The RTCP packet interval is calculated from the number of participants and the amount of bandwidth the RTCP packets may occupy.  To stagger the broadcast interval of RTCP packets to participants, the packet interval value is multiplied by a random number. </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2813"/>A.4.3. Jitter</h3></div></div></div><p>The term Jitter refers to processing delays that occur at each endpoint, and are generally caused by packet processing by operating systems, codecs, and networks.  Jitter affects the quality of the audio and video stream when it is decoded by the receiving application.</p><p>End-to-end delay is caused by the processing delay at each endpoint, and may be caused in part by IP packets travelling through different network paths from the source to the destination.  The time it takes a router to process a packet depends on its congestion situation, and this may also vary during the session.</p><p>Although a large overall delay can cause loss of interactivity, jitter may also cause loss of intelligibility.  Though Jitter cannot be totally removed, the effects can be reduced by using a Jitter Buffer at the receiving end.  The diagram below shows effect with media buffer and without media buffer </p><div class="mediaobject" align="center"><a id="mms-Jitter-dia-No_Jitter_Buffer.png"/><img src="images/mms-Jitter-dia-No_Jitter_Buffer.png" align="middle"/></div><p>Fig a. Shows that packet 3 is lost as it arrived late. Fig b uses Jitter buffer and hence arrived packets are stored in jitter and media components reads from Jitter once its half full. This way even if Packet 3 arrives little late, its read by the components.</p></div></div></div><div class="appendix"><div class="titlepage"><div><div><h1 class="title"><a id="d0e2827"/>Appendix B. Revision History</h1></div></div></div><p>
+		<div class="revhistory"><table summary="Revision History"><tr><th align="left" valign="top" colspan="3"><strong>Revision History</strong></th></tr><tr><td align="left">Revision 4.0</td><td align="left">Mon 3 2013</td><td align="left"><span class="author"><span class="firstname">Yulian </span> <span class="surname">Oifa</span></span></td></tr><tr><td align="left" colspan="3">
+					<table border="0" summary="Simple list" class="simplelist"><tr><td>New release of documentation for 3.0.0 Final</td></tr></table>
+				</td></tr><tr><td align="left">Revision 3.0</td><td align="left">Thu Jun 11 2009</td><td align="left"><span class="author"><span class="firstname">Jared</span> <span class="surname">Morgan</span></span></td></tr><tr><td align="left" colspan="3">
+					<table border="0" summary="Simple list" class="simplelist"><tr><td>Second release of the "parameterized" documentation.</td></tr></table>
+				</td></tr><tr><td align="left">Revision 2.0</td><td align="left">Fri Mar 06 2009</td><td align="left"><span class="author"><span class="firstname">Douglas</span> <span class="surname">Silas</span></span></td></tr><tr><td align="left" colspan="3">
+					<table border="0" summary="Simple list" class="simplelist"><tr><td>First release of the "parameterized", and much-improved JBCP documentation.</td></tr></table>
+				</td></tr></table></div>
+	</p></div></div></body></html>

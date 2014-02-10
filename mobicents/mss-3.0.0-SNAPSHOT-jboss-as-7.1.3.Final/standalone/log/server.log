@@ -1,0 +1,105 @@
+01:41:46,337 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 27) JBAS016200: Activating ConfigAdmin Subsystem
+01:41:46,376 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 32) JBAS010280: Activating Infinispan subsystem.
+01:41:46,395 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 39) JBAS011800: Activating Naming Subsystem
+01:41:46,405 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 40) JBAS011906: Activating OSGi Subsystem
+01:41:46,423 INFO  [org.jboss.as.connector.logging] (MSC service thread 1-5) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.12.Final)
+01:41:46,460 INFO  [org.jboss.as.naming] (MSC service thread 1-2) JBAS011802: Starting Naming Service
+01:41:46,465 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 45) JBAS013171: Activating Security Subsystem
+01:41:46,466 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-1) JBAS015400: Bound mail session [java:jboss/mail/Default]
+01:41:46,490 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 50) JBAS015537: Activating WebServices Extension
+01:41:46,500 INFO  [org.jboss.as.security] (MSC service thread 1-5) JBAS013170: Current PicketBox version=4.0.13.Final
+01:41:46,575 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 28) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+01:41:46,992 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-6) JBoss Web Services - Stack CXF Server 4.0.5.GA
+01:41:47,013 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-4) Starting Coyote HTTP/1.1 on http-/127.0.0.1:8080
+01:41:47,271 INFO  [org.mobicents.servlet.sip.catalina.SipStandardService] (MSC service thread 1-7) Pretty encoding of headers enabled ? true
+01:41:47,273 INFO  [org.mobicents.servlet.sip.catalina.SipStandardService] (MSC service thread 1-7) Sip Stack path name : org.mobicents.ext
+01:41:47,392 INFO  [org.mobicents.servlet.sip.catalina.SipStandardService] (MSC service thread 1-7) Mobicents Sip Servlets sip stack properties : {gov.nist.javax.sip.MESSAGE_PROCESSOR_FACTORY=gov.nist.javax.sip.stack.NioMessageProcessorFactory, gov.nist.javax.sip.DEBUG_LOG=/home/barni/code/ba_zajzon/source/mobicents/mss-3.0.0-SNAPSHOT-jboss-as-7.1.3.Final/standalone/tmp/logs/mss-jsip-debuglog.txt, gov.nist.javax.sip.PASS_INVITE_NON_2XX_ACK_TO_LISTENER=true, gov.nist.javax.sip.MAX_LISTENER_RESPONSE_TIME=120, gov.nist.javax.sip.LOG4J_LOGGER_NAME=gov.nist, javax.sip.AUTOMATIC_DIALOG_SUPPORT=off, gov.nist.javax.sip.SERVER_LOG=/home/barni/code/ba_zajzon/source/mobicents/mss-3.0.0-SNAPSHOT-jboss-as-7.1.3.Final/standalone/tmp/logs/mss-jsip-messages.xml, gov.nist.javax.sip.REENTRANT_LISTENER=true, gov.nist.javax.sip.MAX_FORK_TIME_SECONDS=0, org.mobicents.ha.javax.sip.REPLICATE_APPLICATION_DATA=false, gov.nist.javax.sip.RECEIVE_UDP_BUFFER_SIZE=65536, javax.sip.STACK_NAME=Mobicents-SIP-Servlets, gov.nist.javax.sip.TCP_POST_PARSING_THREAD_POOL_SIZE=30, gov.nist.javax.sip.LOOSE_DIALOG_VALIDATION=true, org.mobicents.ha.javax.sip.REPLICATION_STRATEGY=ConfirmedDialog, gov.nist.javax.sip.AGGRESSIVE_CLEANUP=true, gov.nist.javax.sip.TRACE_LEVEL=LOG4J, gov.nist.javax.sip.MAX_MESSAGE_SIZE=10000, gov.nist.javax.sip.AUTOMATIC_DIALOG_ERROR_HANDLING=false, gov.nist.javax.sip.SEND_UDP_BUFFER_SIZE=65536, gov.nist.javax.sip.LOG_MESSAGE_CONTENT=true, gov.nist.javax.sip.THREAD_POOL_SIZE=64, gov.nist.javax.sip.DELIVER_UNSOLICITED_NOTIFY=true, javax.sip.ROUTER_PATH=org.mobicents.ext.javax.sip.dns.DNSAwareRouter}
+01:41:47,496 INFO  [gov.nist.javax.sip.stack.SIPTransactionStack] (MSC service thread 1-7) value -1000 will be used for reliableConnectionKeepAliveTimeout stack property
+01:41:47,497 INFO  [gov.nist.javax.sip.stack.SIPTransactionStack] (MSC service thread 1-7) Setting Stack Thread priority to 10
+01:41:47,515 WARN  [gov.nist.javax.sip.SipStackImpl] (MSC service thread 1-7) using default tls security policy
+01:41:47,534 WARN  [gov.nist.core.net.DefaultSecurityManagerProvider] (MSC service thread 1-7) Using default keystore type jks
+01:41:47,534 WARN  [gov.nist.core.net.DefaultSecurityManagerProvider] (MSC service thread 1-7) TLS settings will be inactive - TLS key store can not be configured. keyStoreType=jks javax.net.ssl.keyStore=null javax.net.ssl.keyStorePassword=null
+01:41:47,546 INFO  [gov.nist.javax.sip.stack.timers.DefaultSipTimer] (MSC service thread 1-7) the sip stack timer gov.nist.javax.sip.stack.timers.DefaultSipTimer has been started
+01:41:47,547 INFO  [org.mobicents.ext.javax.sip.SipStackImpl] (MSC service thread 1-7) SIP Stack send trying right away false
+01:41:47,548 INFO  [org.mobicents.servlet.sip.catalina.SipStandardService] (MSC service thread 1-7) no AddressResolver will be used since none has been specified.
+01:41:47,548 INFO  [org.mobicents.servlet.sip.catalina.SipStandardService] (MSC service thread 1-7) SIP stack initialized
+01:41:47,549 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) SIP Base Timer Interval set to 500ms
+01:41:47,549 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) SIP Timer T2 Interval set to 4000ms
+01:41:47,549 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) SIP Timer T4 Interval set to 5000ms
+01:41:47,550 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) SIP Timer D Interval set to 32000ms
+01:41:47,550 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Memory threshold set to 85%
+01:41:47,550 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Back To Normal Memory threshold set to 75%
+01:41:47,551 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Congestion Control policy set to ErrorResponse
+01:41:47,551 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Queue Size set to 1500
+01:41:47,552 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Back To Normal Queue Size set to 1300
+01:41:47,552 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Gathering Statistics set to true
+01:41:47,553 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Container wide Concurrency Control set to SipApplicationSession
+01:41:47,553 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Bypass Request Executor enabled ?true
+01:41:47,553 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Bypass Response Executor enabled ?true
+01:41:47,554 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Using the Service Provider Framework to load the application router provider
+01:41:47,564 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl@2edd4d10 Using the following Application Router instance: org.mobicents.servlet.sip.router.DefaultApplicationRouter@42ee6d79
+01:41:47,577 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) Sip Application dispatcher registered under following name jboss.sip:type=SipApplicationDispatcher
+01:41:47,578 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) bypassRequestExecutor ? true
+01:41:47,578 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) bypassResponseExecutor ? true
+01:41:47,586 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-5) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+01:41:47,593 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) AsynchronousThreadPoolExecutor size is 15
+01:41:47,596 INFO  [org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl] (MSC service thread 1-7) No Congestion control background task started since the checking interval is equals to -1 milliseconds.
+01:41:47,598 INFO  [org.mobicents.servlet.sip.core.Version] (MSC service thread 1-7) Release ID: (Mobicents) Sip Servlets 3.0.0-SNAPSHOT (build: Git Hash=rfe7eb179c361128d776204b3ce4d1154ab4131c1 date=201311060030)
+01:41:47,599 INFO  [org.mobicents.servlet.sip.core.Version] (MSC service thread 1-7) Mobicents Sip Servlets 3.0.0-SNAPSHOT (build: Git Hash=rfe7eb179c361128d776204b3ce4d1154ab4131c1 date=201311060030) Started.
+01:41:47,599 INFO  [org.mobicents.servlet.sip.core.Version] (MSC service thread 1-7) 
+==============================================================================
+==                                                                          ==
+==              Thank you for running Mobicents Community code              ==
+==   For Commercial Grade Support, please request a TelScale Subscription   ==
+==                         http://www.telestax.com/                         ==
+==                                                                          ==
+==============================================================================
+ 
+01:41:47,918 INFO  [org.jboss.as.remoting] (MSC service thread 1-5) JBAS017100: Listening on 127.0.0.1:9999
+01:41:47,919 INFO  [org.jboss.as.remoting] (MSC service thread 1-7) JBAS017100: Listening on 127.0.0.1:4447
+01:41:47,920 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) JBAS015876: Starting deployment of "sip-servlets-management.war"
+01:41:47,915 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) JBAS015876: Starting deployment of "media-jsr309-servlet.war"
+01:41:47,927 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) JBAS015876: Starting deployment of "click2call.war"
+01:41:47,928 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-7) JBAS015876: Starting deployment of "jolokia.war"
+01:41:47,930 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-5) JBAS015012: Started FileSystemDeploymentService for directory /home/barni/code/ba_zajzon/source/mobicents/mss-3.0.0-SNAPSHOT-jboss-as-7.1.3.Final/standalone/deployments
+01:41:47,928 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-4) JBAS015876: Starting deployment of "websockets-sip-servlet.war"
+01:41:48,355 INFO  [org.mobicents.servlet.sip.catalina.SipProtocolHandler] (MSC service thread 1-6) Sip Connector started on ip address: localhost, port 5080, transport udp, useStun false, stunAddress null, stunPort : -1, useStaticAddress: false, staticServerAddress null, staticServerPort -1
+01:41:48,408 INFO  [org.mobicents.servlet.sip.catalina.SipProtocolHandler] (MSC service thread 1-2) Sip Connector started on ip address: localhost, port 5081, transport tls, useStun false, stunAddress null, stunPort : -1, useStaticAddress: false, staticServerAddress null, staticServerPort -1
+01:41:48,446 INFO  [org.mobicents.servlet.sip.catalina.SipProtocolHandler] (MSC service thread 1-3) Sip Connector started on ip address: localhost, port 5080, transport tcp, useStun false, stunAddress null, stunPort : -1, useStaticAddress: false, staticServerAddress null, staticServerPort -1
+01:41:48,453 INFO  [org.mobicents.servlet.sip.catalina.SipProtocolHandler] (MSC service thread 1-8) Sip Connector started on ip address: localhost, port 5082, transport ws, useStun false, stunAddress null, stunPort : -1, useStaticAddress: false, staticServerAddress null, staticServerPort -1
+01:41:48,944 INFO  [org.jboss.as.osgi] (MSC service thread 1-8) JBAS011907: Register module: Module "deployment.click2call.war:main" from Service Module Loader
+01:41:48,965 INFO  [org.jboss.as.osgi] (MSC service thread 1-4) JBAS011907: Register module: Module "deployment.jolokia.war:main" from Service Module Loader
+01:41:48,994 INFO  [org.jboss.as.osgi] (MSC service thread 1-1) JBAS011907: Register module: Module "deployment.websockets-sip-servlet.war:main" from Service Module Loader
+01:41:49,000 INFO  [org.jboss.as.osgi] (MSC service thread 1-4) JBAS011907: Register module: Module "deployment.sip-servlets-management.war:main" from Service Module Loader
+01:41:49,234 INFO  [org.mobicents.servlet.sip.example.WebSocketB2BUASipServlet] (MSC service thread 1-6) the simple sip servlet has been started
+01:41:49,248 INFO  [org.mobicents.servlet.sip.example.SimpleSipServlet] (MSC service thread 1-1) the simple sip servlet has been started
+01:41:49,251 INFO  [org.mobicents.servlet.sip.example.SimpleSipServlet] (MSC service thread 1-1) Sip Factory ref from JNDI : org.mobicents.servlet.sip.message.SipFactoryFacade@2f0b5502
+01:41:49,258 INFO  [org.jboss.web] (MSC service thread 1-3) JBAS018210: Registering web context: /sip-servlets-management
+01:41:49,270 INFO  [org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/jolokia]] (MSC service thread 1-5) jolokia-agent: No access restrictor found at classpath:/jolokia-access.xml, access to all MBeans is allowed
+01:41:49,273 INFO  [org.mobicents.servlet.sip.example.SimpleWebServlet] (MSC service thread 1-1) the SimpleWebServlet has been started
+01:41:49,277 INFO  [org.mobicents.servlet.sip.example.SimpleWebServlet] (MSC service thread 1-1) Sip Factory ref from JNDI : org.mobicents.servlet.sip.message.SipFactoryFacade@2f0b5502
+01:41:49,320 INFO  [org.jboss.web] (MSC service thread 1-1) JBAS018210: Registering web context: /click2call
+01:41:49,322 INFO  [org.jboss.web] (MSC service thread 1-6) JBAS018210: Registering web context: /websockets-sip-servlet
+01:41:49,499 INFO  [org.jboss.web] (MSC service thread 1-5) JBAS018210: Registering web context: /jolokia
+01:41:49,553 INFO  [org.jboss.as.osgi] (MSC service thread 1-6) JBAS011907: Register module: Module "deployment.media-jsr309-servlet.war:main" from Service Module Loader
+01:41:49,601 INFO  [org.mobicents.javax.media.mscontrol.spi.DriverImpl] (MSC service thread 1-3) Initializing MGCP on /127.0.0.1:2727
+01:41:49,605 WARN  [org.mobicents.protocols.mgcp.stack.JainMgcpStackImpl] (MSC service thread 1-3) Failed to locate properties file, using default values
+01:41:49,610 INFO  [org.mobicents.protocols.mgcp.stack.JainMgcpStackImpl] (MSC service thread 1-3) Jain Mgcp stack bound to IP /127.0.0.1 and UDP port 2727
+01:41:49,611 INFO  [stdout] (MSC service thread 1-3) Jain Mgcp stack bound to IP /127.0.0.1 and UDP port 2727
+01:41:49,658 INFO  [org.mobicents.servlet.sip.example.PlayerServlet] (MSC service thread 1-3) started MGCP Stack on 127.0.0.1and port 2727
+01:41:49,659 INFO  [org.mobicents.servlet.sip.example.PlayerServlet] (MSC service thread 1-3) MGCP Stack already started on 127.0.0.1and port 2727
+01:41:49,663 INFO  [org.jboss.web] (MSC service thread 1-3) JBAS018210: Registering web context: /media-jsr309-servlet
+01:41:49,693 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 29) JBAS018559: Deployed "websockets-sip-servlet.war"
+01:41:49,694 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 29) JBAS018559: Deployed "click2call.war"
+01:41:49,694 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 29) JBAS018559: Deployed "media-jsr309-servlet.war"
+01:41:49,730 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 29) JBAS018559: Deployed "sip-servlets-management.war"
+01:41:49,731 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 29) JBAS018559: Deployed "jolokia.war"
+01:41:49,852 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015961: Http management interface listening on http://127.0.0.1:9990/management
+01:41:49,855 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+01:41:49,855 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss AS 7.1.3.Final "Arges" started in 5787ms - Started 377 of 474 services (96 services are passive or on-demand)
+01:42:16,827 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-7) Pausing Coyote HTTP/1.1 on http-localhost/127.0.0.1:8080
+01:42:16,827 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-7) Stopping Coyote HTTP/1.1 on http-localhost/127.0.0.1:8080
+01:42:16,856 INFO  [org.jboss.as.osgi] (MSC service thread 1-1) JBAS011908: Unregister module: Module "deployment.media-jsr309-servlet.war:main" from Service Module Loader
+01:42:16,863 INFO  [org.apache.catalina.core.StandardContext] (MSC service thread 1-5) Container org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/] has not been started
+01:42:16,864 WARN  [org.mobicents.servlet.sip.startup.SipStandardContext] (MSC service thread 1-3) number of active sip sessions : 0
+01:42:16,864 WARN  [org.mobicents.servlet.sip.startup.SipStandardContext] (MSC service thread 1-3) number of active sip application sessions : 0

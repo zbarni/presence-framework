@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter 3. Configuring the Media Server</title><link rel="stylesheet" type="text/css" href="css/telestax_org.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"/><link rel="home" href="index.html" title="Media Server User Guide"/><link rel="up" href="index.html" title="Media Server User Guide"/><link rel="prev" href="ch02.html" title="Chapter 2. Installing the Media Server"/><link rel="next" href="ch04.html" title="Chapter 4. Controlling and Programming the Mobicents Media Server"/><meta xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body><p xmlns:d="http://docbook.org/ns/docbook" id="title"><a href="http://www.telestax.com" class="site_href"><strong>TeleStax.org</strong></a><a href="http://www.telestax.com/" class="doc_href"><strong>Community Documentation</strong></a></p><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="ch02.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="ch04.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="ctms-Configuring_the_Media_Server"/>Chapter 3. Configuring the Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch03.html#d0e1668">3.1. 
+	System clock and scheduler
+	</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1682">3.2. 
+UDP Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e1692">3.2.1. 
+ bindAddress and localBindAddress.
+</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1705">3.2.2. 
+LocalNetwork, localSubnet and useSbc.
+</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1714">3.2.3. 
+RtpTimeout
+</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d0e1731">3.3. 
+	SS7 Channels Manager
+	</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1770">3.4. 
+Channel Manager
+</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e1783">3.4.1. 
+Jitter buffer size
+</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d0e1790">3.5. 
+DSP Factory
+</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1834">3.6. 
+	 Resource Pool
+	 </a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e1861">3.6.1.  DtmfDetectorDbi</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d0e1866">3.7. 
+MGCP Controller
+
+</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e1876">3.7.1. 
+	Port Parameter
+	</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1881">3.7.2. Configuration parameter</a></span></dt><dt><span class="section"><a href="ch03.html#d0e1889">3.7.3. Pool Size</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d0e1894">3.8. 
+		Media Server
+		</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e1904">3.8.1. 
+		Heartbeat Time
+		</a></span></dt></dl></dd><dt><span class="section"><a href="ch03.html#d0e1909">3.9. 
+		Endpoints
+		</a></span></dt><dd><dl><dt><span class="section"><a href="ch03.html#d0e2029">3.9.1. 
+	startChannelID
+	</a></span></dt><dt><span class="section"><a href="ch03.html#d0e2034">3.9.2.  Channels Manager</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1668"/>3.1. 
+	System clock and scheduler
+	</h2></div></div></div><p>
+	Scheduler is the core component of Media Server. It is responsible for organizing all tasks
+executed by the media server and executing them. Current scheduler implementation is a time wheel
+like implementation. All tasks are executed in 20ms cycle which is best optimized for audio.
+
+</p><p>
+Clock is the class that implements basic clock settings, providing current time and translations
+needed between time unit and time.
+	</p><p>
+	Configuration changes are required only in case you want to develop your own version of scheduler/clock.
+	</p><div class="example"><a id="system-clock-scheduler"/><p class="title"><strong>Example 3.1. System Clock and Scheduler</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+&lt;!-- System clock --&gt;
+&lt;bean name="SystemClock" class="org.mobicents.media.server.scheduler.DefaultClock"/&gt;
+
+&lt;!-- EDF scheduler --&gt;
+&lt;bean name="Scheduler" class="org.mobicents.media.server.scheduler.Scheduler"&gt;
+&lt;property name="clock"&gt;&lt;inject bean="SystemClock"/&gt;&lt;/property&gt;
+&lt;/bean&gt;
+			</pre></div></div><br class="example-break"/></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1682"/>3.2. 
+UDP Manager
+</h2></div></div></div><p>
+UDP manager is responsible for receiving all the data that comes through UDP channels to the Media Server, including RTP packets and control protocol packets, like MGCP.
+</p><div class="example"><a id="UDP-manager"/><p class="title"><strong>Example 3.2. UDP Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+
+&lt;!-- Network interfaces definition --&gt;
+&lt;bean name="localhost" class="org.mobicents.media.server.io.network.UdpManager"&gt;
+&lt;constructor&gt;
+&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+&lt;/constructor&gt;
+&lt;property name="bindAddress"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localBindAddress"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localNetwork"&gt;127.0.0.1&lt;/property&gt;
+&lt;property name="localSubnet"&gt;255.255.255.255&lt;/property&gt;
+&lt;property name="useSbc"&gt;false&lt;/property&gt;
+&lt;property name="rtpTimeout"&gt;0&lt;/property&gt;
+&lt;/bean&gt;
+ 
+			</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1692"/>3.2.1. 
+ bindAddress and localBindAddress.
+</h3></div></div></div><p>
+Current release of MMS allows 2 network interfaces, a local and a remote interface. By default all RTP
+channels are opened on bindAddress, while MGCP control interface starts on localBindAddress.
+Using both interfaces is useful in the following scenarios:
+</p><p>
+When you want to separate control traffic from data traffic.
+</p><p>
+When you want an SBC like border media server, in this case, the remote interface will send/
+receive data from the UA. The local interface will be used for inter-server traffic and control traffic (MGCP).
+</p><p>
+To establish RTP connection on local interface, you should add TypeOfNetwork.Local local
+connection option to CRCX (create connection) of MGCPrequest.
+</p><p>
+Any RTP connection that will be opened on remote interface will have jitter buffer enabled , while
+any RTP connection that will be opened on local interface will have jitter buffer disabled.
+
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1705"/>3.2.2. 
+LocalNetwork, localSubnet and useSbc.
+</h3></div></div></div><p>
+
+Media server can work in 2 modes : SBC mode and standard mode.
+</p><p>
+
+When useSbc is set to false, MMS will establish a channel based on address/port pair it receives
+from SDP. However, RTP packet is used within a NAT context, data sent in SDP is the
+original data and not the natted IP address/port (this is often the scenario). Furthermore, when useSbc
+is set to false, data will be sent to invalid address and also will not be accepted since MMS does not
+know the correct address of UA. 
+</p><p>
+In order to resolve the above mentioned issue, you  should set useSbc to true. 
+As a result, MMS will wait for first RTP packet; learn remote IP address port and then will send
+data based on learned address and not on SDP data. That said, inter-server traffic will not work since
+ both sides will be waiting for first packet. To resolve this,  you should set local network and local 
+ subnet to range that will include all your media servers. If the media server detects that the IP address and port 
+ in SDP are within the local IP network range, it will start sending packets immediately and not wait. This is similar to when useSbc is set to false.
+</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1714"/>3.2.3. 
+RtpTimeout
+</h3></div></div></div><p>
+
+Most SIP UA do not support any type of keepalive between 200 OK and BYE response/
+request. Therefore, if the network goes down while a call is established, the call may hang forever.
+That is why RTP traffic should always be sent (the exception to this rule is during recvonly and inactive modes).
+ With the this in mind, MMS enables RTP timeout parameter.
+ </p><p>
+ When RtpTimeout is set to greater than 0,  MMS will monitor RTP traffic
+and if it finds period equal or greater then the RTP timeout ( in seconds ) it will delete connection
+and notify controlling server that connection was removed ( by sending DLCX MGCP command
+). Consequently, any border server will receive a reliable notification that the call is still alive even when the
+communication network is no longer available.
+</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Note</h2><p>
+Note that while enabling RTP timeout, it is recommended that you do not set the mode to inactive/
+sendonly when you expect to receive data (after 180 or 200 OK) depending on your application
+</p></div><div class="example"><a id="call-flow-scenario"/><p class="title"><strong>Example 3.3. Call Flow</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+Similar call flow may be like this
+
+UA ----&gt; INVITE ----&gt; Control Server
+Control Server ----&gt; CRCX with mode inactive ----&gt; Media Server
+Control Server ----&gt; INVITE ----&gt; inside network or to other side
+Inside network or other side ----&gt; 183 with SDP ----&gt; Control Server
+Control Server ---&gt; MDCX with mode sendonly ---&gt; Media Server
+Control Server ---&gt; 183 with SDP ----&gt; UA
+Inside network or other side ----&gt; 200 ----&gt; Control Server
+Control Server ---&gt; MDCX with mode sendrecv ---&gt; Media Server
+Control Server ---&gt; 200 ----&gt; UA
+ 
+			</pre></div></div><br class="example-break"/><p>
+
+In case of 180 or 183 without SDP response , intermediate MDCX is not required.
+</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1731"/>3.3. 
+	SS7 Channels Manager
+	</h2></div></div></div><p>
+	
+	Current release of Media Server supports SS7 channels(DS0 ) makes it possible to communicate with old
+	PSTN networks.
+	</p><p>
+	To allow SS7 B channels to be used, you must install and configure your card properly and enable
+	SS7 manager, dahdi native driver and configure DS0 channels on Media Server. By default SS7 is disabled.
+	</p><p>
+	
+	Below you can see the SS7 manager example configuration. Changes are required only when you
+	want to implement your own version of the manager.
+	
+	</p><div class="example"><a id="channel-manager"/><p class="title"><strong>Example 3.4. Channel Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	  &lt;!-- SS7 interface definition --&gt;
+	
+	&lt;!--
+	&lt;bean name="SS7" class="org.mobicents.media.server.io.ss7.SS7&gt;
+	&lt;constructor&gt;
+	&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+	&lt;/constructor&gt;
+	&lt;/bean&gt;
+	--&gt;
+	  
+				</pre></div></div><br class="example-break"/><p>
+	To compile and create dahdi native library you must get a Media Server code from
+	<a class="ulink" href="http://code.google.com/p/mediaserver/source">http://code.google.com/p/mediaserver/source 
+	</a> by using a GIT
+	</p><p>
+	Once you have the source, you need to build it using Maven from a terminal console as shown below:
+	</p><pre class="screen">
+	 mvn clean install –pdahdilinux
+	</pre>
+	Under <code class="filename">bootstrap/target/mms-server </code> you will have a newly compiled version of media server. 
+	There will be a native dahdi driver included in the sub-directories
+	
+		<div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>
+		Known Issues
+		</h2><p>
+		Currently only dahdi based cards are supported
+		Only linux OS is supported for SS7
+		</p></div><p>
+	You must compile Media Server on the production server on which it will be used. 
+	This must be done for each server that you plan to put in service.
+	</p><p>
+	For help on configuring DS0 channels please see <a class="xref" href="ch03.html#endpoints-config" title="Example 3.10. Endpoints Configuration">Example 3.10, “Endpoints Configuration”</a> .
+	</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1770"/>3.4. 
+Channel Manager
+</h2></div></div></div><p>
+
+Channel manager is responsible for creating all data channels on media server(RTP data channel ,
+local channel and SS7 channel).
+</p><p>
+Below you can see default configuration. By default, SS7 is disabled and should be enabled only in
+case you want to use DS0 channels. Apart from SS7, no other configuration changes are required.
+
+	</p><div class="example"><a id="Channels-manager"/><p class="title"><strong>Example 3.5. Channel Manager</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+		&lt;!-- Channels manager definition --&gt;
+		&lt;bean name="channelsManager"
+		class="org.mobicents.media.server.impl.rtp.ChannelsManager"&gt;
+		&lt;constructor&gt;
+		&lt;parameter&gt;&lt;inject bean="localhost"/&gt;&lt;/parameter&gt;
+		&lt;/constructor&gt;
+		&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler" /&gt;&lt;/property&gt;
+		&lt;property name="jitterBufferSize"&gt;50&lt;/property&gt;
+		&lt;!--&lt;property name="SS7Manager" &gt; &lt;inject bean="SS7" /&gt;&lt;/property&gt;--&gt;
+		&lt;/bean&gt;
+		</pre></div></div><p><br class="example-break"/>
+</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1783"/>3.4.1. 
+Jitter buffer size
+</h3></div></div></div><p>
+
+Jitter buffer size parameter allows you to set the jitter buffer in milliseconds. 
+Please see the <a class="xref" href="ch03.html#Channels-manager" title="Example 3.5. Channel Manager">Example 3.5, “Channel Manager”</a> for details about configuring jitterBufferSize.
+</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1790"/>3.5. 
+DSP Factory
+</h2></div></div></div><p>
+DSP factory allows transcoding between different codecs. Currently media server comes with 5 codecs :
+G711 A/U, Linear PCM Raw, GSM and G.729.  ILBC codec is currently being worked on and will 
+be released in future iterations of the Media Server.
+</p><p>
+By default, only 3 are enabled : G711A/U and linear.
+</p><div class="example"><a id="default-codecs"/><p class="title"><strong>Example 3.6. Default Codecs</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	 &lt;!-- Signal processor factory --&gt;
+		&lt;bean name="DSP" class="org.mobicents.media.server.component.DspFactoryImpl"&gt;
+		&lt;property name="codecs"&gt;
+		&lt;list value-type="java.lang.String"&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.l16.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.l16.Decoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.alaw.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.alaw.Decoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.ulaw.Encoder&lt;/value&gt;
+		&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g711.ulaw.Decoder&lt;/value&gt;
+		&lt;/list&gt;
+		&lt;/property&gt;
+		&lt;/bean&gt;
+		
+	</pre></div></div><br class="example-break"/><p>
+		To enable G729 codec you should add the following values :
+		</p><pre class="screen">
+		<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.g729.Encoder&lt;/value&gt;</span>
+		<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio. g729.Decoder&lt;/value&gt;</span>
+		</pre><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>G.729 usage</h2><p>
+			Please note that a valid license is required to use G.729 , therefore you should purchase a license prior to
+			enabling this codec.
+			</p></div><p>
+To enable GSM codec you should add the following values :
+</p><pre class="screen">
+
+<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.gsm.Encoder&lt;/value&gt;</span>
+<span style="color: red">&lt;value&gt;org.mobicents.media.server.impl.dsp.audio.gsm.Decoder&lt;/value&gt;</span>
+</pre><p>
+	If you decide to use a single codec for encoding or decoding data, you should leave one RAW or 2 Raw pair. 
+	This is useful only in case of a one way activity.
+	</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Use of L16 codec</h2><p>
+	L16 codec is useful only in server to server communication where you have enough
+	network bandwidth. It is not recommended to allow L16 codec for UA – server connections, this can
+	lead to degradation of the signal quality due to increased jitter and packet loss.
+	</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1834"/>3.6. 
+	 Resource Pool
+	 </h2></div></div></div><p>
+	
+	In the current Media Server release, global pool of resources is used to decrease garbage collection and allow
+	faster resources allocation. Any resource may be used by any endpoint. For example, RTP connection 1
+	may be for endpoint 1 and then released and reused by endpoint 2.
+	
+	 </p><p>
+	 
+	You can see default configuration below :
+	 </p><div class="example"><a id="default-codec-config"/><p class="title"><strong>Example 3.7. Default Codecs</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+	  &lt;!-- Resources pool definition --&gt;
+		&lt;bean name="resourcesPool" class="org.mobicents.media.core.ResourcesPool"&gt;
+		&lt;constructor&gt;
+		&lt;parameter&gt;&lt;inject bean="Scheduler"/&gt;&lt;/parameter&gt;
+		&lt;parameter&gt;&lt;inject bean="channelsManager"/&gt;&lt;/parameter&gt;
+		&lt;parameter&gt;&lt;inject bean="DSP"/&gt;&lt;/parameter&gt;
+		&lt;/constructor&gt;
+		&lt;property name="defaultPlayers"&gt;5&lt;/property&gt;
+		&lt;property name="defaultRecorders"&gt;5&lt;/property&gt;
+		&lt;property name="defaultDtmfDetectors"&gt;5&lt;/property&gt;
+		&lt;property name="defaultDtmfGenerators"&gt;0&lt;/property&gt;
+		&lt;property name="defaultSignalDetectors"&gt;0&lt;/property&gt;
+		&lt;property name="defaultSignalGenerators"&gt;0&lt;/property&gt;
+		&lt;property name="defaultLocalConnections"&gt;10&lt;/property&gt;
+		&lt;property name="defaultRemoteConnections"&gt;10&lt;/property&gt;
+		&lt;property name="dtmfDetectorDbi"&gt;-35&lt;/property&gt;
+		&lt;/bean&gt;
+	  
+	</pre></div></div><br class="example-break"/><p>
+			As can be seen above, the default pool size is configured for player(audio player),
+			 recorder (audio recorder), DTMF generator (for generation out of band DTMF tones through sl MGCP package ),
+			  DTMF detector(to detect both inband/out of band tones), signal detector(used to detect ss7 tones) and signal
+generator(used to generate ss7 tones).
+</p><p>
+		Signal detector and signal generator are currently used only for connectivity tests for DS0 channel (COT
+		isup signal), CO1, CO2, CT( Continuity transport ) and Loopback test modes are supported by the Media Server. 
+		</p><p>
+		For more information please see <a class="xref" href="">???</a> 
+		</p><p>
+		Local connections and remote connections pools are also configured here.
+		</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>When the specified resource type is not available</h2><p>
+		Please note that a resource will be automatically allocated if the specified resource type is not available in the resource pool. This will require more memory allocation and in some cases may impact performance. The more resources you have preconfigured on startup in the resource pool, the more memory the media server will require on startup. Its up to you to decide the best trade-off for your setup( greater memory usage on startup vs slower response when new resources are required in runtime )
+		 </p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1861"/>3.6.1.  DtmfDetectorDbi</h3></div></div></div><p>
+		Often, audio data is mixed with DTMF inband tones. As a result, Media Server may detect false positive
+		tones, or it may not detect tones which are sent. By setting DTMF detector dbi parameter, 
+		you can optimize tone detection for your server. If you have problems with inband DTMF detection, 
+		you can fine-tune this parameter. However, default value has been tested and found to be the most 
+		appropriate. For best results it, is recommended that you use inband tones only in SS7/IP mixed network.
+		Out-of-band tones are recommended for IP only networks.
+			</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1866"/>3.7. 
+MGCP Controller
+
+</h2></div></div></div><p>
+
+The controller is the main component that allows MGCP control protocol. Enabling MGCP is always required
+as the jsr-309 implementation is based on the current MGCP implementation.
+</p><div class="example"><a id="mgcp-controller"/><p class="title"><strong>Example 3.8. MGCP Controller</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+		
+		&lt;!-- MGCP Controller definition --&gt;
+		&lt;bean name="MGCP" class ="org.mobicents.media.server.mgcp.controller.Controller"&gt;
+		&lt;property name="udpInterface"&gt;&lt;inject bean="localhost"/&gt;&lt;/property&gt;
+		&lt;property name="port"&gt;2427&lt;/property&gt;
+		&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler"/&gt;&lt;/property&gt;
+		&lt;property name="server"&gt;&lt;inject bean="MediaServer"/&gt;&lt;/property&gt;
+		&lt;property name="configuration"&gt;mgcp-conf.xml&lt;/property&gt;
+		&lt;property name="poolSize"&gt;25&lt;/property&gt;
+		&lt;/bean&gt;
+	 
+		</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1876"/>3.7.1. 
+	Port Parameter
+	</h3></div></div></div><p>
+	UDP port is used for MGCP traffic. By default, it is set to 2427. However you can change it to whatever you
+	want to. Note that you will have to change your control server configuration/code in case you decide to 
+	use a number different from the default.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1881"/>3.7.2. Configuration parameter</h3></div></div></div><p>
+		Configuration parameter points to the xml file located in <code class="filename"> conf</code> directory which configures MGCP packages,
+		signals and packages mapping to endpoints.
+		</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1889"/>3.7.3. Pool Size</h3></div></div></div><p>Pool Size is the size of MGCP requests that Media Server will handle concurrently. 
+		The current MGCP offers better performance and ensures that new elements are allocated when there
+		isn't enough in the pool (most requests are executed under 4ms). That said, RQNT can take up 20ms.
+		 </p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1894"/>3.8. 
+		Media Server
+		</h2></div></div></div><p>
+		
+		Media server component is the core of the software. Its job is to start all the elements
+		and stop them when the Media Server is stopped.
+		It is recommended that you only change the heartBeatTime parameter if required and leave the rest
+		as default.</p><div class="example"><a id="Media-server"/><p class="title"><strong>Example 3.9. MGCP Controller</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+			&lt;!-- Media Server --&gt;
+			&lt;bean name="MediaServer" class="org.mobicents.media.core.Server"&gt;
+			&lt;property name="clock"&gt;&lt;inject bean="SystemClock"/&gt;&lt;/property&gt;
+			&lt;property name="scheduler"&gt;&lt;inject bean="Scheduler"/&gt;&lt;/property&gt;
+			&lt;property name="udpManager"&gt;&lt;inject bean="localhost"/&gt;&lt;/property&gt;
+			&lt;property name="resourcesPool"&gt;&lt;inject bean="resourcesPool"/&gt;&lt;/property&gt;
+			&lt;property name="heartBeatTime"&gt;0&lt;/property&gt;
+			&lt;incallback method="addInstaller"/&gt;
+			&lt;uncallback method="removeInstaller"/&gt;
+			&lt;/bean&gt;
+		</pre></div></div><br class="example-break"/><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e1904"/>3.8.1. 
+		Heartbeat Time
+		</h3></div></div></div><p>
+		When you need to debug Media Server, you can set heartBeatTime to a specific value(in seconds). In
+		this case, on each heartBeatTime period, MMS will write one raw to log and will notify that it is alive. This is
+		useful when you suspect communication problems with the Media Server. It will help you
+		get closer to the source of the problem. Enabling hearbeat will let you know if the server is up and running.
+		</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="d0e1909"/>3.9. 
+		Endpoints
+		</h2></div></div></div><p>
+		
+		Endpoints configuration allows you to configure all MGCP endpoints groups you want to use with
+		the Media Server instance. For all endpoints types, you can configure the initial size. This value will determine
+		 the number of endpoints that are preloaded on startup. If all available endpoints are used and a request for 
+		 additional endpoint is received, Media Server will allocate a new endpoint and store it in a resource pool. 
+		 The only exception to this rule is DS0 endpoint type. The DS0 endpoint can not be increased as it is directly related to the number
+		of channels available on an E1/T1 card.</p><p>
+		NamePattern is the name to use for all MGCP requests. Note that an integer value will
+		be appended to the name used. For example, a NamePattern called "mobicents/aap" will be 
+		created and accessed as "mobicents/aap/$" (where $ is an interger). 
+	  </p><p>
+		Class is the class of installer. Currently 2 types of installers are available :
+		<code class="filename">VirtualEndpointInstaller</code> which allows you to install most endpoints and
+		<code class="filename">VirtualSS7EndpointInstaller</code> which is used for DS0 endpoints.
+		</p><p>
+		Endpoint class – defines the class which implements endpoints.
+		</p><p>
+		Currently, the following endpoint classes are available :
+		</p><div class="table"><a id="d0e1928"/><p class="title"><strong>Table 3.1. Endpoint Classes</strong></p><div class="table-contents"><table summary="Endpoint Classes" border="1"><colgroup><col align="left" class="c1"/><col align="left" class="c2"/><col align="left" class="c3"/><col/></colgroup><thead><tr><th align="left">Endpoint Class</th><th align="left">Available Resources</th><th align="left">Connection Types</th><th align="left">Types</th></tr></thead><tbody><tr><td align="left">org.mobicents.media.core.endpoints.impl.AnnouncementEndpoint</td><td align="left">Player</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.IvrEndpoint</td><td align="left">Player,Recorder,Dtmf
+	Detector,Dtmf Generator</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.ConferenceEndpoint</td><td align="left">None</td><td align="left">Local+RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.BridgeEndpoint </td><td align="left"> None</td><td align="left">Local+RTP</td><td align="left">Splitter</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.PacketRelayEndpoint</td><td align="left">None</td><td align="left">RTP</td><td align="left">Mixer</td></tr><tr><td align="left">org.mobicents.media.core.endpoints.impl.Ds0Endpoint</td><td align="left">Signal Detector ,Signal
+	Generator</td><td align="left">Local+RTP</td><td align="left">Splitter</td></tr></tbody></table></div></div><br class="table-break"/><p>
+Mixer Type means all connections and resources data will be mixed together. This implies that 
+ it will still be available even without the appropriate setting mode.
+</p><p>
+Bridge endpoint is not the same as the MGCP standard endpoint type. This means that there
+are 2 resources groups. The first group uses local connections whereas the second group uses RTP connections.
+This implies that non RTP connections can communicate with RTP endpoints and none local connections can still
+access local endpoints. The Bridge endpoint type is useful in the scenarios shown below:
+</p><div class="mediaobject" align="center"><a id="mms-bride-endpoint-ivr-conf"/><img src="images/bridge-endpoint-ivr-conference.png" align="middle"/></div><p>
+IVR and Conference endpoints will be connected through Local connection pair to Bridge Endpoint (which is recommended). There will be no cross over of IVR Resources ( player , recorder , etc ) to conference. The same applies to any conference traffic, it will not cross over to IVR. This is useful for recording RTP data for specific groups of users.
+</p><p>
+DS0 endpoint is a type Splitter. All connections, signal detector and signal generator are in group 1, 
+while signalling channel SS7 is placed in group 2. That means that any SS7 channel data 
+will be sent to any connection and signal detector, while data
+from signal generator and any connection will be sent only to SS7 channel.
+</p><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>Endpoint Groups</h2><p>
+In order to configure multiple groups of endpoints of the same type per Media Server instance, you must change
+the name of each group.
+</p></div><p>
+Below you can see an example for endpoints configuration
+</p><div class="example"><a id="endpoints-config"/><p class="title"><strong>Example 3.10. Endpoints Configuration</strong></p><div class="example-contents"><pre xmlns="" xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="">
+			 &lt;!-- Endpoints --&gt;
+&lt;bean name="Announcement"
+class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/aap/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.AnnouncementEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;1&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="IVR" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/ivr/&lt;/property&gt;
+&lt;property name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.IvrEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+
+&lt;/bean&gt;
+
+&lt;bean name="CNF" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/cnf/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.ConferenceEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="Bridge" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/bridge/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.BridgeEndpoint&lt;/property&gt;
+&lt;property name="initialSize"&gt;5&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;bean name="Relay" class="org.mobicents.media.core.endpoints.VirtualEndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/relay/&lt;/property&gt;
+&lt;property
+name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.PacketRelayEndpoint&lt;/
+property&gt;
+&lt;property name="initialSize"&gt;1&lt;/property&gt;
+&lt;/bean&gt;
+
+&lt;!-- DS0 Endpoints configuration sample --&gt;
+&lt;!--&lt;bean name="DS0"
+class="org.mobicents.media.core.endpoints.VirtualSS7EndpointInstaller"&gt;
+&lt;property name="namePattern"&gt;mobicents/ds0/&lt;/property&gt;
+&lt;property name="channelsManager"&gt;&lt;inject bean="channelsManager"/&gt;&lt;/property&gt;
+&lt;property name="endpointClass"&gt;org.mobicents.media.core.endpoints.impl.Ds0Endpoint&lt;/
+property&gt;
+&lt;property name="startChannelID"&gt;125&lt;/property&gt;
+&lt;property name="initialSize"&gt;15&lt;/property&gt;
+&lt;property name="isALaw"&gt;true&lt;/property&gt;
+&lt;/bean&gt;--&gt;
+			 
+		</pre></div></div><br class="example-break"/><div xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h2>SS7 Default</h2><p>
+		 SS7 ( DS0 ) endpoints are disabled by default. There are additional configurable parameters.
+		</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2029"/>3.9.1. 
+	startChannelID
+	</h3></div></div></div><p>
+	Start channel id is the first CIC number. For example, if you have 4E1 card and want to allocate to specific
+	group 50 channels starting from channel 5, on E1 number 2 , you will have to set start channel id to 35 (
+	30 channels per E1) and initial Size to 50. Once agai, the number of DS0 will not be increased by Media Server.
+	</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="d0e2034"/>3.9.2.  Channels Manager</h3></div></div></div><p>
+		Channels manager is the bean mention in the section  <a class="xref" href="ch03.html#channel-manager" title="Example 3.4. Channel Manager">Example 3.4, “Channel Manager”</a></p></div></div></div><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="ch02.html"><strong>Prev</strong>Chapter 2. Installing the Media Server</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="ch04.html"><strong>Next</strong>Chapter 4. Controlling and Programming the Mobice...</a></li></ul></body></html>

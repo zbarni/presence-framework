@@ -1,0 +1,58 @@
+2013-03-24 21:30:39,546 INFO  [Main] (main) log4j initialized from a configuration file.
+2013-03-24 21:30:39,547 INFO  [Main] (main) Home directory: /opt/mobsource/medianew/bootstrap/target/mms-server
+2013-03-24 21:30:39,556 INFO  [Main] (main) Booting from file:/opt/mobsource/medianew/bootstrap/target/mms-server/conf/bootstrap-beans.xml
+2013-03-24 21:30:40,616 INFO  [Configuration] (main) Configuring /opt/mobsource/medianew/bootstrap/target/mms-server/deploy/server-beans.xml
+2013-03-24 21:30:40,700 INFO  [Scheduler] (main) Starting 
+2013-03-24 21:30:40,701 INFO  [Scheduler] (main) Started 
+2013-03-24 21:30:40,748 INFO  [UdpManager] (main) Initialized UDP interface[unknown]: bind address=127.0.0.1
+2013-03-24 21:30:40,961 INFO  [MGCP] (main) Set server
+2013-03-24 21:30:40,962 INFO  [MGCP] (main) Set scheduler: org.mobicents.media.server.scheduler.Scheduler@1bfa3d3
+2013-03-24 21:30:40,963 INFO  [MGCP] (main) Starting MGCP controller
+2013-03-24 21:30:40,963 INFO  [MGCP] (main) Starting MGCP provider
+2013-03-24 21:30:40,990 INFO  [MgcpProvider] (main) Opening channel
+2013-03-24 21:30:40,995 INFO  [MgcpProvider] (main) Binding channel to 127.0.0.1:2427
+2013-03-24 21:30:40,999 INFO  [MGCP] (main) Controller started
+2013-03-24 21:30:41,024 INFO  [Server] (main) Installing mobicents/aap/1
+2013-03-24 21:30:41,039 INFO  [MGCP] (main) Endpoint restarted: mobicents/aap/1
+2013-03-24 21:30:41,049 INFO  [Server] (main) Installing mobicents/ivr/1
+2013-03-24 21:30:41,076 INFO  [MGCP] (main) Endpoint restarted: mobicents/ivr/1
+2013-03-24 21:30:41,077 INFO  [Server] (main) Installing mobicents/ivr/2
+2013-03-24 21:30:41,079 INFO  [MGCP] (main) Endpoint restarted: mobicents/ivr/2
+2013-03-24 21:30:41,079 INFO  [Server] (main) Installing mobicents/ivr/3
+2013-03-24 21:30:41,082 INFO  [MGCP] (main) Endpoint restarted: mobicents/ivr/3
+2013-03-24 21:30:41,082 INFO  [Server] (main) Installing mobicents/ivr/4
+2013-03-24 21:30:41,084 INFO  [MGCP] (main) Endpoint restarted: mobicents/ivr/4
+2013-03-24 21:30:41,084 INFO  [Server] (main) Installing mobicents/ivr/5
+2013-03-24 21:30:41,087 INFO  [MGCP] (main) Endpoint restarted: mobicents/ivr/5
+2013-03-24 21:30:41,096 INFO  [Server] (main) Installing mobicents/cnf/1
+2013-03-24 21:30:41,103 INFO  [MGCP] (main) Endpoint restarted: mobicents/cnf/1
+2013-03-24 21:30:41,103 INFO  [Server] (main) Installing mobicents/cnf/2
+2013-03-24 21:30:41,104 INFO  [MGCP] (main) Endpoint restarted: mobicents/cnf/2
+2013-03-24 21:30:41,104 INFO  [Server] (main) Installing mobicents/cnf/3
+2013-03-24 21:30:41,105 INFO  [MGCP] (main) Endpoint restarted: mobicents/cnf/3
+2013-03-24 21:30:41,105 INFO  [Server] (main) Installing mobicents/cnf/4
+2013-03-24 21:30:41,106 INFO  [MGCP] (main) Endpoint restarted: mobicents/cnf/4
+2013-03-24 21:30:41,106 INFO  [Server] (main) Installing mobicents/cnf/5
+2013-03-24 21:30:41,107 INFO  [MGCP] (main) Endpoint restarted: mobicents/cnf/5
+2013-03-24 21:30:41,117 INFO  [Server] (main) Installing mobicents/bridge/1
+2013-03-24 21:30:41,123 INFO  [MGCP] (main) Endpoint restarted: mobicents/bridge/1
+2013-03-24 21:30:41,123 INFO  [Server] (main) Installing mobicents/bridge/2
+2013-03-24 21:30:41,124 INFO  [MGCP] (main) Endpoint restarted: mobicents/bridge/2
+2013-03-24 21:30:41,124 INFO  [Server] (main) Installing mobicents/bridge/3
+2013-03-24 21:30:41,125 INFO  [MGCP] (main) Endpoint restarted: mobicents/bridge/3
+2013-03-24 21:30:41,126 INFO  [Server] (main) Installing mobicents/bridge/4
+2013-03-24 21:30:41,127 INFO  [MGCP] (main) Endpoint restarted: mobicents/bridge/4
+2013-03-24 21:30:41,127 INFO  [Server] (main) Installing mobicents/bridge/5
+2013-03-24 21:30:41,128 INFO  [MGCP] (main) Endpoint restarted: mobicents/bridge/5
+2013-03-24 21:30:41,138 INFO  [Server] (main) Installing mobicents/relay/1
+2013-03-24 21:30:41,139 INFO  [MGCP] (main) Endpoint restarted: mobicents/relay/1
+2013-03-24 21:30:41,139 INFO  [MainDeployer] (main) Calling Garbage collector to clear init data
+2013-03-24 21:30:41,209 INFO  [MainDeployer] (main) [[[[[[[[[ Mobicents Media Server: release.version=3.0.0.FINAL Started ]]]]]]]]]
+2013-03-24 21:30:42,295 INFO  [MGCP] (Thread-0) Controller stopped
+2013-03-24 21:30:42,295 INFO  [MGCP] (Thread-0) Set server
+2013-03-24 21:30:42,299 INFO  [MGCP] (Thread-0) Set scheduler: null
+2013-03-24 21:30:42,300 INFO  [Server] (Thread-0) Stopping UDP Manager
+2013-03-24 21:30:42,300 INFO  [UdpManager] (Thread-0) Stopped
+2013-03-24 21:30:42,300 INFO  [Server] (Thread-0) Stopping scheduler
+2013-03-24 21:30:42,340 INFO  [Server] (Thread-0) Stopped media server instance 
+2013-03-24 21:30:42,431 INFO  [MainDeployer] (Thread-0) Stopped

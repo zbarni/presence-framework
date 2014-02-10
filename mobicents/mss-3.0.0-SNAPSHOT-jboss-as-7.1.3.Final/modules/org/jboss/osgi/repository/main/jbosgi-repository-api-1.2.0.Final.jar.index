@@ -1,0 +1,13 @@
+
+org/jboss/osgi/repository/spi
+org/jboss/osgi/repository
+org/osgi/service/repository
+org/osgi
+org/jboss
+META-INF/maven
+org/osgi/service
+META-INF/maven/org.jboss.osgi.repository
+META-INF/maven/org.jboss.osgi.repository/jbosgi-repository-api
+org/jboss/osgi
+org
+META-INF

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter 1. Introduction to the Mobicents Media Server</title><link rel="stylesheet" type="text/css" href="css/telestax_org.css"/><meta name="generator" content="DocBook XSL Stylesheets V1.77.1"/><link rel="home" href="index.html" title="Media Server User Guide"/><link rel="up" href="index.html" title="Media Server User Guide"/><link rel="prev" href="pr01.html" title="Preface"/><link rel="next" href="ch02.html" title="Chapter 2. Installing the Media Server"/><meta xmlns:d="http://docbook.org/ns/docbook" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" http-equiv="Content-Type" content="text/html; charset=UTF-8"/></head><body><p xmlns:d="http://docbook.org/ns/docbook" id="title"><a href="http://www.telestax.com" class="site_href"><strong>TeleStax.org</strong></a><a href="http://www.telestax.com/" class="doc_href"><strong>Community Documentation</strong></a></p><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="pr01.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="ch02.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="ittms-Introduction_to_the_Media_Server"/>Chapter 1. Introduction to the Mobicents Media Server</h1></div></div></div><div class="toc"><dl><dt><span class="section"><a href="ch01.html#ittms-Overview-the_Reasoning_and_Need_for_Media_Servers">1.1. 
+			Overview: the Reasoning and Need for Media Server
+		</a></span></dt><dt><span class="section"><a href="ch01.html#ittms-Technical_specification_and_capacity">1.2. Technical Specification and Capacity</a></span></dt><dt><span class="section"><a href="ch01.html#ittms-Media_Server_Architecture">1.3. Media Server Architecture</a></span></dt><dd><dl><dt><span class="section"><a href="ch01.html#ittms-High_Level_Component">1.3.1. High level components</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Overview-the_Reasoning_and_Need_for_Media_Servers"/>1.1. 
+			Overview: the Reasoning and Need for Media Server
+		</h2></div></div></div><p><strong>Media Gateways Bridge Multiple Technologies. </strong>
+				Today, computers play an important role in modern communications. Widespread access to broadband Internet and
+				the ubiquity of Internet Protocol (
+				<acronym class="acronym">IP</acronym>
+				) enable the convergence of voice, data and video. Media
+				gateways provide the ability to switch voice media
+				between a network and its access point. Using Digital
+				Subscriber Line (
+				<acronym class="acronym">DSL</acronym>
+				) and fast-Internet cable technology, a media gateway
+				converts, compresses and packetizes voice data for
+				transmission back-and-forth across the Internet backbone
+				for landline and wireless phones. Media gateways sit at
+				the intersection of Public Switched Telephone Networks (
+				<acronym class="acronym">PSTN</acronym>
+				s) and wireless or IP-based networks.
+			</p><p><strong>Why Media Gateways for VoIP Is Needed. </strong>
+				Multiple market demands are pushing companies to
+				converge all of their media services using media
+				gateways with Voice-over-IP (
+				<acronym class="acronym">VoIP</acronym>
+				) capabilities. Some of the expected benefits of the architecture are as follows:
+			</p><div class="variablelist"><dl class="variablelist"><dt><span class="term">Lowering initial costs</span></dt><dd><p>
+						Capital investment is decreased because low-cost
+						commodity hardware can be used for multiple
+						functions.
+					</p></dd><dt><span class="term">Lowering development costs</span></dt><dd><p>
+						Open system hardware and software standards with
+						well-defined applications reduce costs, and
+						Application Programming Interfaces (
+						<acronym class="acronym">API</acronym>
+						s) accelerate development.
+					</p></dd><dt><span class="term">Handling multiple media types</span></dt><dd><p>
+						Companies want
+						<acronym class="acronym">VoIP</acronym>
+						solutions that are extensible and that will be ready to handle future needs like, video.
+					</p></dd><dt><span class="term">
+					Lowering the costs of deployment and maintenance
+				</span></dt><dd><p>
+						Standardized, modular systems reduce training
+						costs and maintenance while simultaneously
+						improving uptime.
+					</p></dd><dt><span class="term">Enabling rapid time-to-market</span></dt><dd><p>
+						Early market entry hits the window of
+						opportunity and maximizes revenue.
+					</p></dd></dl></div><p><strong>What Is the Mobicents Media Server? </strong>
+				The Mobicents Media Server is an open source Media
+				Server aimed at:
+			</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					Delivering competitive, complete, best-of-breed
+					media gateway functionality of the highest quality.
+				</p></li><li class="listitem"><p>
+					Meeting the demands of converged wireless and
+					landline networks, DSL and cable broadband access,
+					and fixed-mobile converged
+					<acronym class="acronym">VoIP</acronym>
+					—— networks from a singleand
+					singularly-capablemedia gateway platform.
+				</p></li><li class="listitem"><p>
+					Increasing flexibility with a media gateway that
+					supports a wide variety of call control protocols,
+					which possesses an architecture that can scale to
+					meet the demands of small-carrier providers as well
+					as large enterprises.
+				</p></li></ul></div><p>
+			Because Mobicents Media Server is Java based, it is cross
+			platform, easy to install and run on any operating system
+			that supports Java. The available source code is a powerful
+			tool to debug the server and understand processing logic. It
+			also gives you the flexibility to create customized
+			components and configurations.
+		</p><p>
+			Form version 2.0.0, the Mobicents Media Server is available
+			either as embedded in JBoss AS 5.x.y or Standalone.
+		</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Technical_specification_and_capacity"/>1.2. Technical Specification and Capacity</h2></div></div></div><p>The Mobicents Media Server is capable of</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+					Media and Coders :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>G711 (a-Law, u-Law)</p></li><li class="listitem"><p>GSM</p></li><li class="listitem"><p>Linear PCM(L16)</p></li><li class="listitem"><p>G729</p></li><li class="listitem"><p>DTMF(RFC 2833, INBAND)</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Media Files :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>WAV</p></li><li class="listitem"><p>GSM</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Signaling and control :
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>MGCP</p></li><li class="listitem"><p>Java Media Control API(JSR-309)</p></li></ul></div><p>
+				</p></li><li class="listitem"><p>
+					Capacity : Typical media sessions per server
+					</p><div class="itemizedlist"><ul class="itemizedlist" type="circle"><li class="listitem"><p>
+								• G.711 , L16 @20ms – 500+ per cpu core </p><p>
+• GSM @ 20ms – 95 GSM mixed with 380 G.711 , L16 , 475 overall per cpu core
+</p><p>
+• G.729 @20ms – 45 GSM mixed with 180 G.711 , L16 , 225 overall per cpu core
+</p><p>
+All benchmark tests  where done on Amazon EC2 cloud instances.
+							</p></li></ul></div><p>
+				</p></li></ul></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="ittms-Media_Server_Architecture"/>1.3. Media Server Architecture</h2></div></div></div><p>
+			Media services have played an important role in the
+			traditional Time Division Multiplexing (
+			<acronym class="acronym">TDM</acronym>
+			)-based telephone network. As the network migrates to an
+			Internet Protocol (
+			<acronym class="acronym">IP</acronym>
+			)-based environment, media services are also moving to new
+			environments.
+		</p><p>
+			One of the most exciting trends is the emergence and
+			adoption of complementary modular standards that leverage
+			the Internet to enable media services to be developed,
+			deployed and updated rapidly. This is carried out in a network
+			architecture that supports the two concepts called
+			<span class="emphasis"><em>provisioning-on-demand</em></span>
+			and
+			<span class="emphasis"><em>scaling-on-demand</em></span>
+			.
+		</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="ittms-High_Level_Component"/>1.3.1. High level components</h3></div></div></div><p>
+				The Media Server's high degree of modularity benefits
+				the application developer in several ways. The
+				already-tight code can be further optimized to support
+				applications that require small footprints. For example,
+				if
+				<acronym class="acronym">PSTN</acronym>
+				interconnection is unnecessary in an application, then
+				the D-channel feature can be removed from the Media Server. In the future, if the same application is
+				deployed within a Signaling System 7 (
+				<acronym class="acronym">SS7</acronym>
+				) network, then the appropriate endpoint can be enabled,
+				and the application is then compatible.
+			</p><div class="mediaobject" align="center"><a id="ittms-mms-MMSArchictecture-dia-MMS"/><img src="images/mms-MMSArchictecture-dia-MMS2.jpg" align="middle"/></div><p>
+				The Media Server architecture assumes that call control
+				intelligence lies outside of the Media Server, and is
+				handled by an external entity. The Media Server also
+				assumes that call controllers will use control
+				procedures such as
+				<acronym class="acronym">MGCP</acronym>
+				,
+				<acronym class="acronym">MEGACO</acronym>
+				or
+				<acronym class="acronym">MSML</acronym>
+				, among others. Each specific control module can be
+				plugged in directly to the server as a standard
+				deployable unit. Utilizing the JBoss Microcontainer for
+				the implementation of control protocol-specific
+				communication logic allows for simple deployment. It is
+				therefore unnecessary for developers to configure
+				low-level transaction and state management details,
+				multi-threading, connection-pooling and other low-level
+				details and
+				<acronym class="acronym">API</acronym>
+				s.
+			</p><p>
+				The Mobicents Media Server call control intelligence can
+				be a JSLEE Application deployed on Mobicents JAIN SLEE
+				Server or any other JAIN SLEE container. In case of
+				Mobicents JSLEE Server there is already MGCP Resource
+				Adaptor available.
+			</p><p>
+				Mobicents Media Server can also be controlled from
+				Mobicents SIP Servlets or any other SIP Servlets
+				container using any of the above call control procedures
+				or using the Mobicents JSR-309 Implementation. Mobicents
+				JSR-309 Implementation internally leverages MGCP
+				protocol to controll Media Server. Mobicents JSR-309
+				implementation details is out of scope of this document.
+			</p><p>
+				It is also possible to control the Mobicents Media
+				Server from any third party Java application (including
+				standalone Java apps) or other technologies like .NET
+				etc as far as they follow standrad protocols like MGCP,
+				MEGACO etc. There is no dependency on call controller
+				but the protocol used between the call controller and
+				Mobicents Media Server.
+			</p><p>
+				Many key features of Mobicents Media Server are provided
+				by integrating individual components operating using
+				generic Service Provider Interface. There are two of
+				types of high level components: Endpoints and
+				Controllers.
+			</p><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ittms-Endpoints"/>1.3.1.1. Endpoints</h4></div></div></div><p>
+					It is convenient to consider a media gateway as a
+					collection of endpoints. An endpoint is a logical
+					representation of a physical entity such as an
+					analog phone or a channel in a trunk. Endpoints are
+					sources or sinks of data and can be either physical
+					or virtual. Physical endpoint creation requires
+					hardware installation, while software is sufficient
+					for creating virtual endpoints. An interface on a
+					gateway that terminates at a trunk connected to a
+					<acronym class="acronym">PTSN</acronym>
+					switch would be an example of a physical endpoint.
+					An audio source in an audio content server would be
+					an example of a virtual endpoint.
+				</p><p>
+					The type of the endpoint determines its
+					functionality. From the points considered so far, the following basic endpoint types have been identified:
+				</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem"><p>
+							digital signal 0 (
+							<acronym class="acronym">DS0</acronym>
+							)
+						</p></li><li class="listitem"><p>analog line</p></li><li class="listitem"><p>announcement server access point</p></li><li class="listitem"><p>conference bridge access point</p></li><li class="listitem"><p>packet relay</p></li><li class="listitem"><p>
+							Asynchronous Transfer Mode (
+							<acronym class="acronym">ATM</acronym>
+							) "trunk side" interface
+						</p></li></ul></div><p>
+					This list is not comprehensive. Other endpoint types may be
+					defined in the future, such as test endpoints which
+					could be used to check network quality, or
+					frame-relay endpoints that could be used to manage
+					audio channels multiplexed over a frame-relay
+					virtual circuit.
+				</p><div class="variablelist"><p class="title"><strong>
+						Descriptions of Various Access Point Types
+					</strong></p><dl class="variablelist"><dt><span class="term">Announcement Server Access Point</span></dt><dd><p>
+								An announcement server endpoint provides
+								access, intuitively, to an announcement
+								server. Upon receiving requests from the
+								call agent, the announcement server
+								<span class="quote">“<span class="quote">plays</span>”</span>
+								a specified announcement. A given
+								announcement endpoint is not expected to
+								support more than one connection at a
+								time. Connections to an announcement
+								server are typically one-way; they are
+								<span class="quote">“<span class="quote">half-duplex</span>”</span>
+								: the announcement server is not
+								expected to listen to audio signals from
+								the connection. Announcement access
+								points are capable of playing
+								announcements; however, these endpoints
+								do not have the capability of
+								transcoding. To achieve transcoding, a
+								Packet Relay must be used. Also note
+								that the announcement server endpoint
+								can generate tones, such as dual-tone
+								multi-frequency (DTMF).
+							</p></dd><dt><span class="term">
+							Interactive Voice Response Access Point
+						</span></dt><dd><p>
+								An Interactive Voice Response (
+								<acronym class="acronym">IVR</acronym>
+								) endpoint provides access to an
+								<acronym class="acronym">IVR</acronym>
+								service. Upon requests from the call
+								agent, the
+								<acronym class="acronym">IVR</acronym>
+								server
+								<span class="quote">“<span class="quote">plays</span>”</span>
+								announcements and tones, and
+								<span class="quote">“<span class="quote">listens</span>”</span>
+								for responses, such as (
+								<acronym class="acronym">DTMF</acronym>
+								) input or voice messages, from the
+								user. A given
+								<acronym class="acronym">IVR</acronym>
+								endpoint is not expected to support more
+								than one connection at a time. Similarly
+								to announcement endpoints, IVR endpoints
+								do not possess media-transcoding
+								capabilities. IVR plays and records in
+								the format in which the media was stored
+								or received.
+							</p></dd><dt><span class="term">Conference Bridge Access Point</span></dt><dd><p>
+								A conference bridge endpoint is used to
+								provide access to a specific conference.
+								Media gateways should be able to
+								establish several connections between
+								the endpoint and packet networks, or
+								between the endpoint and other endpoints
+								in the same gateway. The signals
+								originating from these connections are
+								mixed according to the connection
+								<span class="quote">“<span class="quote">mode</span>”</span>
+								(as specified later in this document).
+								The precise number of connections that
+								an endpoint supports is characteristic
+								of the gateway, and may, in fact, vary
+								according to the allocation of resources
+								within the gateway.
+							</p></dd><dt><span class="term">Packet Relay Endpoint</span></dt><dd><p>
+								A packet relay endpoint is a specific
+								form of conference bridge that typically
+								only supports two connections. Packet
+								relays can be found in firewalls between
+								a protected and an open network, or in
+								transcoding servers used to provide
+								interoperation between incompatible
+								gateways, such as gateways which don't
+								support compatible compression
+								algorithms and gateways which operate
+								over different transmission networks,
+								such as IP or ATM.
+							</p></dd><dt><span class="term">Echo Endpoint</span></dt><dd><p>
+								An echo—or loopback—endpoint is a test
+								endpoint that is used for maintenance
+								and/or continuity testing. The endpoint
+								returns the incoming audio signal from
+								the endpoint back to that same endpoint,
+								thus creating an echo effect
+							</p></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="ittms-Controller-Modules"/>1.3.1.2. Controller Modules</h4></div></div></div><p>
+					Controller Modules allows external interfaces to be
+					implemented for the Media Server. Each controller
+					module implements an industry standard control
+					protocol, and uses a generic SPI to control
+					processing components or endpoints.
+				</p><p>
+					One such controller module is the Media Gateway
+					Control Protocol (MGCP). MGCP is designed as an
+					internal protocol within a distributed system that
+					appears to outside as a single VoIP gateway. The
+					MGCP is composed of a Call Agent, and set of
+					gateways including at least one "media gateway" that
+					perform the conversion of media signal between
+					circuit and packets, and at least one "signalling
+					gateway" when connecting to an SS7 controlled
+					network. The Call Agent can be distributed over
+					several computer platforms.
+				</p></div></div></div></div><ul xmlns:d="http://docbook.org/ns/docbook" class="docnav"><li class="previous"><a accesskey="p" href="pr01.html"><strong>Prev</strong>Preface</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="ch02.html"><strong>Next</strong>Chapter 2. Installing the Media Server</a></li></ul></body></html>
