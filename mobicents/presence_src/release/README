@@ -1,0 +1,55 @@
+Here it is, Mobicents SIP Presence Service 1.0.0.FINAL, the first 
+stable release for the popular open source SIP Presence service 
+implementation, compatible with many OMA, IETF, 3GPP and GSMA standards.
+
+What is new?
+--------------------------------------------------------------------------
+
+This release updates the underlying JAIN SLEE container, now the latest 
+Mobicents JAIN SLEE 2.5.0.FINAL, and fixes a few issues found on the 
+candidate release.
+
+What is included?
+------------------------------------------------------------------------------
++-- Mobicents XDM Server standalone installed in JBoss AS + Mobicents
+JAIN SLEE (mobicents-sip-presence-xdms-1.0.0.FINAL.zip)
++-- Mobicents XDM Server and Mobicents SIP Presence Servers integrated
+installed in JBboss AS + Mobicents JAIN SLEE, plus two example
+presence aware JAIN SLEE applications pre-deployed
+(mobicents-sip-presence-integrated-1.0.0.FINAL.zip)
++-- Mobicents SIP Presence Service binary package that you can use to
+install XDM or Integrated servers in JBoss AS + Mobicents JAIN SLEE 2.5.0.FINAL
+(mobicents-sip-presence-1.0.0.FINAL.zip)
+
+Download URL:
+-------------------------------------------------------------------------------
+http://sourceforge.net/projects/mobicents/files/Mobicents%20SIP%20Presence%20Service/1.0.0.FINAL
+
+SVN source code and tag:
+-------------------------------------------------------------------------------
+http://mobicents.googlecode.com/svn/tags/servers/sip-presence/1.0.0.FINAL
+
+How to get started?
+--------------------------------------------------------------------------------
+Please check the documentation included in directory named docs
+
+Issues fixed & enhancements:
+-------------------------------------------------------------------------------
+http://code.google.com/p/mobicents/issues/list?can=1&q=msps%3D1.0.0.FINAL
+
+Very Important:
+-------------------------------------------------------------------------------
+This is a community project and, as such is not supported with an SLA.
+Any questions or problems can be raised through our forums, where we
+will provide our best efforts to assist.
+This project is included in the JBoss Communications Platform for
+which a support subscription is available. Red Hat also provides other
+solutions, such as training or consultancy. More at
+http://www.redhat.com/solutions/telco
+
+A final note, even if it is repeated on every release announcement, a
+sincere big thanks to all Mobicents community members who helped the
+making of this release, be it bug reports, feature contribution or
+testing enhancements, without you it would be much harder.
+
+Cheers.

@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven Bundle Plugin
+Built-By: jenkins
+Build-Jdk: 1.6.0_37
+Implementation-Title: org.mobicents.servers.sipevent:sip-event-subscri
+ ption-control-configuration-meta
+Implementation-Version: 1.1.0-SNAPSHOT
+Tool: Bnd-1.15.0
+Bundle-Name: sip-event-subscription-control-configuration-meta
+Implementation-URL: http://www.mobicents.org
+SVN-Revision: 22837
+Implementation-Vendor-Id: JBoss, a Red Hat division
+Bundle-Version: 1.1.0.SNAPSHOT
+Bnd-LastModified: 1355711763692
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.gnu.org/licenses/lgpl.html
+Bundle-Description: Mobicents :: Parent pom for 2.x releases
+Bundle-SymbolicName: org.mobicents.servers.sipevent.sip-event-subscrip
+ tion-control-configuration-meta
+

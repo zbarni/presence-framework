@@ -1,0 +1,129 @@
+<?xml version='1.0'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "SIP_Presence_Service_User_Guide.ent">
+%BOOK_ENTITIES;
+]>
+<chapter
+	id="xdms-XML_Document_Management_Server">
+	<title>&PLATFORM_NAME; XML Document Management Server</title>
+	<para>The <application>&PLATFORM_NAME; XML Document Management Server</application> (XDMS) is part of the <application>&PLATFORM_NAME; SIP Presence Service</application>. It is the first free and open source implementation of an <application>XML Document Management Server</application> as defined in the Open Mobile Alliance (OMA) XML Document Management v1.1 specification. This functional element of next-generation IP communication networks is responsible for handling the management of user XML documents stored on the network side, such as presence authorization rules, contact and group lists (also known as resource lists), static presence information, and much more.</para>
+
+	<para>The <application>XDM Server</application> comprises the following functional elements:</para>
+	<variablelist
+			id="xdms-Functional_Elements_of_the_XDM_Server">
+		<title>Functional Elements of the XDM Server</title>
+		<varlistentry>
+			<term>Data Source</term>
+			<listitem>
+				<para>The XDM Server data source is where all user XML documents are stored. Information related to the server itself is also stored in this element along with the user's provisioned data.</para>
+				<para>The data source also handles subscriptions to updates on specific documents, or complete XCAP application usages.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Aggregation Proxy</term>
+			<listitem>
+				<para>The aggregation proxy is responsible for handling an XDM client's XCAP requests.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Authentication Proxy</term>
+			<listitem>
+				<para>The authentication proxy is responsible for authentication of the user related with each XCAP request handled.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>Request Processor</term>
+			<listitem>
+				<para>This element includes the XCAP Server logic to process an XCAP request and return a proper response, including authorization for the authenticated user.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry>
+			<term>XDM Event Subscription Control</term>
+			<listitem>
+				<para>This element, using the SIP protocol, is responsible for handling subscriptions to documents managed by the XDM. Its functions include the authentication and authorization of a subscription, attachment to update events on specific documents or collections, and the sending of notifications when documents change. This interface is fully compatible with the XCAP DIFF event package, defined by IETF RFC 5875.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+		
+	<section id="xdms-Configuring_the_XDM_Server">
+		<title>Configuring the XDM Server</title>
+			
+		<section id="xdms-Configuring_the_XDM_Server_XCAP_ROOT">
+			<title>Configuring the XDM Server XCAP root</title>
+			<para>The &PLATFORM_NAME; XDM Server comes pre-configured for an XCAP root of http://&lt;hostname&gt;:8080/mobicents, hostname being the host/<acronym>IP</acronym> used to start the server (127.0.0.1 by default). It is possible to change the host, the port and the last path segment:</para>
+			<itemizedlist>	
+				<listitem>
+					<para>Rename <filename>$JBOSS_HOME/server/&lt;server_profile&gt;/deploy/mobicents.war</filename> to the desired last path segment in the XCAP root (e.g. rename to xcap-root.war for an XCAP root of http://&lt;hostname&gt;:8080/xcap-root). The &lt;server_profile&gt; is the server configuration/profile used in the underlying <application>JBoss AS</application>, by default it is <emphasis>default</emphasis></para>					
+				</listitem>
+				<listitem>
+					<para>Edit <filename>$JBOSS_HOME/server/&lt;server_profile&gt;/deploy/http-servlet-ra-DU-*.jar/META-INF/deploy-config.xml</filename>. Uncomment and set custom servlet name again to the desired last path segment in the XCAP root.</para>					
+				</listitem>
+				<listitem>
+					<para>Edit the properties in file <filename>$JBOSS_HOME/server/&lt;server_profile&gt;/deploy/mobicents-xdms/3-beans/configuration/xdms/META-INF/jboss-beans.xml</filename>. Note that the xcapRoot has a leading and trailing /. Also note that for the <application>Integrated Server</application> the path segment mobicents-xdms is mobicents-sip-presence.</para>
+					<para>This configuration part can also be done through JMX, using the MBean named <emphasis>org.mobicents.sippresence:name=XDMServerConfiguration</emphasis>. The configuration changes through JMX are not persistent.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+		
+		<section id="xdms-Configuring_the_XDM_Server_XCAP_Interface">
+			<title>Other configurations in the XDM Server XCAP Interface</title>
+			<para>There are other configurable features related with the XCAP Interface:</para>
+			<itemizedlist>	
+				<listitem>
+					<para>Edit the properties in file <filename>$JBOSS_HOME/server/&lt;server_profile&gt;/deploy/mobicents-xdms/3-beans/configuration/xdms/META-INF/jboss-beans.xml</filename>. Note that for the <application>Integrated Server</application> the path segment mobicents-xdms is mobicents-sip-presence.</para>
+					<para>This configuration part can also be done through JMX, using the MBean named <emphasis>org.mobicents.sippresence:name=XDMServerConfiguration</emphasis>. The configuration changes through JMX are not persistent.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+		
+		<section id="xdms-Configuring_the_XDM_Server_SIP_Interface">
+			<title>Configuring the XDM Server XCAP Diff SIP Subscription Interface</title>
+			<para>The &PLATFORM_NAME; XDM Server SIP Interface can be configured regarding several features, such as subscription timers:</para>
+			<itemizedlist>	
+				<listitem>
+					<para>Edit the properties in file <filename>$JBOSS_HOME/server/&lt;server_profile&gt;/deploy/mobicents-xdms/3-beans/configuration/sip-event/subscription/META-INF/jboss-beans.xml</filename>. Note that for the <application>Integrated Server</application> the path segment mobicents-xdms is mobicents-sip-presence.</para>
+					<para>This configuration part can also be done through JMX, using the MBean named <emphasis>org.mobicents.sippresence:name=SipEventSubscriptionControl</emphasis>. The configuratian changes through JMX are not persistent.</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+		
+		<section id="xdms-Configuring_the_XDM_Server_Users">
+			<title>XDM Server User Profile Provisioning</title>
+				<para>The XCAP interface is public, used by users to manage their information such as buddy lists, presence authorization rules, etc, and needs to enforce user authentication. To do this, the server relies on the User Profile Enabler managed data, such as the users passwords, and this information must be provisioned. This can be done in two ways, both requiring the server to be running:</para>
+				<variablelist>
+				<varlistentry>
+					<term>User Provisioning through an JMX Client</term>
+					<listitem>
+						<para>Users can be added/removed through the <emphasis>org.mobicents.sippresence:name=UserProfileControl</emphasis> MBean. </para>
+					</listitem>
+				</varlistentry>
+				<varlistentry>
+					<term>User Provisioning through the <application>JBoss AS</application> default datasource.</term>
+					<listitem>
+						<para>Users can be added/removed through adding/removing rows to the <emphasis>MOBICENTS_SLEE_ENABLER_USERPROFILES</emphasis> table.</para>
+					</listitem>
+				</varlistentry>
+			</variablelist>
+			<section id="xdms-Asserted_User_IDs" >
+				<title>User Asserted IDs</title>
+				<para>The XDM Server allows the usage of asserted user IDs, through the <literal>X-3GPP-Asserted-Identity</literal> or <literal>X-XCAP-Asserted-Identity</literal> header in the XCAP request. If the XDM Server is directly exposed to the public, this feature should be disabled, through the configuration of the XCAP Interface.</para>
+			</section>			
+			<section id="xdms-Local_XCAP_Requests" >
+				<title>Local XCAP Requests</title>
+				<para>By default, the local (same host) XCAP requests will go around user authentication. This can also be disabled through configuration of the XCAP interface.</para>
+			</section>
+			<section id="xdms-Xcap_Diff_Super_Users">
+				<title>Xcap Diff Super Users</title>
+				<para>It is possible to define a set of super users, through the configuration of the XCAP interface, which are authorized to subscribe any document or collection. Any other user may only subscribe documents in its own user directory, for each XCAP app usage deployed. By default there are no super users configured.</para>
+			</section>
+		</section>
+		
+		<xi:include
+		href="Section-XCAP_Application_Usages.xml"
+		xmlns:xi="http://www.w3.org/2001/XInclude">		
+		</xi:include>
+	
+		
+	</section>
+	
+</chapter>

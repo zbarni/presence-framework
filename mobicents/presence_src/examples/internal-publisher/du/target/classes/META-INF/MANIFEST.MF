@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Implementation-Title: org.mobicents.servers.sippresence:example-intern
+ al-publisher-du
+Implementation-Version: 1.1.0-SNAPSHOT
+Built-By: barni
+Tool: Bnd-1.15.0
+Bundle-Name: example-internal-publisher-du
+Created-By: Apache Maven Bundle Plugin
+Implementation-URL: http://www.mobicents.org
+Implementation-Vendor-Id: JBoss, a Red Hat division
+Build-Jdk: 1.7.0_51
+Bundle-Version: 1.1.0.SNAPSHOT
+Bnd-LastModified: 1392035188815
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.gnu.org/licenses/lgpl.html
+Bundle-Description: Mobicents :: Parent pom for 2.x releases
+Bundle-SymbolicName: org.mobicents.servers.sippresence.example-interna
+ l-publisher-du
+

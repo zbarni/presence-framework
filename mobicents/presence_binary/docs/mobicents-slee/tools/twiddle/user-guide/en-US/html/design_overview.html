@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory">Chapter 3. Design Overview</title><link rel="stylesheet" href="css/jbossorg.css" type="text/css"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="generator" content="DocBook XSL Stylesheets V1.74.0"/><link rel="home" href="index.html" title="Mobicents JSLEE Twiddle User Guide"/><link rel="up" href="index.html" title="Mobicents JSLEE Twiddle User Guide"/><link rel="prev" href="setup.html" title="Chapter 2. Setup"/><link rel="next" href="commands.html" title="Chapter 4. Commands"/></head><body><p id="title"><a href="http://www.jboss.org" class="site_href"><strong>JBoss.org</strong></a><a href="http://docs.jboss.org/" class="doc_href"><strong>Community Documentation</strong></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="setup.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="commands.html"><strong>Next</strong></a></li></ul><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="design_overview"/>Chapter 3. Design Overview</h2></div></div></div><p>Mobicents JSLEE Twiddle is command line tool. It is based on <code class="literal">JBoss</code> <acronym class="acronym">JMX</acronym> <code class="literal">Twiddle</code>.
+	Mobicents specific interaction capabilities are created over base provided by <code class="literal">JBoss</code> <code class="literal">Twiddle</code>.
+	Top overview of design is depicted on diagram below:
+	</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_1"/><img src="images/design_overview_1.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				General design
+			</p></div></div><p> Mobicents JSLEE Twiddle acts on base of <code class="literal">command</code> and <code class="literal">operation</code>. <code class="literal">Command</code> supports various operations. Operation 
+	is aware of specific resource that needs to be called and how it should be accessed to perform certain task. It also knows how to present specific result to user. 
+	</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_2"/><img src="images/design_overview_2.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				Operation
+			</p></div></div><p>
+	Based on user input, <code class="literal">command</code> makes decision which operation 
+	should be created and invoked.  Top overview of <code class="literal">command</code> and <code class="literal">operation</code> relation is depicted on diagram below:</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_3"/><img src="images/design_overview_3.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				JSLEE Command - Operation relation
+			</p></div></div><p>
+		<code class="literal">Command</code>s group operation which logically belong to one category or act on same set of resources, ie. services.
+	</p></div><ul class="docnav"><li class="previous"><a accesskey="p" href="setup.html"><strong>Prev</strong>Chapter 2. Setup</a></li><li class="up"><a accesskey="u" href="#"><strong>Top of page</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Front page</strong></a></li><li class="next"><a accesskey="n" href="commands.html"><strong>Next</strong>Chapter 4. Commands</a></li></ul></body></html>

@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Export-Package: org.mobicents.slee.sipevent.examples;uses:="org.mobice
+ nts.slee.sipevent.server.publication,javax.slee,javax.naming,javax.sl
+ ee.serviceactivity,org.mobicents.slee,javax.slee.facilities"
+Implementation-Title: org.mobicents.servers.sippresence:example-intern
+ al-publisher-sbb
+Implementation-Version: 1.1.0-SNAPSHOT
+Built-By: barni
+Tool: Bnd-1.15.0
+Bundle-Name: example-internal-publisher-sbb
+Created-By: Apache Maven Bundle Plugin
+Implementation-URL: http://www.mobicents.org
+Implementation-Vendor-Id: JBoss, a Red Hat division
+Build-Jdk: 1.7.0_51
+Bundle-Version: 1.1.0.SNAPSHOT
+Bnd-LastModified: 1392035172012
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.gnu.org/licenses/lgpl.html
+Bundle-Description: Mobicents :: Parent pom for 2.x releases
+Import-Package: javax.naming,javax.slee,javax.slee.facilities,javax.sl
+ ee.serviceactivity,org.mobicents.slee,org.mobicents.slee.sipevent.ser
+ ver.publication
+Bundle-SymbolicName: org.mobicents.servers.sippresence.example-interna
+ l-publisher-sbb
+

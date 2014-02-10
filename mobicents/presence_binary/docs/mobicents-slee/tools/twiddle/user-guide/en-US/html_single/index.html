@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory">Mobicents JSLEE Twiddle User Guide</title><link rel="stylesheet" href="css/jbossorg.css" type="text/css"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="generator" content="DocBook XSL Stylesheets V1.74.0"/><meta xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" name="description" content="This Guide intends to introduce user to Mobicents JSLEE Twiddle. It provides comprehensive description of following aspects: designconfigurationcommands"/></head><body><div class="book" lang="en-US"><div class="titlepage"><div><p id="title"><a href="http://www.jboss.org" class="site_href"><strong>JBoss.org</strong></a><a href="http://docs.jboss.org/" class="doc_href"><strong>Community Documentation</strong></a></p><div><h1 class="title"><a id="d0e1"/>Mobicents  JSLEE Twiddle  User Guide</h1></div><div><h2 class="subtitle"/></div><div><div xmlns="" xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="authorgroup"><div class="authors">by <span xmlns="http://www.w3.org/1999/xhtml" class="firstname">Bartosz</span> <span xmlns="http://www.w3.org/1999/xhtml" class="surname">Baranowski</span></div><div class="editors"/><div class="others"/></div></div><div><p class="copyright">Copyright © 2010 Red Hat, Inc.</p></div><div><div class="abstract"><p class="title"><b>Abstract</b></p><p>This Guide intends to introduce user to Mobicents JSLEE Twiddle. It provides comprehensive description of following aspects:
+		
+			</p><div class="itemizedlist"><ul><li><p>design</p></li><li><p>configuration</p></li><li><p>commands</p></li></ul></div><p>
+		</p></div></div></div><hr/></div><div class="toc"><dl><dt><span class="preface"><a href="#preface">Preface</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e44">1. Document Conventions</a></span></dt><dd><dl><dt><span class="section"><a href="#d0e54">1.1. Typographic Conventions</a></span></dt><dt><span class="section"><a href="#d0e270">1.2. Pull-quote Conventions</a></span></dt><dt><span class="section"><a href="#d0e289">1.3. Notes and Warnings</a></span></dt></dl></dd><dt><span class="section"><a href="#d0e309">2. Provide feedback to the authors!</a></span></dt></dl></dd><dt><span class="chapter"><a href="#introduction">1. Introduction
+		to Mobicents  JSLEE Twiddle
+	</a></span></dt><dt><span class="chapter"><a href="#setup">2. Setup</a></span></dt><dd><dl><dt><span class="section"><a href="#preinstall_requirements_and_prerequisites">2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dd><dl><dt><span class="section"><a href="#hardware_requirements">2.1.1. Hardware Requirements</a></span></dt><dt><span class="section"><a href="#software_prerequisites">2.1.2. Software Prerequisites</a></span></dt></dl></dd><dt><span class="section"><a href="#source_code">2.2. Mobicents  JSLEE Twiddle Source Code</a></span></dt><dd><dl><dt><span class="section"><a href="#release_source_building">2.2.1. Release Source Code Building</a></span></dt><dt><span class="section"><a href="#trunk_source_building">2.2.2. Development Trunk Source Building</a></span></dt></dl></dd></dl></dd><dt><span class="chapter"><a href="#design_overview">3. Design Overview</a></span></dt><dt><span class="chapter"><a href="#commands">4. Commands</a></span></dt><dd><dl><dt><span class="section"><a href="#twiddle_base">4.1. Twiddle</a></span></dt><dt><span class="section"><a href="#slee">4.2. slee</a></span></dt><dd><dl><dt><span class="section"><a href="#slee_start">4.2.1. start</a></span></dt><dt><span class="section"><a href="#slee_stop">4.2.2. stop</a></span></dt><dt><span class="section"><a href="#slee_shutdown">4.2.3. shutdown</a></span></dt><dt><span class="section"><a href="#slee_info">4.2.4. info</a></span></dt></dl></dd><dt><span class="section"><a href="#deploy">4.3. deploy</a></span></dt><dd><dl><dt><span class="section"><a href="#deploy_list">4.3.1. list</a></span></dt><dt><span class="section"><a href="#deploy_installed">4.3.2. installed</a></span></dt><dt><span class="section"><a href="#deploy_install">4.3.3. install</a></span></dt><dt><span class="section"><a href="#deploy_uninstall">4.3.4. un-install</a></span></dt><dt><span class="section"><a href="#deploy_desc">4.3.5. desc</a></span></dt><dt><span class="section"><a href="#deploy_ref">4.3.6. ref</a></span></dt></dl></dd><dt><span class="section"><a href="#alarm">4.4. alarm</a></span></dt><dd><dl><dt><span class="section"><a href="#alarm_clear">4.4.1. clear</a></span></dt><dt><span class="section"><a href="#alarm_list">4.4.2. list</a></span></dt><dt><span class="section"><a href="#alarm_descriptor">4.4.3. descriptor</a></span></dt><dt><span class="section"><a href="#alarm_active">4.4.4. active</a></span></dt></dl></dd><dt><span class="section"><a href="#resource">4.5. resource</a></span></dt><dd><dl><dt><span class="section"><a href="#resource_bind">4.5.1. bind</a></span></dt><dt><span class="section"><a href="#resource_unbind">4.5.2. unbind</a></span></dt><dt><span class="section"><a href="#resource_activate">4.5.3. activate</a></span></dt><dt><span class="section"><a href="#resource_deactivate">4.5.4. deactivate</a></span></dt><dt><span class="section"><a href="#resource_create">4.5.5. create</a></span></dt><dt><span class="section"><a href="#resource_remove">4.5.6. remove</a></span></dt><dt><span class="section"><a href="#resource_update_config">4.5.7. update-config</a></span></dt><dt><span class="section"><a href="#resource_list">4.5.8. list</a></span></dt><dt><span class="section"><a href="#resource_get">4.5.9. get</a></span></dt></dl></dd><dt><span class="section"><a href="#service">4.6. service</a></span></dt><dd><dl><dt><span class="section"><a href="#service_activate">4.6.1. activate</a></span></dt><dt><span class="section"><a href="#service_deactivate">4.6.2. deactivate</a></span></dt><dt><span class="section"><a href="#service_deactivate_and_activate">4.6.3. deactivate-and-activate</a></span></dt><dt><span class="section"><a href="#service_services">4.6.4. services</a></span></dt><dt><span class="section"><a href="#service_state">4.6.5. state</a></span></dt></dl></dd><dt><span class="section"><a href="#profile">4.7. profile</a></span></dt><dd><dl><dt><span class="section"><a href="#profile_list">4.7.1. list</a></span></dt><dt><span class="section"><a href="#profile_create">4.7.2. create</a></span></dt><dt><span class="section"><a href="#profile_remove">4.7.3. remove</a></span></dt><dt><span class="section"><a href="#profile_rename">4.7.4. rename</a></span></dt><dt><span class="section"><a href="#profile_get">4.7.5. get</a></span></dt></dl></dd><dt><span class="section"><a href="#profile.edit">4.8. profile.edit</a></span></dt><dd><dl><dt><span class="section"><a href="#profile.edit_list">4.8.1. list</a></span></dt><dt><span class="section"><a href="#profile.edit_dirty">4.8.2. dirty</a></span></dt><dt><span class="section"><a href="#profile.edit_write">4.8.3. write</a></span></dt><dt><span class="section"><a href="#profile.edit_edit">4.8.4. edit</a></span></dt><dt><span class="section"><a href="#profile.edit_restore">4.8.5. restore</a></span></dt><dt><span class="section"><a href="#profile.edit_commit">4.8.6. commit</a></span></dt><dt><span class="section"><a href="#profile.edit_close">4.8.7. close</a></span></dt><dt><span class="section"><a href="#profile.edit_get">4.8.8. get</a></span></dt><dt><span class="section"><a href="#profile.edit_set">4.8.9. set</a></span></dt></dl></dd><dt><span class="section"><a href="#trace">4.9. trace</a></span></dt><dd><dl><dt><span class="section"><a href="#trace_tracers_used">4.9.1. tracers-used</a></span></dt><dt><span class="section"><a href="#trace_tracers_set">4.9.2. tracers-set</a></span></dt><dt><span class="section"><a href="#trace_set_level">4.9.3. set-level</a></span></dt><dt><span class="section"><a href="#trace_un_set_level">4.9.4. un-set-level</a></span></dt><dt><span class="section"><a href="#trace_get_level">4.9.5. get-level</a></span></dt></dl></dd><dt><span class="section"><a href="#usage.service">4.10. usage.service</a></span></dt><dd><dl><dt><span class="section"><a href="#usage.service_list">4.10.1. list</a></span></dt><dt><span class="section"><a href="#usage.service_get">4.10.2. get</a></span></dt><dt><span class="section"><a href="#usage.service_reset">4.10.3. reset</a></span></dt><dt><span class="section"><a href="#usage.service_create">4.10.4. create</a></span></dt><dt><span class="section"><a href="#usage.service_delete">4.10.5. delete</a></span></dt><dt><span class="section"><a href="#usage.service_notify">4.10.6. notify</a></span></dt></dl></dd><dt><span class="section"><a href="#usage.profile">4.11. usage.profile</a></span></dt><dt><span class="section"><a href="#usage.resource">4.12. usage.resource</a></span></dt></dl></dd><dt><span class="chapter"><a href="#commands.extended">5. Commands Extended</a></span></dt><dd><dl><dt><span class="section"><a href="#activity">5.1. activity</a></span></dt><dd><dl><dt><span class="section"><a href="#activity_count">5.1.1. count</a></span></dt><dt><span class="section"><a href="#activity_query">5.1.2. query</a></span></dt><dt><span class="section"><a href="#activity_idle">5.1.3. idle</a></span></dt><dt><span class="section"><a href="#activity_list">5.1.4. list</a></span></dt></dl></dd><dt><span class="section"><a href="#router.stats">5.2. router.stats</a></span></dt><dd><dl><dt><span class="section"><a href="#router.stats_mapped_activities">5.2.1. mapped-activities</a></span></dt><dt><span class="section"><a href="#router.stats_avg_time">5.2.2. avg-time</a></span></dt><dt><span class="section"><a href="#router.stats_events_routed">5.2.3. events-routed</a></span></dt><dt><span class="section"><a href="#router.stats_executed_tasks">5.2.4. executed-tasks</a></span></dt><dt><span class="section"><a href="#router.stats_idle_time">5.2.5. idle-time</a></span></dt><dt><span class="section"><a href="#router.stats_misc_tasks">5.2.6. misc-tasks</a></span></dt><dt><span class="section"><a href="#router.stats_routing_time">5.2.7. routing-time</a></span></dt><dt><span class="section"><a href="#router.stats_executing_time">5.2.8. executing-time</a></span></dt><dt><span class="section"><a href="#router.stats_misc_executing_time">5.2.9. misc-executing-time</a></span></dt><dt><span class="section"><a href="#router.stats_print_all">5.2.10. print-all</a></span></dt></dl></dd><dt><span class="section"><a href="#deployer">5.3. deployer</a></span></dt><dd><dl><dt><span class="section"><a href="#deployer_status">5.3.1. status</a></span></dt></dl></dd><dt><span class="section"><a href="#congestion">5.4. congestion</a></span></dt><dd><dl><dt><span class="section"><a href="#congestion_period">5.4.1. period</a></span></dt><dt><span class="section"><a href="#congestion_disable_level">5.4.2. </a></span></dt><dt><span class="section"><a href="#congestion_enable_level">5.4.3. enable-level</a></span></dt><dt><span class="section"><a href="#congestion_refuse_event">5.4.4. refuse-event</a></span></dt><dt><span class="section"><a href="#congestion_refuse_activity">5.4.5. refuse-activity</a></span></dt></dl></dd></dl></dd><dt><span class="appendix"><a href="#revision_history">A. Revision History</a></span></dt><dt><span class="index"><a href="#d0e3815">Index</a></span></dt></dl></div><div class="preface" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="preface"/>Preface</h2></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e44"/>1. Document Conventions</h2></div></div></div><p>
+		This manual uses several conventions to highlight certain words and phrases and draw attention to specific pieces of information.
+	</p><p>
+		In PDF and paper editions, this manual uses typefaces drawn from the <a class="ulink" href="https://fedorahosted.org/liberation-fonts/">Liberation Fonts</a> set. The Liberation Fonts set is also used in HTML editions if the set is installed on your system. If not, alternative but equivalent typefaces are displayed. Note: Red Hat Enterprise Linux 5 and later includes the Liberation Fonts set by default.
+	</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e54"/>1.1. Typographic Conventions</h3></div></div></div><p>
+			Four typographic conventions are used to call attention to specific words and phrases. These conventions, and the circumstances they apply to, are as follows.
+		</p><p>
+			<code class="literal">Mono-spaced Bold</code>
+		</p><p>
+			Used to highlight system input, including shell commands, file names and paths. Also used to highlight key caps and key-combinations. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To see the contents of the file <code class="filename">my_next_bestselling_novel</code> in your current working directory, enter the <code class="command">cat my_next_bestselling_novel</code> command at the shell prompt and press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p></blockquote></div><p>
+			The above includes a file name, a shell command and a key cap, all presented in Mono-spaced Bold and all distinguishable thanks to context.
+		</p><p>
+			Key-combinations can be distinguished from key caps by the hyphen connecting each part of a key-combination. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Press <span class="keycap"><strong>Enter</strong></span> to execute the command.
+			</p><p>
+				Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F1</strong></span> to switch to the first virtual terminal. Press <span class="keycap"><strong>Ctrl</strong></span>+<span class="keycap"><strong>Alt</strong></span>+<span class="keycap"><strong>F7</strong></span> to return to your X-Windows session.
+			</p></blockquote></div><p>
+			The first sentence highlights the particular key cap to press. The second highlights two sets of three key caps, each set pressed simultaneously.
+		</p><p>
+			If source code is discussed, class names, methods, functions, variable names and returned values mentioned within a paragraph will be presented as above, in <code class="literal">Mono-spaced Bold</code>. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				File-related classes include <code class="classname">filesystem</code> for file systems, <code class="classname">file</code> for files, and <code class="classname">dir</code> for directories. Each class has its own associated set of permissions.
+			</p></blockquote></div><p>
+			<span class="application"><strong>Proportional Bold</strong></span>
+		</p><p>
+			This denotes words or phrases encountered on a system, including application names; dialogue box text; labelled buttons; check-box and radio button labels; menu titles and sub-menu titles. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				Choose <span class="guimenu"><strong>System &gt; Preferences &gt; Mouse</strong></span> from the main menu bar to launch <span class="application"><strong>Mouse Preferences</strong></span>. In the <span class="guilabel"><strong>Buttons</strong></span> tab, click the <span class="guilabel"><strong>Left-handed mouse</strong></span> check box and click <span class="guibutton"><strong>Close</strong></span> to switch the primary mouse button from the left to the right (making the mouse suitable for use in the left hand).
+			</p><p>
+				To insert a special character into a <span class="application"><strong>gedit</strong></span> file, choose <span class="guimenu"><strong>Applications &gt; Accessories &gt; Character Map</strong></span> from the main menu bar. Next, choose <span class="guimenu"><strong>Search &gt; Find</strong></span> from the <span class="application"><strong>Character Map</strong></span> menu bar, type the name of the character in the <span class="guilabel"><strong>Search</strong></span> field and click <span class="guibutton"><strong>Next</strong></span>. The character you sought will be highlighted in the <span class="guilabel"><strong>Character Table</strong></span>. Double-click this highlighted character to place it in the <span class="guilabel"><strong>Text to copy</strong></span> field and then click the <span class="guibutton"><strong>Copy</strong></span> button. Now switch back to your document and choose <span class="guimenu"><strong>Edit &gt; Paste</strong></span> from the <span class="application"><strong>gedit</strong></span> menu bar.
+			</p></blockquote></div><p>
+			The above text includes application names; system-wide menu names and items; application-specific menu names; and buttons and text found within a GUI interface, all presented in Proportional Bold and all distinguishable by context.
+		</p><p>
+			Note the <span class="guimenu"><strong>&gt;</strong></span> shorthand used to indicate traversal through a menu and its sub-menus. This is to avoid the difficult-to-follow 'Select <span class="guimenuitem"><strong>Mouse</strong></span> from the <span class="guimenu"><strong>Preferences</strong></span> sub-menu in the <span class="guimenu"><strong>System</strong></span> menu of the main menu bar' approach.
+		</p><p>
+			<code class="command"><em class="replaceable"><code>Mono-spaced Bold Italic</code></em></code> or <span class="application"><strong><em class="replaceable"><code>Proportional Bold Italic</code></em></strong></span>
+		</p><p>
+			Whether Mono-spaced Bold or Proportional Bold, the addition of Italics indicates replaceable or variable text. Italics denotes text you do not input literally or displayed text that changes depending on circumstance. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				To connect to a remote machine using ssh, type <code class="command">ssh <em class="replaceable"><code>username</code></em>@<em class="replaceable"><code>domain.name</code></em></code> at a shell prompt. If the remote machine is <code class="filename">example.com</code> and your username on that machine is john, type <code class="command">ssh john@example.com</code>.
+			</p><p>
+				The <code class="command">mount -o remount <em class="replaceable"><code>file-system</code></em></code> command remounts the named file system. For example, to remount the <code class="filename">/home</code> file system, the command is <code class="command">mount -o remount /home</code>.
+			</p><p>
+				To see the version of a currently installed package, use the <code class="command">rpm -q <em class="replaceable"><code>package</code></em></code> command. It will return a result as follows: <code class="command"><em class="replaceable"><code>package-version-release</code></em></code>.
+			</p></blockquote></div><p>
+			Note the words in bold italics above  username, domain.name, file-system, package, version and release. Each word is a placeholder, either for text you enter when issuing a command or for text displayed by the system.
+		</p><p>
+			Aside from standard usage for presenting the title of a work, italics denotes the first use of a new and important term. For example:
+		</p><div class="blockquote"><blockquote class="blockquote"><p>
+				When the Apache HTTP Server accepts requests, it dispatches child processes or threads to handle them. This group of child processes or threads is known as a <em class="firstterm">server-pool</em>. Under Apache HTTP Server 2.0, the responsibility for creating and maintaining these server-pools has been abstracted to a group of modules called <em class="firstterm">Multi-Processing Modules</em> (<em class="firstterm">MPMs</em>). Unlike other modules, only one module from the MPM group can be loaded by the Apache HTTP Server.
+			</p></blockquote></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e270"/>1.2. Pull-quote Conventions</h3></div></div></div><p>
+			Two, commonly multi-line, data types are set off visually from the surrounding text.
+		</p><p>
+			Output sent to a terminal is set in <code class="computeroutput">Mono-spaced Roman</code> and presented thus:
+		</p><pre class="screen">
+books        Desktop   documentation  drafts  mss    photos   stuff  svn
+books_tests  Desktop1  downloads      images  notes  scripts  svgs
+</pre><p>
+			Source-code listings are also set in <code class="computeroutput">Mono-spaced Roman</code> but are presented and highlighted as follows:
+		</p><pre class="programlisting">
+package org.jboss.book.jca.ex1;
+
+import javax.naming.InitialContext;
+
+public class ExClient
+{
+   public static void main(String args[]) 
+       throws Exception
+   {
+      InitialContext iniCtx = new InitialContext();
+      Object         ref    = iniCtx.lookup("EchoBean");
+      EchoHome       home   = (EchoHome) ref;
+      Echo           echo   = home.create();
+
+      System.out.println("Created Echo");
+
+      System.out.println("Echo.echo('Hello') = " + echo.echo("Hello"));
+   }
+   
+}
+</pre></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="d0e289"/>1.3. Notes and Warnings</h3></div></div></div><p>
+			Finally, we use three visual styles to draw attention to information that might otherwise be overlooked.
+		</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note"><h2>Note</h2><p>
+				A note is a tip or shortcut or alternative approach to the task at hand. Ignoring a note should have no negative consequences, but you might miss out on a trick that makes your life easier.
+			</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>
+				Important boxes detail things that are easily missed: configuration changes that only apply to the current session, or services that need restarting before an update will apply. Ignoring Important boxes won't cause data loss but may cause irritation and frustration.
+			</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="warning"><h2>Warning</h2><p>
+				A Warning should not be ignored. Ignoring warnings will most likely cause data loss.
+			</p></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="d0e309"/>2. Provide feedback to the authors!</h2></div></div></div><a id="d0e312" class="indexterm"/><p> If you find a typographical error in this manual, or if you have thought of a way to make this manual better, we would love to hear from you! Please submit a report in the the <a class="ulink" href="http://code.google.com/p/mobicents/issues/list">Issue Tracker</a>, against the product <span class="application"><strong>Mobicents  JSLEE Twiddle </strong></span>, or contact the authors.</p><p> When submitting a bug report, be sure to mention the manual's identifier: JSLEETwiddleCLI_User_Guide</p><p> If you have a suggestion for improving the documentation, try to be as specific as possible when describing it. If you have found an error, please include the section number and some of the surrounding text so we can find it easily.</p></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="introduction"/>Chapter 1. Introduction
+		to Mobicents  JSLEE Twiddle
+	</h2></div></div></div><p>
+		<acronym class="acronym">JAIN SLEE</acronym>
+		is the specification for a Java Service Logic and Execution
+		Environment (<acronym class="acronym">SLEE</acronym>). A <acronym class="acronym">SLEE</acronym>
+		is an application server, or service container, which defines a
+		component model for structuring the logic of communications services
+		as a collection of reusable components, and for composing these
+		components into even more sophisticated services.
+	</p><p>
+		As such, it requires
+		management tools to access and manage different aspects of container. JSLEE Twiddle
+		is command line tool enabling user to interact with container in
+		various way, through standard management interfaces.
+	</p></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="setup"/>Chapter 2. Setup</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#preinstall_requirements_and_prerequisites">2.1. Pre-Install Requirements and Prerequisites</a></span></dt><dd><dl><dt><span class="section"><a href="#hardware_requirements">2.1.1. Hardware Requirements</a></span></dt><dt><span class="section"><a href="#software_prerequisites">2.1.2. Software Prerequisites</a></span></dt></dl></dd><dt><span class="section"><a href="#source_code">2.2. Mobicents  JSLEE Twiddle Source Code</a></span></dt><dd><dl><dt><span class="section"><a href="#release_source_building">2.2.1. Release Source Code Building</a></span></dt><dt><span class="section"><a href="#trunk_source_building">2.2.2. Development Trunk Source Building</a></span></dt></dl></dd></dl></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="preinstall_requirements_and_prerequisites"/>2.1. Pre-Install Requirements and Prerequisites</h2></div></div></div><p>Ensure that the following requirements have been met before continuing with the install.</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="hardware_requirements"/>2.1.1. Hardware Requirements</h3></div></div></div><p>The JSLEE Twiddle doesn't change the Mobicents Hardware Requirements.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="software_prerequisites"/>2.1.2. Software Prerequisites</h3></div></div></div><p>JSLEE Twiddle does not have software dependencies.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="source_code"/>2.2. Mobicents  JSLEE Twiddle Source Code</h2></div></div></div><p/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="release_source_building"/>2.2.1. Release Source Code Building</h3></div></div></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="procedure"><ol class="1"><li><p class="title"><b>Downloading the source code</b></p><div class="important"><h2>Important</h2><p>Subversion is used to manage its source code. Instructions for using Subversion, including install, can be found at <a class="ulink" href="http://svnbook.red-bean.com">http://svnbook.red-bean.com</a></p></div><p>Use SVN to checkout a specific release source, the base URL is http://mobicents.googlecode.com/svn/tags/servers/jain-slee/tools/twiddle, then add the specific release version, lets consider 1.0.0.CR1.</p><pre class="programlisting">[usr]$ svn co http://mobicents.googlecode.com/svn/tags/servers/jain-slee/tools/twiddle/1.0.0.CR1 twiddle-1.0.0.CR1</pre></li><li><p class="title"><b>Building the source code</b></p><div class="important"><h2>Important</h2><p>Maven 2.0.9 (or higher) is used to build the release. Instructions for using Maven2, including install, can be found at <a class="ulink" href="http://maven.apache.org">http://maven.apache.org</a></p></div><p>Use Maven to build the binaries.</p><pre class="programlisting">
+				    [usr]$ cd twiddle-1.0.0.CR1
+				    [usr]$ mvn install
+				    </pre><p>Once the process finishes you should have the <code class="literal">binary</code> jar file in the <code class="filename">target</code> directory. Also <code class="filename">${tool.binary.dir}</code> directory should be present
+				    in <code class="filename">target</code> directory. It contains required libraries and scripts which allow to invoke JSLEE Twiddle.</p></li></ol></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trunk_source_building"/>2.2.2. Development Trunk Source Building</h3></div></div></div><p>Similar process as for <a class="xref" href="#release_source_building" title="2.2.1. Release Source Code Building">Section 2.2.1, “Release Source Code Building”</a>, the only change is the SVN source code URL, which is http://mobicents.googlecode.com/svn/trunk/servers/jain-slee/tools/twiddle.</p></div></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="design_overview"/>Chapter 3. Design Overview</h2></div></div></div><p>Mobicents JSLEE Twiddle is command line tool. It is based on <code class="literal">JBoss</code> <acronym class="acronym">JMX</acronym> <code class="literal">Twiddle</code>.
+	Mobicents specific interaction capabilities are created over base provided by <code class="literal">JBoss</code> <code class="literal">Twiddle</code>.
+	Top overview of design is depicted on diagram below:
+	</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_1"/><img src="images/design_overview_1.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				General design
+			</p></div></div><p> Mobicents JSLEE Twiddle acts on base of <code class="literal">command</code> and <code class="literal">operation</code>. <code class="literal">Command</code> supports various operations. Operation 
+	is aware of specific resource that needs to be called and how it should be accessed to perform certain task. It also knows how to present specific result to user. 
+	</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_2"/><img src="images/design_overview_2.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				Operation
+			</p></div></div><p>
+	Based on user input, <code class="literal">command</code> makes decision which operation 
+	should be created and invoked.  Top overview of <code class="literal">command</code> and <code class="literal">operation</code> relation is depicted on diagram below:</p><div class="mediaobject" align="center"><a id="jslee_cli_twiddle_overview_3"/><img src="images/design_overview_3.png" align="middle"/><div class="caption"><p>Mobicents JSLEE Twiddle
+				JSLEE Command - Operation relation
+			</p></div></div><p>
+		<code class="literal">Command</code>s group operation which logically belong to one category or act on same set of resources, ie. services.
+	</p></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="commands"/>Chapter 4. Commands</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#twiddle_base">4.1. Twiddle</a></span></dt><dt><span class="section"><a href="#slee">4.2. slee</a></span></dt><dd><dl><dt><span class="section"><a href="#slee_start">4.2.1. start</a></span></dt><dt><span class="section"><a href="#slee_stop">4.2.2. stop</a></span></dt><dt><span class="section"><a href="#slee_shutdown">4.2.3. shutdown</a></span></dt><dt><span class="section"><a href="#slee_info">4.2.4. info</a></span></dt></dl></dd><dt><span class="section"><a href="#deploy">4.3. deploy</a></span></dt><dd><dl><dt><span class="section"><a href="#deploy_list">4.3.1. list</a></span></dt><dt><span class="section"><a href="#deploy_installed">4.3.2. installed</a></span></dt><dt><span class="section"><a href="#deploy_install">4.3.3. install</a></span></dt><dt><span class="section"><a href="#deploy_uninstall">4.3.4. un-install</a></span></dt><dt><span class="section"><a href="#deploy_desc">4.3.5. desc</a></span></dt><dt><span class="section"><a href="#deploy_ref">4.3.6. ref</a></span></dt></dl></dd><dt><span class="section"><a href="#alarm">4.4. alarm</a></span></dt><dd><dl><dt><span class="section"><a href="#alarm_clear">4.4.1. clear</a></span></dt><dt><span class="section"><a href="#alarm_list">4.4.2. list</a></span></dt><dt><span class="section"><a href="#alarm_descriptor">4.4.3. descriptor</a></span></dt><dt><span class="section"><a href="#alarm_active">4.4.4. active</a></span></dt></dl></dd><dt><span class="section"><a href="#resource">4.5. resource</a></span></dt><dd><dl><dt><span class="section"><a href="#resource_bind">4.5.1. bind</a></span></dt><dt><span class="section"><a href="#resource_unbind">4.5.2. unbind</a></span></dt><dt><span class="section"><a href="#resource_activate">4.5.3. activate</a></span></dt><dt><span class="section"><a href="#resource_deactivate">4.5.4. deactivate</a></span></dt><dt><span class="section"><a href="#resource_create">4.5.5. create</a></span></dt><dt><span class="section"><a href="#resource_remove">4.5.6. remove</a></span></dt><dt><span class="section"><a href="#resource_update_config">4.5.7. update-config</a></span></dt><dt><span class="section"><a href="#resource_list">4.5.8. list</a></span></dt><dt><span class="section"><a href="#resource_get">4.5.9. get</a></span></dt></dl></dd><dt><span class="section"><a href="#service">4.6. service</a></span></dt><dd><dl><dt><span class="section"><a href="#service_activate">4.6.1. activate</a></span></dt><dt><span class="section"><a href="#service_deactivate">4.6.2. deactivate</a></span></dt><dt><span class="section"><a href="#service_deactivate_and_activate">4.6.3. deactivate-and-activate</a></span></dt><dt><span class="section"><a href="#service_services">4.6.4. services</a></span></dt><dt><span class="section"><a href="#service_state">4.6.5. state</a></span></dt></dl></dd><dt><span class="section"><a href="#profile">4.7. profile</a></span></dt><dd><dl><dt><span class="section"><a href="#profile_list">4.7.1. list</a></span></dt><dt><span class="section"><a href="#profile_create">4.7.2. create</a></span></dt><dt><span class="section"><a href="#profile_remove">4.7.3. remove</a></span></dt><dt><span class="section"><a href="#profile_rename">4.7.4. rename</a></span></dt><dt><span class="section"><a href="#profile_get">4.7.5. get</a></span></dt></dl></dd><dt><span class="section"><a href="#profile.edit">4.8. profile.edit</a></span></dt><dd><dl><dt><span class="section"><a href="#profile.edit_list">4.8.1. list</a></span></dt><dt><span class="section"><a href="#profile.edit_dirty">4.8.2. dirty</a></span></dt><dt><span class="section"><a href="#profile.edit_write">4.8.3. write</a></span></dt><dt><span class="section"><a href="#profile.edit_edit">4.8.4. edit</a></span></dt><dt><span class="section"><a href="#profile.edit_restore">4.8.5. restore</a></span></dt><dt><span class="section"><a href="#profile.edit_commit">4.8.6. commit</a></span></dt><dt><span class="section"><a href="#profile.edit_close">4.8.7. close</a></span></dt><dt><span class="section"><a href="#profile.edit_get">4.8.8. get</a></span></dt><dt><span class="section"><a href="#profile.edit_set">4.8.9. set</a></span></dt></dl></dd><dt><span class="section"><a href="#trace">4.9. trace</a></span></dt><dd><dl><dt><span class="section"><a href="#trace_tracers_used">4.9.1. tracers-used</a></span></dt><dt><span class="section"><a href="#trace_tracers_set">4.9.2. tracers-set</a></span></dt><dt><span class="section"><a href="#trace_set_level">4.9.3. set-level</a></span></dt><dt><span class="section"><a href="#trace_un_set_level">4.9.4. un-set-level</a></span></dt><dt><span class="section"><a href="#trace_get_level">4.9.5. get-level</a></span></dt></dl></dd><dt><span class="section"><a href="#usage.service">4.10. usage.service</a></span></dt><dd><dl><dt><span class="section"><a href="#usage.service_list">4.10.1. list</a></span></dt><dt><span class="section"><a href="#usage.service_get">4.10.2. get</a></span></dt><dt><span class="section"><a href="#usage.service_reset">4.10.3. reset</a></span></dt><dt><span class="section"><a href="#usage.service_create">4.10.4. create</a></span></dt><dt><span class="section"><a href="#usage.service_delete">4.10.5. delete</a></span></dt><dt><span class="section"><a href="#usage.service_notify">4.10.6. notify</a></span></dt></dl></dd><dt><span class="section"><a href="#usage.profile">4.11. usage.profile</a></span></dt><dt><span class="section"><a href="#usage.resource">4.12. usage.resource</a></span></dt></dl></div><p>This chapter explains how to use features inherited from <code class="literal">Twiddle</code>. Also it contains list of supported <code class="literal">command</code>s along with
+	comprehensive description of each <code class="literal">command</code> and <code class="literal">operations</code> supported by specific <code class="literal">command</code>. Note that commands in this chapter operate over standard <acronym class="acronym">JSLEE</acronym> management interfaces.</p><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>White spaces ARE NOT supported within argument values.</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>Specific shell characters must be escaped or value of argument must be quoted.</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="important"><h2>Important</h2><p>Some terminal input include "\" - it indicates that command is continued from new line, if copy/paste is used on example, this sign should be removed.</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note"><h2>Note</h2><p>Options and arguments can have long and short form. Short form <code class="literal">-s</code>, accept parameter without equal sign, ie: -slocalhost. 
+		Long options require equals sign, ie: --server=localhost</p></div><div xmlns:rf="java:org.jboss.highlight.XhtmlRendererFactory" class="note"><h2>Note</h2><p>Mobicents JSLEE Twiddle <code class="literal">operations</code> support long and short form. Operation options are specified ONLY in long form.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="twiddle_base"/>4.1. Twiddle</h2></div></div></div><p>Mobicents JSLEE Twiddle provide two scripts to run command line, <code class="literal">Windows</code> batch and <code class="literal">*NIX</code> bash script.
+		Both accept the same set of options/parameters:
+		</p><pre class="programlisting">
+			twiddle.sh [options] &lt;command&gt; [command_arguments]
+		</pre><div class="itemizedlist"><ul><li><p>options - options which affect how <code class="literal">Twiddle</code> executes, ie. address of server, user name/password</p></li><li><p>command - command which should handle CLI invocation</p></li><li><p>command_arguments - options and arguments specific for command</p></li></ul></div><p>Following <code class="literal">options</code> can be passed directly to <code class="literal">twiddle</code>: </p><div class="variablelist"><dl><dt><span class="term">--help-commands</span></dt><dd><p>displays available commands along with simple description.</p></dd><dt><span class="term">-H&lt;commandName&gt;</span></dt><dd><p>displays detailed help message for command with specified <code class="literal">commandName</code>. </p></dd><dt><span class="term">-D&lt;name&gt;[=&lt;value&gt;]</span></dt><dd><p>creates system property with specific name. If value is passed it is assigned to it.</p></dd><dt><span class="term">-s&lt;url&gt; or --server=&lt;url&gt;</span></dt><dd><p>specifies <code class="literal">URL</code> of RMI container. <code class="literal">URL</code> has following form: &lt;IP[:PORT]&gt;</p></dd><dt><span class="term">-a&lt;name&gt; or --adapter=&lt;name&gt;</span></dt><dd><p>specifies <acronym class="acronym">RMI</acronym> adapter to be used. Example value: jmx/rmi/RMIAdaptor</p></dd><dt><span class="term">-u&lt;name&gt; or --user=&lt;name&gt; </span></dt><dd><p>specifies name of user to be used for AA</p></dd><dt><span class="term">-p&lt;name&gt; or --password=&lt;name&gt; </span></dt><dd><p>specifies password for user to be used for AA</p></dd><dt><span class="term">-q or --quiet</span></dt><dd><p>instructs <code class="literal">Twiddle</code> to execute without output</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="slee"/>4.2. slee</h2></div></div></div><p>
+		<code class="literal">slee</code>
+		command interacts with <code class="literal">javax.slee.management:name=SleeManagement</code>
+		MBean. It is standard
+		<acronym class="acronym">JSLEE</acronym> MBean. <code class="literal">slee</code> allows basic operations like start/stop.
+		</p><p> 
+		 It supports following operations:
+		</p><div class="table"><a id="d0e641"/><p class="title"><b>Table 4.1. Operations table for <code class="literal">slee</code> command</b></p><div class="table-contents"><table summary="Operations table for slee command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>start</td><td>-r</td><td>--start</td><td>No</td><td>No</td></tr><tr><td>stop</td><td>-s</td><td>--stop</td><td>No</td><td>No</td></tr><tr><td>shutdown</td><td>-d</td><td>--shutdown</td><td>No</td><td>No</td></tr><tr><td>info</td><td>-i</td><td>--info</td><td>No</td><td>No</td></tr></tbody></table></div></div><p><br class="table-break"/>
+	</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="slee_start"/>4.2.1. start</h3></div></div></div><p><code class="literal">start</code> operation starts container. Container has to be in  <code class="literal">STOPPED</code> state.
+		This operation does not accept options nor arguments. Example invocation:</p><div class="example"><a id="d0e720"/><p class="title"><b>Example 4.1. Start container</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh slee -r</pre><pre class="programlisting">./twiddle.sh slee --start</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="slee_stop"/>4.2.2. stop</h3></div></div></div><p><code class="literal">stop</code> operation stops container. Container has to be in  <code class="literal">RUNNING</code> state.
+		This operation does not accept options nor arguments.Example invocation:</p><div class="example"><a id="d0e741"/><p class="title"><b>Example 4.2. Stop container</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh slee -s</pre><pre class="programlisting">./twiddle.sh slee --stop</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="slee_shutdown"/>4.2.3. shutdown</h3></div></div></div><p><code class="literal">shutdown</code> operation terminates container. Difference to <code class="literal">stop</code> is that container is no longer accessible. 
+		This operation does not accept options nor arguments.Example invocation:</p><div class="example"><a id="d0e762"/><p class="title"><b>Example 4.3. Shutdown container</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh slee -d</pre><pre class="programlisting">./twiddle.sh slee --shutdown</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="slee_info"/>4.2.4. info</h3></div></div></div><p><code class="literal">info</code> operation displays information about container. This information depends on implementation. 
+		This operation does not accept options nor arguments.Example invocation:</p><div class="example"><a id="d0e780"/><p class="title"><b>Example 4.4. Print info about container</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh slee -i</pre><pre class="programlisting">./twiddle.sh slee --info</pre></div></div><br class="example-break"/></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="deploy"/>4.3. deploy</h2></div></div></div><p>
+		<code class="literal">deploy</code>
+		command interacts with
+		<code class="literal">javax.slee.management:name=Deployment</code> Bean. It is standard
+		<acronym class="acronym">SLEE</acronym>
+		MBean. <code class="literal">deploy</code> allows to access information about deployed components and change list of deployed components.
+		Also it allows access to components meta data. It supports following operations:
+	</p><div class="table"><a id="d0e808"/><p class="title"><b>Table 4.2. 
+			Operations table for
+			<code class="literal">deploy</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;deploy&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr><tr><td>installed</td><td>-y</td><td>--installed</td><td>No</td><td>Yes</td></tr><tr><td>install</td><td>-i</td><td>--install</td><td>Yes</td><td>No</td></tr><tr><td>un-install</td><td>-u</td><td>--un-install</td><td>Yes</td><td>No</td></tr><tr><td>desc</td><td>-d</td><td>--desc</td><td>No</td><td>Yes</td></tr><tr><td>ref</td><td>-r</td><td>--ref</td><td>Yes</td><td>No</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_list"/>4.3.1. list</h3></div></div></div><p>
+			<code class="literal">list</code>
+			operation as name suggests lists various information about deployed components. It does not take argument. It requires options to be present, to indicate type of 
+			information that has to be listed. <code class="literal">list</code> supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--sbbs
+				</span></dt><dd><p>instructs to list deployed <code class="literal">SbbID</code>s. Optionally this option takes argument. Argument must be in form of <code class="literal">ServiceID</code>:
+					ServiceID[name=CallBlockingService,vendor=org.mobicents,version=0.1] . In case argument is present, <code class="literal">SbbID</code>s belonging to service are listed.
+					Example calls: </p><div class="example"><a id="d0e926"/><p class="title"><b>Example 4.5. List all deployed SBBs</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -l --sbbs
+						</pre></div></div><br class="example-break"/><div class="example"><a id="d0e933"/><p class="title"><b>Example 4.6. List SBBs for service</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -l \
+--sbbs=ServiceID[name=CallBlockingService,vendor=org.mobicents,version=0.1]
+						</pre></div></div><br class="example-break"/></dd><dt><span class="term">--services
+				</span></dt><dd><p>instructs command to list deployed services(ServiceID). Does not take argument.</p></dd><dt><span class="term">--events
+				</span></dt><dd><p>instructs command to list deployed event (EventTypeID). Does not take argument.</p></dd><dt><span class="term">--ra-types
+				</span></dt><dd><p>instructs command to list deployed RA Types (ResourceAdaptorTypeID). Does not take argument.</p></dd><dt><span class="term">--ras
+				</span></dt><dd><p>instructs command to list deployed RAs  (ResourceAdaptorID). Does not take argument.</p></dd><dt><span class="term">--dus
+				</span></dt><dd><p>instructs command to list deployed DUs  (DeployableUnitID). Does not take argument.</p></dd><dt><span class="term">--profile-spec
+				</span></dt><dd><p>instructs command to list deployed profile specifications  (ProfileSpecifiactionID). Does not take argument.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_installed"/>4.3.2. installed</h3></div></div></div><p>
+			<code class="literal">installed</code>
+			operation checks if certain component is deployed in container. Does not take argument. Requires one of options to be present. Supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--duid
+				</span></dt><dd><p>checks if DeployableUnit is deployed. Option requires argument of form: DeployableUnitID[url=file:/E:/servers/jboss-5.1.0.GA/server/default/deploy/mgcp-ra-DU-2.2.0-SNAPSHOT.jar/]</p></dd><dt><span class="term">--cid
+				</span></dt><dd><p>checks if component is deployed. Option requires argument which is valid component ID, that is ServiceID, SbbID, etc.</p><div class="example"><a id="d0e997"/><p class="title"><b>Example 4.7. Check if profile specification is deployed</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -y --profile-spec=\
+ProfileSpecificationID[name=ResourceInfoProfileSpec,vendor=javax.slee,version=1.0]
+						</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_install"/>4.3.3. install</h3></div></div></div><p>
+			<code class="literal">install</code>
+			operation installs DeplyableUnit indicated by path argumnt. Does not accept options. Operation requires argument which is path to deployable unit.
+			
+		</p><div class="example"><a id="d0e1012"/><p class="title"><b>Example 4.8. Deploy DU</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -i/data/sip11-ra-DU-2.2.0-SNAPSHOT.jar
+			</pre></div></div><br class="example-break"/><div class="example"><a id="d0e1019"/><p class="title"><b>Example 4.9. Deploy DU</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy --install=file:///C:/workspace/resources/sip11-ra-DU-2.2.0-SNAPSHOT.jar
+			</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_uninstall"/>4.3.4. un-install</h3></div></div></div><p>
+			<code class="literal">un-install</code>
+			operation removes DeployableUnit from container. Does not support options. It requires valid deployableUnitID as argument: DeployableUnitID[url=file:/E:/servers/jboss-5.1.0.GA/server/default/deploy/call-controller2-DU-2.2.0-SNAPSHOT.jar/]
+		</p><div class="example"><a id="d0e1034"/><p class="title"><b>Example 4.10. UnDeploy DU</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy --un-install=DeployableUnitID[url=file:/E:/servers/jboss-5.1.0.GA/server/default/deploy/call-controller2-DU-2.2.0-SNAPSHOT.jar/]
+			</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_desc"/>4.3.5. desc</h3></div></div></div><p>
+			<code class="literal">desc</code>
+			operation fetchese descriptor of component. Does not take argument, requires one of options to be present:
+		</p><div class="variablelist"><dl><dt><span class="term">--duid
+				</span></dt><dd><p>fetches for DeployableUnit. Option requires argument in form of DeployableUnitID. Option accepts array argument.</p><div class="example"><a id="d0e1056"/><p class="title"><b>Example 4.11. Fetch descriptors for DUs</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -d --duid=DeployableUnitID[url=file:/E:/servers/jboss-5.1.0.GA/server/default/deploy/call-controller2-DU-2.2.0-SNAPSHOT.jar/];DeployableUnitID[url=file:/E:/servers/jboss-5.1.0.GA/server/default/deploy/sip-services-DU-2.2.0-SNAPSHOT.jar/]
+						</pre></div></div><br class="example-break"/></dd><dt><span class="term">--cid
+				</span></dt><dd><p>fetches for DeployableUnit. Option requires argument in form of ComponentID. Option accepts array argument.</p><div class="example"><a id="d0e1069"/><p class="title"><b>Example 4.12. Fetch descriptors for event </b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -d --cid=\
+EventTypeID[name=javax.sip.Dialog.REGISTER,vendor=net.java.slee,version=1.2];\
+SbbID[name=CallBlockingSbb,vendor=org.mobicents,version=0.1]
+
+						</pre></div></div><br class="example-break"/><div class="example"><a id="d0e1076"/><p class="title"><b>Example 4.13. Fetch descriptors for event and SBB</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -d --cid=\
+EventTypeID[name=javax.sip.Dialog.REGISTER,vendor=net.java.slee,version=1.2]
+						</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deploy_ref"/>4.3.6. ref</h3></div></div></div><p>
+			<code class="literal">ref</code>
+			operation determines which components reference specific component. Operation does not support options. It requires ComponentID as argument. 
+		</p><div class="example"><a id="d0e1091"/><p class="title"><b>Example 4.14. Check which components reference RA Type</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh deploy -rResourceAdaptorTypeID[name=jain-mgcp,vendor=net.java,version=2.0]
+						</pre></div></div><br class="example-break"/></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="alarm"/>4.4. alarm</h2></div></div></div><p><code class="literal">alarm</code> command interacts with
+		<code class="literal">javax.slee.management:name=Alarm</code> Bean. It is standard
+		<acronym class="acronym">SLEE</acronym>
+		MBean. <code class="literal">alarm</code> command allows to manage alarms, for instance check for existence or remove. 
+		   . It supports following operations:</p><div class="table"><a id="d0e1114"/><p class="title"><b>Table 4.3. Operations table for <code class="literal">alarm</code> command</b></p><div class="table-contents"><table summary="Operations table for alarm command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>clear</td><td>-c</td><td>--clear</td><td>No</td><td>Yes</td></tr><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr><tr><td>descriptor</td><td>-d</td><td>--descriptor</td><td>Yes</td><td>No</td></tr><tr><td>active</td><td>-a</td><td>--active</td><td>Yes</td><td>No</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="alarm_clear"/>4.4.1. clear</h3></div></div></div><p><code class="literal">clear</code> operation turns down alarms based on criteria passed in options. 
+		It requires either <em class="replaceable"><code>--id</code></em> or <em class="replaceable"><code>--nsrc</code></em> to be present. <code class="literal">clear</code> command supports following options: </p><div class="variablelist"><dl><dt><span class="term">--id</span></dt><dd><p>this option specifies id of alarm which should be cleared. Option requires string argument, example: <em class="replaceable"><code>415f719e-3a3d-42b4-acc1-4e84706f031a</code></em>.
+				This option excludes other options. </p></dd><dt><span class="term">--nsrc</span></dt><dd><p>specifies notification source for which alarms should be cleared. It requires argument which is valid notification source: RAEntityNotification[entity=LabRA]. This option excludes <em class="replaceable"><code>--id</code></em>. Optionally it can be followed by <em class="replaceable"><code>--type</code></em>.</p></dd><dt><span class="term">--type</span></dt><dd><p>specifies type of alarm to be cleared. Type is service/component implementation specific. Type of alarm is passed as alarms meta data when it is created.
+				Option requires argument which is string representation of type. Example call</p><div class="example"><a id="d0e1226"/><p class="title"><b>Example 4.15. Clear alarms of certain type for ProfileTable</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh alarm -c --nsrc=ProfileTableNotification[table=SMSSubscription] \
+						--type=TransientFailure</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="alarm_list"/>4.4.2. list</h3></div></div></div><p><code class="literal">list</code> operation lists all active alarms(their IDs). It does not require argument or option. It supports following options.</p><div class="variablelist"><dl><dt><span class="term">--nsrc</span></dt><dd><p>optional option. It specifies notification source. It limits <code class="literal">list</code> command output to alarms active for specified source. Requires argument which is valid notification source: ProfileTableNotification[table=SMSSubscription] 
+					</p><div class="example"><a id="d0e1250"/><p class="title"><b>Example 4.16. List alarms for ProfileTable</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh alarm -l --nsrc=ProfileTableNotification[table=SMSSubscription]</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="alarm_descriptor"/>4.4.3. descriptor</h3></div></div></div><p><code class="literal">descriptor</code> operation fetches meta data for particular alarm. This includes message, time stamp, level,.. etc. It requires alarm ID as argument.
+		It also accepts array argument. Members of array are separated with <em class="replaceable"><code>;</code></em>. Example calls: 
+			</p><div class="example"><a id="d0e1267"/><p class="title"><b>Example 4.17. Fetch descriptor for alarm</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh alarm -d415f719e-3a3d-42b4-acc1-4e84706f031a </pre></div></div><p><br class="example-break"/>
+			</p><div class="example"><a id="d0e1275"/><p class="title"><b>Example 4.18. Fetch descriptor for alarms</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh alarm -d415f719e-3a3d-42b4-acc1-4e84706f031a;415f719e-3a3d-42b4-acc1-4e84706f031b;415f719e-3a3d-42b4-acc1-4e84706f031c </pre></div></div><p><br class="example-break"/>
+		
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="alarm_active"/>4.4.4. active</h3></div></div></div><p><code class="literal">active</code> operation simply checks if alarm is still active. It requires alarm id as argument.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="resource"/>4.5. resource</h2></div></div></div><p>
+		<code class="literal">resource</code>
+		command interacts with
+		<code class="literal">javax.slee.management:name=ResourceManagement</code>
+		Bean. It is standard
+		<acronym class="acronym">SLEE</acronym>
+		MBean.
+		<code class="literal">resource</code>
+		command allows management of Resource Adaptor entities: create,
+		remove, start, stop, update configuration,... . It supports following
+		operations:
+	</p><div class="table"><a id="d0e1307"/><p class="title"><b>Table 4.4. 
+			Operations table for
+			<code class="literal">resource</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;resource&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>bind</td><td>-b</td><td>--bind</td><td>No</td><td>Yes</td></tr><tr><td>unbind</td><td>-u</td><td>--unbind</td><td>Yes</td><td>No</td></tr><tr><td>activate</td><td>-a</td><td>--activate</td><td>Yes</td><td>No</td></tr><tr><td>deactivate</td><td>-d</td><td>--deactivate</td><td>Yes</td><td>No</td></tr><tr><td>create</td><td>-c</td><td>--create</td><td>No</td><td>Yes</td></tr><tr><td>remove</td><td>-r</td><td>--remove</td><td>Yes</td><td>No</td></tr><tr><td>update-config</td><td>-p</td><td>--update-config</td><td>No</td><td>Yes</td></tr><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr><tr><td>get</td><td>-g</td><td>--get</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_bind"/>4.5.1. bind</h3></div></div></div><p>
+			<code class="literal">bind</code>
+			operation creates binding between Resource Adaptor Entity and specific link(associates RA Entity to link). It does not take argument, however it requires options:
+		</p><div class="variablelist"><dl><dt><span class="term">--link-name
+				</span></dt><dd><p>specifies link name to be used in bind operation. This name can be referenced in <acronym class="acronym">SBB</acronym> descriptors. Requires argument. This option is mandatory.</p></dd><dt><span class="term">--entity-name</span></dt><dd><p>specifies Resource Adaptor Entity name which will be bound to link. Requires valid entity name as argument. This option is mandatory.</p></dd></dl></div><div class="example"><a id="d0e1454"/><p class="title"><b>Example 4.19. Create link for SIP RA</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource --bind --link-name=SIP_30 --entity-name=SipRA</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_unbind"/>4.5.2. unbind</h3></div></div></div><p>
+			<code class="literal">unbind</code>
+			operation destroys binding created with <a class="xref" href="#resource_bind" title="4.5.1. bind">Section 4.5.1, “bind”</a> operation. It does not support any options. It requires link name as argument.
+		</p><div class="example"><a id="d0e1471"/><p class="title"><b>Example 4.20. Remove link for SIP RA</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource --unbind=SIP_30</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_activate"/>4.5.3. activate</h3></div></div></div><p>
+			<code class="literal">activate</code>
+			operation activates Resource Adaptor Entity. It does not support options. It requires entity name as argument.
+		</p><div class="example"><a id="d0e1486"/><p class="title"><b>Example 4.21. Activate SIP RA</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource --activate=SipRA</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_deactivate"/>4.5.4. deactivate</h3></div></div></div><p>
+			<code class="literal">deactivate</code>
+			operation renders Resource Adaptor Entity inactive. It does not support options. It requires entity name as argument.
+		</p><div class="example"><a id="d0e1501"/><p class="title"><b>Example 4.22. Activate SIP RA</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource --deactivate=SipRA</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_create"/>4.5.5. create</h3></div></div></div><p>
+			<code class="literal">create</code>
+			operation creates new Resource Adaptor Entity. This operation does not activate created entity. It does not support argument, it requires all supported options to be present:
+		</p><div class="variablelist"><dl><dt><span class="term">--entity-name
+				</span></dt><dd><p>specifies entity name to be used for new Resource Adaptor Entity. Requires argument.</p></dd><dt><span class="term">--ra-id
+				</span></dt><dd><p>specifies ResourceAdaptorID to be used as ResourceAdaptorObject for new entity. Requires ResourceAdaptorID as argument.</p></dd><dt><span class="term">--config</span></dt><dd><p>Specifies ConfigurationProperties passed to ResourceAdaptorObject during configuration part of its life-cycle.
+					Requires string representation of ConfigProperties.  Config property has general form of: (name:java.type=value) and array has different form, than in components, members are separated with <em class="replaceable"><code>,</code></em> : [(cnf.prop),(cnf.prop)] </p></dd></dl></div><div class="example"><a id="d0e1538"/><p class="title"><b>Example 4.23. Create SIP RA</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh resource -c --entity-name=SipRA --ra-id=\
+ResourceAdaptorID[name=JainSipResourceAdaptor,vendor=net.java.slee.sip,version=1.2]\
+--config=[(javax.sip.TRANSPORT:java.lang.String=UDP),\
+(javax.sip.IP_ADDRESS:java.lang.String=),\
+(javax.sip.PORT:java.lang.Integer=5060)]</pre></div></div><br class="example-break"/><div class="example"><a id="d0e1545"/><p class="title"><b>Example 4.24. Create SIP RA with empty config</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh resource -c --entity-name=SipRA --ra-id=\
+ResourceAdaptorID[name=JainSipResourceAdaptor,vendor=net.java.slee.sip,version=1.2] \
+--config=[]</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_remove"/>4.5.6. remove</h3></div></div></div><p>
+			<code class="literal">remove</code>
+			operation removes <em class="replaceable"><code>INACTIVE</code></em> Resource Adaptor Entity. It does not support options. It requires Resource Adaptor Entity name as argument.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_update_config"/>4.5.7. update-config</h3></div></div></div><p>
+			<code class="literal">update-config</code>
+			operation updates configuration in specified entity. If new properties are verified by Resource Adaptor Object, old configuration properties are discarded and replaced with new set.
+			This operation does not support argument, it requires options to specify entity name and new configuration properties. <code class="literal">update-config</code> supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--entity-name
+				</span></dt><dd><p>specifies entity name to be used for new Resource Adaptor Entity. Requires argument.</p></dd><dt><span class="term">--config</span></dt><dd><p>Specifies ConfigurationProperties passed to ResourceAdaptorObject during confgiuration part of its lifecycle.
+					Requires string representation of ConfigProperties.  Config property has general form of: (name:java.type=value) and array has different form, than in components, members are separated with <em class="replaceable"><code>,</code></em> : [(cnf.prop),(cnf.prop)] </p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_list"/>4.5.8. list</h3></div></div></div><p>
+			<code class="literal">list</code>
+			operation queries container for certain information and lists output. It does not support argument. It requires one of following options to be present:
+			
+		</p><div class="variablelist"><dl><dt><span class="term">--ra-entities</span></dt><dd><p>
+				instructs operation to list Resource Adaptor Entities present in
+				container. It supports optional argument. Argument is of
+				ResourcedaptorID type, if its present, entities for this ID are
+				listed.
+					</p><div class="example"><a id="d0e1605"/><p class="title"><b>Example 4.25. List entities for SIP RA</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh resource -l --ra-entities=\
+ResourceAdaptorID[name=JainSipResourceAdaptor,vendor=net.java.slee.sip,version=1.2]</pre></div></div><p><br class="example-break"/>
+			</p></dd><dt><span class="term">--ra-entities-in-state
+				</span></dt><dd><p>instructs operation to list entities in certain state. Requires string representation of entity state as argument. Resource Adaptor can be in one of following states:</p><div class="itemizedlist"><ul><li><p>INACTIVE</p></li><li><p>STOPPING</p></li><li><p>ACTIVE</p></li></ul></div></dd><dt><span class="term">--ra-entities-by-link
+				</span></dt><dd><p>instructs operation to list Resource Adaptor Entity name(s) for given link name(s). Requires link name as argument, it accepts array argument:</p><div class="example"><a id="d0e1635"/><p class="title"><b>Example 4.26. List entities for link names</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource -l --ra-entities-by-link=SIP_30;SIP_40</pre></div></div><br class="example-break"/></dd><dt><span class="term">--links
+				</span></dt><dd><p>instructs operation to list Resoruce Adaptor Entity links. It supports optional argument. Argument must be valid Resource Adaptor Entity name.
+					If argument is specified, operation will list link names only for that specific entity.</p><div class="example"><a id="d0e1648"/><p class="title"><b>Example 4.27. List link names for entity</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource -l --links=SipRA</pre></div></div><br class="example-break"/></dd><dt><span class="term">--sbbs
+				</span></dt><dd><p>instructs operation to list SBB IDs which declare reference Resource Adaptor Entity link. Requires link name as argument:</p><div class="example"><a id="d0e1661"/><p class="title"><b>Example 4.28. List SBBs for Sip RA</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh resource -l --sbbs=SIP_30</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="resource_get"/>4.5.9. get</h3></div></div></div><p>
+			<code class="literal">get</code>
+			operation fetches certain information from container. It does not support argument, it requires one option to be present:
+		</p><div class="variablelist"><dl><dt><span class="term">--ra-id</span></dt><dd><p>fetches ResoruceAdaptorID. Requires Resource Adaptor Entity name as argument.</p></dd><dt><span class="term">--state</span></dt><dd><p>fetches state of certain entity. Requires Resource Adaptor Entity name as argument.</p></dd><dt><span class="term">--config-by-id</span></dt><dd><p>fetches default ConfigurationProperties for Resource Adaptor Object. Requires ResourceAdaptorID as argument.</p></dd><dt><span class="term">--config-by-name
+				</span></dt><dd><p>fetches ConfigurationProperties for existing entity. Requires Resource Adaptor Entity name as argument.</p></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="service"/>4.6. service</h2></div></div></div><p><code class="literal">service</code> command interacts with <code class="literal">javax.slee.management:name=ServiceManagement</code>
+		MBean. It is standard
+		<acronym class="acronym">JSLEE</acronym> MBean. <code class="literal">service</code> command allows to perform basic management operations on services
+		, like activation, deactivation, state query   . It supports following operations:</p><div class="table"><a id="d0e1717"/><p class="title"><b>Table 4.5. Operations table for <code class="literal">service</code> command</b></p><div class="table-contents"><table summary="Operations table for service command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>activate</td><td>-a</td><td>--activate</td><td>yes</td><td>No</td></tr><tr><td>deactivate</td><td>-d</td><td>--deactivate</td><td>Yes</td><td>No</td></tr><tr><td>deactivate-and-activate</td><td>-c</td><td>--deactivate-and-activate</td><td>No</td><td>Yes</td></tr><tr><td>services</td><td>-i</td><td>--services</td><td>Yes</td><td>No</td></tr><tr><td>state</td><td>-o</td><td>--state</td><td>Yes</td><td>No</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="service_activate"/>4.6.1. activate</h3></div></div></div><p><code class="literal">activate</code> operation simply activates inactive service(Container will inform instance by emiting proper event). It does not support options. It requires ServiceID as argument, it accepts array of ServiceIDs as argument:</p><div class="example"><a id="d0e1803"/><p class="title"><b>Example 4.29. Activate service</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh service \
+-aServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0]</pre></div></div><br class="example-break"/><div class="example"><a id="d0e1810"/><p class="title"><b>Example 4.30. Activate services</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh service \
+-aServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0];\
+ServiceID[name=My_Service_Name2,vendor=spartan_dummy_inc,version=1.0]</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="service_deactivate"/>4.6.2. deactivate</h3></div></div></div><p><code class="literal">deactivate</code> operation simply deactivates active service(Container will inform instance by emiting proper event). It does not support options. It requires ServiceID as argument, it accepts array of ServiceIDs as argument:</p><div class="example"><a id="d0e1824"/><p class="title"><b>Example 4.31. Deactivate service </b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh service \
+-dServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0]</pre></div></div><br class="example-break"/><div class="example"><a id="d0e1831"/><p class="title"><b>Example 4.32. Deactivate services </b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh service \
+-dServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0];\
+ServiceID[name=X_Service,vendor=test_dummy_inc,version=1.0]</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="service_deactivate_and_activate"/>4.6.3. deactivate-and-activate</h3></div></div></div><p><code class="literal">deactivate-and-activate</code> operation deactivates and activates certain set of services(order of options does not affect order of container operations). It does not support argument, it requires options to specify services sets: </p><div class="variablelist"><dl><dt><span class="term">--ta</span></dt><dd><p>specifies set of services to activate. Requires ServiceID as argument( accepts array argument also ).</p></dd><dt><span class="term">--td</span></dt><dd><p>specifies set of services to deactivate. Requires ServiceID as argument( accepts array argument also ).</p></dd></dl></div><div class="example"><a id="d0e1858"/><p class="title"><b>Example 4.33. Deactivate and activate services </b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh service -c \
+--ta=ServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0]\
+;ServiceID[name=X_Service,vendor=test_dummy_inc,version=1.0]\
+--td=ServiceID[name=My_Service_Name,vendor=test_dummy_inc,version=1.0]</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="service_services"/>4.6.4. services</h3></div></div></div><p><code class="literal">services</code> operation lists services in given state. Does not support options. Requires valid service state as argument. 
+		Service can be either <em class="replaceable"><code>Active</code></em> or <em class="replaceable"><code>Inactive</code></em></p><div class="variablelist"><dl><dt><span class="term"> </span></dt><dd><p/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="service_state"/>4.6.5. state</h3></div></div></div><p><code class="literal">state</code> operation queries container about state of service. It does not support options. It requires ServiceID as argument.</p><div class="variablelist"><dl><dt><span class="term"> </span></dt><dd><p/></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="profile"/>4.7. profile</h2></div></div></div><p><code class="literal">profile</code>
+		command interacts with <code class="literal">javax.slee.management:name=ProfileProvisioning</code>
+		MBean. It is standard
+		<acronym class="acronym">JSLEE</acronym> MBean. This command allows to perform basic management operations on profile tables and profiles, like creation and removal . It supports following operations:</p><div class="table"><a id="d0e1909"/><p class="title"><b>Table 4.6. Operations table for <code class="literal">profile</code> command</b></p><div class="table-contents"><table summary="Operations table for profile command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr><tr><td>create</td><td>-c</td><td>--create</td><td>No</td><td>Yes</td></tr><tr><td>remove</td><td>-r</td><td>--remove</td><td>No</td><td>Yes</td></tr><tr><td>rename</td><td>-n</td><td>--rename</td><td>No</td><td>Yes</td></tr><tr><td>get</td><td>-g</td><td>--get</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile_list"/>4.7.1. list</h3></div></div></div><p><code class="literal">list</code> operation lists information based on passed options. It does not support argument. One of following options must be present:</p><div class="variablelist"><dl><dt><span class="term">--table</span></dt><dd><p>instructs operation to list table names present in container. It supports optional argument. If ProfileSpecificationID is present as argument, table names are listed only for that specification:</p><div class="example"><a id="d0e2002"/><p class="title"><b>Example 4.34. List table names for specific Profile Specification</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh profile -l --table=\
+ProfileSpecificationID[name=CallControlProfileCMP,vendor=org.mobicents,version=0.1]</pre></div></div><br class="example-break"/></dd><dt><span class="term">--profile</span></dt><dd><p>instructs operation to list profile IDs. It requires ProfileTable name as argument.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile_create"/>4.7.2. create</h3></div></div></div><p><code class="literal">create</code> operation creates resource in container. Based on passed option it creates profile table or profile in table.
+		It does not support argument, following options are supported:</p><div class="variablelist"><dl><dt><span class="term">--profile-name</span></dt><dd><p>specifies profile name. It is used in conjunction with <em class="replaceable"><code>--table-name</code></em>, it excludes <em class="replaceable"><code>--profile-spec</code></em>. Requires profile name as argument. </p></dd><dt><span class="term">--table-name</span></dt><dd><p>specifies table name. Requires table name as argument. </p></dd><dt><span class="term">--profile-spec</span></dt><dd><p>specifies profile specification. It is used in conjunction with <em class="replaceable"><code>--table-name</code></em>, it excludes <em class="replaceable"><code>--profile-name</code></em>. Requires ProfielSpecificationID as argument.</p></dd></dl></div><div class="example"><a id="d0e2053"/><p class="title"><b>Example 4.35. Create profile table</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh profile -c --table-name=NewCallControl --profile-spec=\
+ProfileSpecificationID[name=CallControlProfileCMP,vendor=org.mobicents,version=0.1]</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2060"/><p class="title"><b>Example 4.36. Create profile in table</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile -c --table-name=NewCallControl --profile-name=newuser</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile_remove"/>4.7.3. remove</h3></div></div></div><p><code class="literal">remove</code> operation removes component based no options. It does not support argument. It supports following options:</p><div class="variablelist"><dl><dt><span class="term">--table-name</span></dt><dd><p>specifies table name for operation. Requires table name as argument.</p></dd><dt><span class="term">--profile-name</span></dt><dd><p>specifies profile name for operation. Requires profile name as argument.</p></dd></dl></div><div class="example"><a id="d0e2087"/><p class="title"><b>Example 4.37. Remove profile table</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile -r --table-name=NewCallControl</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2094"/><p class="title"><b>Example 4.38. Remove profile from table</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile -r --table-name=NewCallControl --profile-name=newuser</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile_rename"/>4.7.4. rename</h3></div></div></div><p><code class="literal">rename</code> operation changes name of profile table, effectively moving profiles to new table in the process. It does not support argument. It supports following options:</p><div class="variablelist"><dl><dt><span class="term">--current-name</span></dt><dd><p>specifies current(old) name of profile table. Requires profile table name as argument. </p></dd><dt><span class="term">--new-name</span></dt><dd><p>specifies new name for profile table. Requires profile table name as argument.</p></dd></dl></div><div class="example"><a id="d0e2121"/><p class="title"><b>Example 4.39. Rename profile table</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile -n --current-name=CallControl --new-name=OldCCTable</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile_get"/>4.7.5. get</h3></div></div></div><p><code class="literal">get</code> operation queries container for certain information. Type of retrieved information depends on sub-options. It does not support argument. Following options are supported:</p><div class="variablelist"><dl><dt><span class="term">--profile-spec</span></dt><dd><p>retrieves profile ProfileSpecificationID for certain table. Requires profile table name as argument.</p><div class="example"><a id="d0e2142"/><p class="title"><b>Example 4.40. Get specification id</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile -g --profile-spec=CallControl</pre></div></div><br class="example-break"/></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="profile.edit"/>4.8. profile.edit</h2></div></div></div><p><code class="literal">profile.edit</code> command interacts with specific profile MBean. This MBean is standard <acronym class="acronym">SLEE</acronym> bean. It is generated based on profile specification. <code class="literal">profile.edit</code> allows to edit profile data(specific profile and default). 
+	Profile MBean follows state machine depicted on diagram below:
+	
+	</p><div class="mediaobject" align="center"><a id="profile_edit_fsm"/><img src="images/profile.edit.fsm.png" align="middle"/><div class="caption"><p>Profile Edit FSM
+			</p></div></div><p>
+	<code class="literal">profile.edit</code> command expects two non operation/option arguments. Form of invocation looks as follows:
+	</p><pre class="programlisting">profile.edit &lt;profileTableName&gt; &lt;profileName&gt; &lt;-operation[[arg] | [--option[=arg]]]*&gt;</pre><p>
+	It supports following operations:</p><div class="table"><a id="d0e2178"/><p class="title"><b>Table 4.7. Operations table for <code class="literal">profile.edit</code> command</b></p><div class="table-contents"><table summary="Operations table for profile.edit command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>No</td></tr><tr><td>dirty</td><td>-d</td><td>--dirty</td><td>No</td><td>No</td></tr><tr><td>write</td><td>-w</td><td>--write</td><td>No</td><td>No</td></tr><tr><td>edit</td><td>-e</td><td>--edit</td><td>No</td><td>No</td></tr><tr><td>commit</td><td>-c</td><td>--commit</td><td>No</td><td>No</td></tr><tr><td>restore</td><td>-r</td><td>--restore</td><td>No</td><td>No</td></tr><tr><td>close</td><td>-o</td><td>--close</td><td>No</td><td>No</td></tr><tr><td>get</td><td>-g</td><td>--get</td><td>Yes</td><td>No</td></tr><tr><td>set</td><td>-s</td><td>--set</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_list"/>4.8.1. list</h3></div></div></div><p><code class="literal">list</code> operation lists available profile attributes and information associated with each attribute. Does nor support options not arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_dirty"/>4.8.2. dirty</h3></div></div></div><p><code class="literal">dirty</code> operation checks if profile data has been modified and not committed yet.  Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_write"/>4.8.3. write</h3></div></div></div><p><code class="literal">write</code> operation checks if profile is in edit mode, that is if data can be written into it. Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_edit"/>4.8.4. edit</h3></div></div></div><p><code class="literal">edit</code> operation marks profile as editable(writeable). Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_restore"/>4.8.5. restore</h3></div></div></div><p><code class="literal">restore</code> operation revokes all changes performed on profile and marks profile as not editable. Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_commit"/>4.8.6. commit</h3></div></div></div><p><code class="literal">commit</code> operation commits any changes performed on profile(makes them persistent) and marks profile as not editable. Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_close"/>4.8.7. close</h3></div></div></div><p><code class="literal">close</code> operation deregister profile specific MBean. Does not support options nor arguments.</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_get"/>4.8.8. get</h3></div></div></div><p><code class="literal">get</code> operation operation fetches value of profile attribute. It requires attribute name as argument.</p><div class="example"><a id="d0e2357"/><p class="title"><b>Example 4.41. Get value of  <em class="replaceable"><code>voiceMailEnabled</code></em>  attribute</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh profile.edit CallControl gregory12 --get=voiceMailEnabled </pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="profile.edit_set"/>4.8.9. set</h3></div></div></div><p><code class="literal">set</code> operation sets profile attribute value. It does not support argument. Requires options to be present to specify name and value:</p><div class="variablelist"><dl><dt><span class="term">--name</span></dt><dd><p>specifies name of attribute to be changed.</p></dd><dt><span class="term">--value</span></dt><dd><p>specifies value to be set in profile attribute. Supported value types are:</p><div class="itemizedlist"><ul><li><p>String</p></li><li><p>java primitives</p></li><li><p>JSLEE types - ComponentIDs and management classes, like Address</p></li></ul></div></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="trace"/>4.9. trace</h2></div></div></div><p>
+		<code class="literal">trace</code>
+		command interacts with
+		<code class="literal">javax.slee.management:name=Trace</code>
+		MBean. It is standard
+		<acronym class="acronym">JSLEE</acronym>
+		MBean.
+		<code class="literal">trace</code>
+		allows to manage trace level and tracers instances. Based on options
+		passed to operations it performs operations on 1.1 and 1.0 logging
+		facilities. It supports following operations:
+	</p><div class="table"><a id="d0e2414"/><p class="title"><b>Table 4.8. 
+			Operations table for
+			<code class="literal">trace</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;trace&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>tracers-used</td><td>-a</td><td>--tracers-used</td><td>Yes</td><td>No</td></tr><tr><td>tracers-set</td><td>-f</td><td>--tracers-set</td><td>No</td><td>No</td></tr><tr><td>set-level</td><td>-s</td><td>--set-level</td><td>No</td><td>Yes</td></tr><tr><td>un-set-level</td><td>-u</td><td>--un-set-level</td><td>No</td><td>Yes</td></tr><tr><td>get-level</td><td>-g</td><td>--get-level</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trace_tracers_used"/>4.9.1. tracers-used</h3></div></div></div><p>
+			<code class="literal">tracers-used</code>
+			operation returns names of tracers requested by notification source.
+			Requires notification source as argument.
+		</p><div class="example"><a id="d0e2501"/><p class="title"><b>Example 4.42. Get list of tracer names</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh trace -aProfileTableNotificationSource[table=ExampleTable]</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trace_tracers_set"/>4.9.2. tracers-set</h3></div></div></div><p>
+			<code class="literal">tracers-set</code>
+			operation fetches list of tracers for which level has been set
+			explicitly via one of
+			<code class="methodname">setLevel</code>
+			methods.
+			Requires notification source as argument.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trace_set_level"/>4.9.3. set-level</h3></div></div></div><p>
+			<code class="literal">set-level</code>
+			operation sets level of tracer. Does not support argument. Supports
+			following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--cid</span></dt><dd><p>
+						specifies ComponentID for 1.0 trace facility. Requires valid
+						ComponentID as argument. It excludes
+						<em class="replaceable"><code>--nsrc</code></em>
+						option. Example call:
+						</p><div class="example"><a id="d0e2537"/><p class="title"><b>Example 4.43. Set trace level in 1.0 facility</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh trace -s --cid=\
+SbbID[name=ProxySbb,vendor=mobicents,version=1.1] --level=WARNING</pre></div></div><p><br class="example-break"/>
+					</p></dd><dt><span class="term">--nsrc</span></dt><dd><p>
+						specifies notification source of which tracer(!) level should be
+						set. Excludes
+						<em class="replaceable"><code>--cid</code></em>
+						option. Requires valid notification source as argument.
+						</p><div class="example"><a id="d0e2554"/><p class="title"><b>Example 4.44. Set tracer level </b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh trace -s --nsrc=ProfileTableNotification[table=xxx] \
+--name=tracer.name --level=WARNING</pre></div></div><p><br class="example-break"/>
+					</p></dd><dt><span class="term">--name</span></dt><dd><p>specifies tracer name. Requires name as argument.</p></dd><dt><span class="term">--level</span></dt><dd><p>
+						specifies level for 1.0 trace facility and 1.1 tracer. Requires
+						valid level representation as argument. It accepts following
+						values:
+						</p><div class="itemizedlist"><ul><li><p>SEVERE</p></li><li><p>WARNING</p></li><li><p>INFO</p></li><li><p>CONFIG</p></li><li><p>FINE</p></li><li><p>FINER</p></li><li><p>FINEST</p></li></ul></div><p>
+					</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trace_un_set_level"/>4.9.4. un-set-level</h3></div></div></div><p>
+			<code class="literal">un-set-level</code>
+			operation unsets level of
+			<acronym class="acronym">SLEE</acronym>
+			1.1 tracer. Invoking this operation informs Trace facility to derive
+			level for tracer from its parent. Does not support argument.
+			Following options are supported:
+		</p><div class="variablelist"><dl><dt><span class="term">--nsrc</span></dt><dd><p>specifies notification source of which tracer(!) level should
+						be unset. Requries valid notification source as argument.
+				</p></dd><dt><span class="term">--name</span></dt><dd><p>specifies tracer name. Requires name as argument.</p></dd></dl></div><div class="example"><a id="d0e2621"/><p class="title"><b>Example 4.45. Set tracer level </b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh trace -u --nsrc=ProfileTableNotification[table=xxx] --name=tracer.name</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="trace_get_level"/>4.9.5. get-level</h3></div></div></div><p>
+			<code class="literal">get-level</code>
+			operation retrieves level of trace facility or tracer. Does not support arument. Following options are supported:
+		</p><div class="variablelist"><dl><dt><span class="term">--cid</span></dt><dd><p>
+						specifies ComponentID for 1.0 trace facility. Requires valid
+						ComponentID as argument. It excludes
+						<em class="replaceable"><code>--nsrc</code></em>
+						option. Example call:
+						</p><div class="example"><a id="d0e2646"/><p class="title"><b>Example 4.46. Get trace level in 1.0 facility</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh trace -g --cid=SbbID[name=ProxySbb,vendor=mobicents,version=1.1]</pre></div></div><p><br class="example-break"/>
+					</p></dd><dt><span class="term">--nsrc</span></dt><dd><p>
+						specifies notification source of which tracer(!) level should be
+						fetched. Excludes
+						<em class="replaceable"><code>--cid</code></em>
+						option. Requries valid notification source as argument.
+						</p><div class="example"><a id="d0e2663"/><p class="title"><b>Example 4.47. Set tracer level </b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh trace -g --nsrc=ProfileTableNotification[table=xxx] --name=tracer.name </pre></div></div><p><br class="example-break"/>
+					</p></dd><dt><span class="term">--name</span></dt><dd><p>specifies tracer name. Requires name as argument.</p></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="usage.service"/>4.10. usage.service</h2></div></div></div><p>
+		<code class="literal">usage.service</code>
+		command interacts with service specific usage MBeans and Usage
+		Notification manager MBean.
+		<code class="literal">usage.service</code>
+		allows to manage usage sets and parameters, for instance get value of
+		parameter
+		or turn on
+		<acronym class="acronym">JMX</acronym>
+		notification for certain parameter. General form of command looks as
+		follows:
+		</p><pre class="programlisting">usage.service &lt;ServiceID&gt; [SbbID] [SetName] &lt;-operation[[arg] | [--option[=arg]]*]&gt; </pre><p>
+		Note that access to default set does not require [SetName] to be
+		present.
+		It supports following operations:
+	</p><div class="table"><a id="d0e2696"/><p class="title"><b>Table 4.9. 
+			Operations table for
+			<code class="literal">usage.service</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;usage.service&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr><tr><td>get</td><td>-g</td><td>--get</td><td>No</td><td>Yes</td></tr><tr><td>reset</td><td>-r</td><td>--reset</td><td>No</td><td>No</td></tr><tr><td>create</td><td>-c</td><td>--create</td><td>No</td><td>No</td></tr><tr><td>delete</td><td>-d</td><td>--delete</td><td>No</td><td>No</td></tr><tr><td>notify</td><td>-n</td><td>--notify</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_list"/>4.10.1. list</h3></div></div></div><p>
+			<code class="literal">list</code>
+			operation lists certain information about parameter sets. It does not
+			support argument. It support following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--sets
+				</span></dt><dd><p>instructs operation to list available sets for ServiceID and
+						SbbID</p><div class="example"><a id="d0e2801"/><p class="title"><b>Example 4.48. List available sets</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] -l --sets</pre></div></div><br class="example-break"/></dd><dt><span class="term">--parameters
+				</span></dt><dd><p>instructs operation to list parameters from set and metadata
+						associated with each.</p><div class="example"><a id="d0e2814"/><p class="title"><b>Example 4.49. List parameters in set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \ 
+SbbID[name=example,vendor=mobicents,version=0.1] -l --parameters</pre></div></div><br class="example-break"/></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_get"/>4.10.2. get</h3></div></div></div><p>
+			<code class="literal">get</code>
+			operation fetches value of parameter in certain set(default or
+			named). It does not support argument. It supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--name
+				</span></dt><dd><p>specifies name of parameter. This is mandatory option.
+						Parameter name starts with upper case character. Requires
+						parameter name as argument.</p></dd><dt><span class="term">--rst
+				</span></dt><dd><p>instructs operation that parameter should be reset after once
+						value is obtained. Does not support argument, its a "flag" like
+						option.</p></dd></dl></div><div class="example"><a id="d0e2842"/><p class="title"><b>Example 4.50. Get parameter value from default set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \ 
+SbbID[name=example,vendor=mobicents,version=0.1] -g --name=StreetName</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2849"/><p class="title"><b>Example 4.51. Get parameter value from named set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake -g --name=StreetName</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2856"/><p class="title"><b>Example 4.52. Get parameter value from named set and reset</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake -g --name=StreetName --rst</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_reset"/>4.10.3. reset</h3></div></div></div><p>
+			<code class="literal">reset</code>
+			operation resets all parameters in certain set or sets. It does not
+			support argument. It supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--all
+				</span></dt><dd><p>instructs operation to reset all usage sets. It does not
+						require argument.</p></dd></dl></div><div class="example"><a id="d0e2878"/><p class="title"><b>Example 4.53. Reset parameters in named set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake -r</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2885"/><p class="title"><b>Example 4.54. Reset parameters in all sets</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] -r --all</pre></div></div><br class="example-break"/><div class="example"><a id="d0e2892"/><p class="title"><b>Example 4.55. Reset parameters in all sets</b></p><div class="example-contents"><pre class="programlisting">./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] -r --all</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_create"/>4.10.4. create</h3></div></div></div><p>
+			<code class="literal">create</code>
+			operation creates named usage parameter set. It does not support
+			argument nor options.
+		</p><div class="example"><a id="d0e2907"/><p class="title"><b>Example 4.56. Create usage parameter set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake -c</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_delete"/>4.10.5. delete</h3></div></div></div><p>
+			<code class="literal">delete</code>
+			operation deletes named set from container. It does not support
+			argument nor options.
+		</p><div class="example"><a id="d0e2922"/><p class="title"><b>Example 4.57. Delete usage parameter set</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake -d</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="usage.service_notify"/>4.10.6. notify</h3></div></div></div><p>
+			<code class="literal">notify</code>
+			operation performs actions on notification aspect of usage sets. It
+			allows to to run on/off notifications for certain parameter and query
+			about state of notification.
+			It does not support argument. It supports
+			following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--name
+				</span></dt><dd><p>specifies name of parameter. It is mandatory. It requires
+						parameter name as argument. Parameter name starts with upper case
+						character.</p></dd><dt><span class="term">--value
+				</span></dt><dd><p>instructs operation to change state of notification.
+						This options requires boolean argument(true - notification are
+						enabled).</p><div class="example"><a id="d0e2950"/><p class="title"><b>Example 4.58. Turn off notifications</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake \
+-n --name=Calls --value=false</pre></div></div><br class="example-break"/></dd><dt><span class="term">--is
+				</span></dt><dd><p>instructs operation to check state of notification. This option does not support arument.</p><div class="example"><a id="d0e2963"/><p class="title"><b>Example 4.59. Check state of notifications</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh usage.service ServiceID[name=XXX,vendor=mobicents,version=1.0] \
+SbbID[name=example,vendor=mobicents,version=0.1] Drake \
+-n --name=Calls --is</pre></div></div><br class="example-break"/></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="usage.profile"/>4.11. usage.profile</h2></div></div></div><p><code class="literal">usage.profile</code> command interacts with service specific usage MBeans and Usage
+		Notification manager MBean.
+		<code class="literal">usage.resource</code>
+		allows to manage usage sets and parameters, for instance get value of
+		parameter
+		or turn on
+		<acronym class="acronym">JMX</acronym>
+		notification for certain parameter. General form of command looks as
+		follows:
+		</p><pre class="programlisting">usage.ra &lt;ProfileTableName&gt; [SetName] &lt;-operation[[arg] | [--option[=arg]]*]&gt;</pre><p>
+		Note that access to default set does not require [SetName] to be
+		present.</p><p>
+		For description of operations and supported options please refer to <a class="xref" href="#usage.service" title="4.10. usage.service">Section 4.10, “usage.service”</a>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="usage.resource"/>4.12. usage.resource</h2></div></div></div><p><code class="literal">usage.resource</code> command interacts with service specific usage MBeans and Usage
+		Notification manager MBean.
+		<code class="literal">usage.resource</code>
+		allows to manage usage sets and parameters, for instance get value of
+		parameter
+		or turn on
+		<acronym class="acronym">JMX</acronym>
+		notification for certain parameter. General form of command looks as
+		follows:
+		</p><pre class="programlisting">usage.ra &lt;RAEntityName&gt; [SetName] &lt;-operation[[arg] | [--option[=arg]]*]&gt;</pre><p>
+		Note that access to default set does not require [SetName] to be
+		present.</p><p>
+		For description of operations and supported options please refer to <a class="xref" href="#usage.service" title="4.10. usage.service">Section 4.10, “usage.service”</a>
+		</p></div></div><div class="chapter" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="commands.extended"/>Chapter 5. Commands Extended</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="#activity">5.1. activity</a></span></dt><dd><dl><dt><span class="section"><a href="#activity_count">5.1.1. count</a></span></dt><dt><span class="section"><a href="#activity_query">5.1.2. query</a></span></dt><dt><span class="section"><a href="#activity_idle">5.1.3. idle</a></span></dt><dt><span class="section"><a href="#activity_list">5.1.4. list</a></span></dt></dl></dd><dt><span class="section"><a href="#router.stats">5.2. router.stats</a></span></dt><dd><dl><dt><span class="section"><a href="#router.stats_mapped_activities">5.2.1. mapped-activities</a></span></dt><dt><span class="section"><a href="#router.stats_avg_time">5.2.2. avg-time</a></span></dt><dt><span class="section"><a href="#router.stats_events_routed">5.2.3. events-routed</a></span></dt><dt><span class="section"><a href="#router.stats_executed_tasks">5.2.4. executed-tasks</a></span></dt><dt><span class="section"><a href="#router.stats_idle_time">5.2.5. idle-time</a></span></dt><dt><span class="section"><a href="#router.stats_misc_tasks">5.2.6. misc-tasks</a></span></dt><dt><span class="section"><a href="#router.stats_routing_time">5.2.7. routing-time</a></span></dt><dt><span class="section"><a href="#router.stats_executing_time">5.2.8. executing-time</a></span></dt><dt><span class="section"><a href="#router.stats_misc_executing_time">5.2.9. misc-executing-time</a></span></dt><dt><span class="section"><a href="#router.stats_print_all">5.2.10. print-all</a></span></dt></dl></dd><dt><span class="section"><a href="#deployer">5.3. deployer</a></span></dt><dd><dl><dt><span class="section"><a href="#deployer_status">5.3.1. status</a></span></dt></dl></dd><dt><span class="section"><a href="#congestion">5.4. congestion</a></span></dt><dd><dl><dt><span class="section"><a href="#congestion_period">5.4.1. period</a></span></dt><dt><span class="section"><a href="#congestion_disable_level">5.4.2. </a></span></dt><dt><span class="section"><a href="#congestion_enable_level">5.4.3. enable-level</a></span></dt><dt><span class="section"><a href="#congestion_refuse_event">5.4.4. refuse-event</a></span></dt><dt><span class="section"><a href="#congestion_refuse_activity">5.4.5. refuse-activity</a></span></dt></dl></dd></dl></div><p>This chapter describes commands that are specific to Mobicents <acronym class="acronym">JSLEE</acronym> container.
+	Following commands are not bound to work on any other implementation of  <acronym class="acronym">JSLEE</acronym> specification.</p><p>This set of commands is invoked exactly in the same way as commands interacting with standard <acronym class="acronym">JLSEE</acronym> 
+	management interface.</p><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="activity"/>5.1. activity</h2></div></div></div><p>
+		<code class="literal">activity</code>
+		command interacts with
+		<code class="literal">org.mobincets.slee:name=ActivityManagementMBean</code>
+		Bean. It is non standard 
+		<acronym class="acronym">SLEE</acronym>
+		MBean. Please refer to its documentation for details.
+		<code class="literal">activity</code>
+		allows to access information about activities and perform management
+		operations. It supports following operations:
+	</p><div class="table"><a id="d0e3047"/><p class="title"><b>Table 5.1. 
+			Operations table for
+			<code class="literal">activity</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;activity&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>count</td><td>-c</td><td>--count</td><td>No</td><td>No</td></tr><tr><td>query</td><td>-q</td><td>--query</td><td>No</td><td>Yes</td></tr><tr><td>idle</td><td>-i</td><td>--idle</td><td>No</td><td>Yes</td></tr><tr><td>list</td><td>-l</td><td>--list</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="activity_count"/>5.1.1. count</h3></div></div></div><p>
+			<code class="literal">count</code>
+			operation simply returns current count of activities. It does not
+			support argument nor options. Example call:
+			</p><div class="example"><a id="d0e3123"/><p class="title"><b>Example 5.1. List all deployed SBBs</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh activity -c
+					</pre></div></div><p><br class="example-break"/>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="activity_query"/>5.1.2. query</h3></div></div></div><p>
+			<code class="literal">query</code>
+			operation is capable of two things. First is to manage time between activity liveliness query(Refer to Mobicents <acronym class="acronym">JSLEE</acronym> Guide for description of liveliness query). Second is triggering liveliness query.
+			It does not support argument. Optionally it may be followed by one of following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--set
+				</span></dt><dd><p>specifies number of seconds between liveliness query. Requires number as argument.</p><div class="example"><a id="d0e3149"/><p class="title"><b>Example 5.2. Set time between query to 60 seconds</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh activity -q --set=60
+						</pre></div></div><br class="example-break"/></dd><dt><span class="term">--get
+				</span></dt><dd><p>Retrieves number of seconds between liveliness queries.</p></dd></dl></div><div class="example"><a id="d0e3162"/><p class="title"><b>Example 5.3. Trigger query</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh activity -q
+			</pre></div></div><br class="example-break"/></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="activity_idle"/>5.1.3. idle</h3></div></div></div><p>
+			<code class="literal">idle</code>
+			operation allows to manage maximum idle time for activity before it is eligible for garbage collection. It does not support argument. It supports following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--set
+				</span></dt><dd><p>specifies number of seconds which indicates time allowed for activity to be not accessed. If this values is exceeded, next liveliness query will try to free resource.</p></dd><dt><span class="term">--get
+				</span></dt><dd><p>fetches number of seconds indicating how long activity may be not accessed before liveliness query will reclaim it.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="activity_list"/>5.1.4. list</h3></div></div></div><p>
+			<code class="literal">list</code>
+			operation lists certain information based on passed options. It does not support argument. It requires one option to be present. Following options are supported:
+		</p><div class="variablelist"><dl><dt><span class="term">--factories
+				</span></dt><dd><p>instructs operation to list activity contexts factories registered in container. Does not support argument. Example call:</p><div class="example"><a id="d0e3205"/><p class="title"><b>Example 5.4. List factories</b></p><div class="example-contents"><pre class="programlisting">
+twiddle.sh activity -l --factories
+						</pre></div></div><br class="example-break"/></dd><dt><span class="term">--contexts
+				</span></dt><dd><p>instructs operation to list activity contexts and data associated with them. It optionally may take boolean argument. If argument is present and set to <em class="replaceable"><code>true</code></em> 
+					operation will list details in text form, otherwise only statistic is printed for activity context.</p></dd><dt><span class="term">--id-by-activity-type
+				</span></dt><dd><p>instructs operation to list ID of activity contexts based on activity type. Requires FQN of activity class as argument. </p></dd><dt><span class="term">--id-by-ra-entity
+				</span></dt><dd><p>instructs operation to list ID of activity contexts based on Resource Adaptor Entity name. Requires entity name as argument. </p></dd><dt><span class="term">--id-by-sbb-id
+				</span></dt><dd><p>instructs operation to list ID of activity contexts based on SbbID. Requires SbbID as argument. </p></dd></dl></div></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="router.stats"/>5.2. router.stats</h2></div></div></div><p>
+		<code class="literal">activity</code>
+		command interacts with
+		<code class="literal">org.mobincets.slee:name=EventRouterStatistics</code>
+		Bean. It is non standard
+		<acronym class="acronym">SLEE</acronym>
+		MBean.
+		<code class="literal">router.stats</code>
+		allows to access statistics information of router and container
+		executors. Note time statistics are measured in milliseconds. It
+		supports following operations:
+	</p><div class="table"><a id="d0e3256"/><p class="title"><b>Table 5.2. 
+			Operations table for
+			<code class="literal">router.stats</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;router.stats&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>mapped-activities</td><td>-m</td><td>--mapped-activities</td><td>Yes</td><td>No</td></tr><tr><td>avg-time</td><td>-a</td><td>--avg-time</td><td>No</td><td>Yes</td></tr><tr><td>events-routed</td><td>-r</td><td>--events-routed</td><td>No</td><td>Yes</td></tr><tr><td>executed-tasks</td><td>-e</td><td>--executed-tasks</td><td>Yes</td><td>No</td></tr><tr><td>idle-time</td><td>-i</td><td>--idle-time</td><td>Yes</td><td>No</td></tr><tr><td>misc-tasks</td><td>-c</td><td>--misc-tasks</td><td>Yes</td><td>No</td></tr><tr><td>executing-time</td><td>-t</td><td>--executing-time</td><td>Yes</td><td>No</td></tr><tr><td>misc-executing-time</td><td>-x</td><td>--misc-executing-time</td><td>Yes</td><td>No</td></tr><tr><td>routing-time</td><td>-o</td><td>--routing-time</td><td>No</td><td>Yes</td></tr><tr><td>print-all</td><td>-p</td><td>--print-all</td><td>No</td><td>No</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_mapped_activities"/>5.2.1. mapped-activities</h3></div></div></div><p>
+			<code class="literal">mapped-activities</code>
+			operation checks how many activities are mapped to certain executor.
+			It requires integer number as argument, representing executor
+			index(starting from 0).
+
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_avg_time"/>5.2.2. avg-time</h3></div></div></div><p>
+			<code class="literal">avg-time</code>
+			operation return average time spent on routing certain event type. It
+			does not support argument. It requires
+			<em class="replaceable"><code>--eventTypeId</code></em>
+			option to be present.
+			It support following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--eventTypeId
+				</span></dt><dd><p>specifies event type for which average time should be
+						fetched. It is mandatory. It requires valid EventTypeID as
+						argument.</p><div class="example"><a id="d0e3416"/><p class="title"><b>Example 5.5. Get average time in all executors</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh router.stats --avg-time --eventTypeId=\
+EventTypeID[name=javax.slee.profile.ProfileUpdatedEvent,vendor=javax.slee,version=1.0]</pre></div></div><br class="example-break"/></dd><dt><span class="term">--executor
+				</span></dt><dd><p>optional option. Indicates executor index for which statistic
+						should be fetched.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_events_routed"/>5.2.3. events-routed</h3></div></div></div><p>
+			<code class="literal">events-routed</code>
+			operation allows to retrieve information about number of routed
+			events. It does not support argument. It requires
+			<em class="replaceable"><code>--eventTypeId</code></em>
+			option to be present.
+			It support following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--eventTypeId
+				</span></dt><dd><p>specifies event type for which number should be fetched. It
+						is mandatory. It requires valid EventTypeID as argument.</p><div class="example"><a id="d0e3447"/><p class="title"><b>Example 5.6. Get number of routed events in all executors</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh router.stats --events-routed --eventTypeId=\
+EventTypeID[name=javax.slee.profile.ProfileUpdatedEvent,vendor=javax.slee,version=1.0]</pre></div></div><br class="example-break"/></dd><dt><span class="term">--executor
+				</span></dt><dd><p>optional option. Indicates executor index for which statistic
+						should be fetched.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_executed_tasks"/>5.2.4. executed-tasks</h3></div></div></div><p>
+			<code class="literal">executed-tasks</code>
+			operation returns number of executed tasks. If no argument is
+			specified it will return total count. If executor index is specified
+			it will return task count for particular executor.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_idle_time"/>5.2.5. idle-time</h3></div></div></div><p>
+			<code class="literal">idle-time</code>
+			operation return time in which executor was idle. Requires executor index as argument(starting from 0).
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_misc_tasks"/>5.2.6. misc-tasks</h3></div></div></div><p>
+			<code class="literal">misc-tasks</code>
+			operation returns number of non routing tasks performed by container. If optional argument is present(executor index), operation returns number for particular executor.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_routing_time"/>5.2.7. routing-time</h3></div></div></div><p>
+			<code class="literal">routing-time</code>
+			operation returns time spent on routing of events. If optional argument is specified(executor index), operation returns time spent on routing by particular executor. It support following options:
+		</p><div class="variablelist"><dl><dt><span class="term">--eventTypeId
+				</span></dt><dd><p>specifies event type for which number should be fetched. It
+						is mandatory. It requires valid EventTypeID as argument.</p><div class="example"><a id="d0e3499"/><p class="title"><b>Example 5.7. Get number of routed events in all executors</b></p><div class="example-contents"><pre class="programlisting">
+./twiddle.sh router.stats --routing-time --eventTypeId=\
+EventTypeID[name=javax.slee.profile.ProfileUpdatedEvent,vendor=javax.slee,version=1.0]</pre></div></div><br class="example-break"/></dd><dt><span class="term">--executor
+				</span></dt><dd><p>optional option. Indicates executor index for which statistic
+						should be fetched.</p></dd></dl></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_executing_time"/>5.2.8. executing-time</h3></div></div></div><p>
+			<code class="literal">executing-time</code>
+			operation returns time spent on executing tasks. If optional argument is specified(executor index), operation returns time spent on routing by particular executor.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_misc_executing_time"/>5.2.9. misc-executing-time</h3></div></div></div><p>
+			<code class="literal">misc-executing-time</code>
+			operation returns time spent on executing non routing tasks. If optional argument is specified(executor index), operation returns time spent on routing by particular executor.
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="router.stats_print_all"/>5.2.10. print-all</h3></div></div></div><p>
+			<code class="literal">print-all</code>
+			operation prints all statistics. Does not support argument nor options.
+		</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="deployer"/>5.3. deployer</h2></div></div></div><p>deployer command interacts with Mobicents <acronym class="acronym">JSLEE</acronym> container deployer. It supports following operations:</p><div class="table"><a id="d0e3544"/><p class="title"><b>Table 5.3. Operations table for <code class="literal">deployer</code> command</b></p><div class="table-contents"><table summary="Operations table for deployer command" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>status</td><td>-s</td><td>--status</td><td>No</td><td>No</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="deployer_status"/>5.3.1. status</h3></div></div></div><p><code class="literal">status</code> operation is simple. It does not support argument nor options. It lists status of deployment.</p></div></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="congestion"/>5.4. congestion</h2></div></div></div><p>
+		<code class="literal">congestion</code>
+		command interacts with
+		<code class="literal">org.mobincets.slee:name=CongestionControlConfiguration</code>
+		Bean. It is non standard 
+		<acronym class="acronym">SLEE</acronym>
+		MBean. Please refer to its documentation for details.
+		<code class="literal">congestion</code>
+		 allows to change how configuration of congestion mechanism. for instance free memory level which will disable congestion mechanism. It supports following operations:
+	</p><div class="table"><a id="d0e3603"/><p class="title"><b>Table 5.4. 
+			Operations table for
+			<code class="literal">congestion</code>
+			command
+		</b></p><div class="table-contents"><table summary="&#xA;&#x9;&#x9;&#x9;Operations table for&#xA;&#x9;&#x9;&#x9;congestion&#xA;&#x9;&#x9;&#x9;command&#xA;&#x9;&#x9;" width="100%" border="1"><colgroup><col/><col/><col/><col/><col/></colgroup><thead><tr><th>Operation</th><th>Short form</th><th>Long form</th><th>Argument</th><th>Options</th></tr></thead><tbody><tr><td>period</td><td>-p</td><td>--period</td><td>No</td><td>Yes</td></tr><tr><td>disable-level</td><td>-d</td><td>--disable-level</td><td>No</td><td>Yes</td></tr><tr><td>enable-level</td><td>-e</td><td>--enable-level</td><td>No</td><td>Yes</td></tr><tr><td>refuse-event</td><td>-f</td><td>--refuse-event</td><td>No</td><td>Yes</td></tr><tr><td>refuse-activity</td><td>-a</td><td>--refuse-activity</td><td>No</td><td>Yes</td></tr></tbody></table></div></div><br class="table-break"/><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="congestion_period"/>5.4.1. period</h3></div></div></div><p>
+			<code class="literal">period</code> operation allows to manage period between congestion checks. Period is expressed in seconds. This operation does not support argument. It supports following options:
+			
+		</p><div class="variablelist"><dl><dt><span class="term">--get</span></dt><dd><p>instructs operation to fetch period between congestion checks. Does not support argument.</p></dd><dt><span class="term">--set</span></dt><dd><p>instructs operation to set period between congestion checks. Requires number of seconds as argument.</p></dd></dl></div><p>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="congestion_disable_level"/>5.4.2. </h3></div></div></div><p>
+			<code class="literal">disable-level</code> operation allows to manage minimum level of free memory for congestion mechanism to stop limiting container.
+			It does not support argument. It supports following options
+			
+			</p><div class="variablelist"><dl><dt><span class="term">--get</span></dt><dd><p>instructs operation to fetch number MBs. Does not support argument.</p></dd><dt><span class="term">--set</span></dt><dd><p>instructs operation to set number of MBs to stop congestion mechanism. Requires number of MB (MegaBytes).</p></dd></dl></div><p>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="congestion_enable_level"/>5.4.3. enable-level</h3></div></div></div><p>
+			<code class="literal">enable-level</code> operation allows to manage minimum level of free memory to trigger congestion mechanism. It does
+			not support argument. It support following options:
+			
+			</p><div class="variablelist"><dl><dt><span class="term">--get</span></dt><dd><p>instructs operation to fetch number MBs. Does not support argument.</p></dd><dt><span class="term">--set</span></dt><dd><p>instructs operation to set number of MBs to start congestion mechanism. Requires number of MB (MegaBytes).</p></dd></dl></div><p>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="congestion_refuse_event"/>5.4.4. refuse-event</h3></div></div></div><p>
+			<code class="literal">refuse-event</code> operation allows to manage how congestion mechanism behaves. This operation allows to manage whether events are
+			allowed to be fired into container or not. It does not support argument. It supports following options:
+			
+			</p><div class="variablelist"><dl><dt><span class="term">--get</span></dt><dd><p>instructs operation to check if events will be refused to be fired in case of congestion. Does not support argument.</p></dd><dt><span class="term">--set</span></dt><dd><p>instructs operation to disallow events to be fired. It requires boolean argument(true - disallow).</p></dd></dl></div><p>
+		</p></div><div class="section" lang="en-US"><div class="titlepage"><div><div><h3 class="title"><a id="congestion_refuse_activity"/>5.4.5. refuse-activity</h3></div></div></div><p>
+			<code class="literal">refuse-activity</code> operation allows to manage how congestion mechanism behaves. This operation allows to manage whether new activities 
+			can be created in container or not. It does not support argument. It supports following options:
+			</p><div class="variablelist"><dl><dt><span class="term">--get</span></dt><dd><p>instructs operation to check if new activities will be refused in case of congestion. Does not support argument.</p></dd><dt><span class="term">--set</span></dt><dd><p>instructs operation to disallow new activities creation. It requires boolean argument(true - disallow).</p></dd></dl></div><p>
+		</p></div></div></div><div class="appendix" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="revision_history"/>Appendix A. Revision History</h2></div></div></div><p>
+		<div class="revhistory"><table border="0" width="100%" summary="Revision history"><tr><th align="left" valign="top" colspan="3"><b>Revision History</b></th></tr><tr><td align="left">Revision 1.0</td><td align="left">Tue Aug 21 2010</td><td align="left"><span class="author"><span class="firstname">Bartosz</span> <span class="surname">Baranowski</span></span></td></tr><tr><td align="left" colspan="3">
+					<table class="simplelist" border="0" summary="Simple list"><tr><td>Creation of the Mobicents JSLEE Twiddle User Guide.</td></tr></table>
+				</td></tr></table></div>
+	</p></div><div class="index"><div class="titlepage"><div><div><h2 class="title"><a id="d0e3815"/>Index</h2></div></div></div><div class="index"><div class="indexdiv"><h3>F</h3><dl><dt>feedback, <a class="indexterm" href="#d0e309">Provide feedback to the authors!</a></dt></dl></div></div></div></div></body></html>
