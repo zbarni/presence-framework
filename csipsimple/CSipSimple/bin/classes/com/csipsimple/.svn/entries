@@ -1,0 +1,61 @@
+10
+
+dir
+2354
+http://csipsimple.googlecode.com/svn/trunk/CSipSimple/src/com/csipsimple
+http://csipsimple.googlecode.com/svn
+
+
+
+2014-01-16T21:03:02.167740Z
+2353
+r3gis3r
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9f815046-5998-e9c0-b7e2-ac03a23edfa4
+
+pjsip
+dir
+
+backup
+dir
+
+db
+dir
+
+widgets
+dir
+
+api
+dir
+
+ui
+dir
+
+utils
+dir
+
+service
+dir
+
+plugins
+dir
+
+models
+dir
+
+wizards
+dir
+
