@@ -77,6 +77,7 @@ import org.pjsip.pjsua.pj_pool_t;
 import org.pjsip.pjsua.pj_qos_params;
 import org.pjsip.pjsua.pj_str_t;
 import org.pjsip.pjsua.pjmedia_srtp_use;
+import org.pjsip.pjsua.pjrpid_element;
 import org.pjsip.pjsua.pjsip_timer_setting;
 import org.pjsip.pjsua.pjsip_tls_setting;
 import org.pjsip.pjsua.pjsip_transport_type_e;
@@ -830,6 +831,7 @@ public class PjSipService {
                 if (status == pjsuaConstants.PJ_SUCCESS) {
                     status = pjsua.acc_set_registration(currentAccountStatus.getPjsuaId(), 1);
                     if (status == pjsuaConstants.PJ_SUCCESS) {
+                    	Log.d(THIS_FILE, "@zajzi Add account + setting presence...");
                         pjsua.acc_set_online_status(currentAccountStatus.getPjsuaId(), 1);
                     }
                 }
@@ -876,7 +878,7 @@ public class PjSipService {
                 service.getContentResolver().insert(
                         ContentUris.withAppendedId(SipProfile.ACCOUNT_STATUS_ID_URI_BASE,
                                 account.id), ps.getAsContentValue());
-
+                Log.d(THIS_FILE, "@zajzi Random ... setting presence...");
                 pjsua.acc_set_online_status(accId[0], 1);
             }
         }
@@ -1662,6 +1664,7 @@ public class PjSipService {
                     status = pjsua.acc_del(profileState.getPjsuaId());
                     addAccount(account);
                 } else {
+                	Log.d(THIS_FILE, "@zajzi Set account registration + setting presence...");
                     pjsua.acc_set_online_status(profileState.getPjsuaId(),
                             getOnlineForStatus(service.getPresence()));
                     status = pjsua.acc_set_registration(profileState.getPjsuaId(), renew);
@@ -1706,6 +1709,37 @@ public class PjSipService {
         if (profileState != null && profileState.isAddedToStack()) {
             // The account is already there in accounts list
             pjsua.acc_set_online_status(profileState.getPjsuaId(), getOnlineForStatus(presence));
+        }
+    }
+    
+    /**
+     * Set self presence
+     * 
+     * @param presence the SipManager.SipPresence
+     * @param statusText the text of the presence
+     * @throws SameThreadException
+     */
+    public void setComponentPresence(PresenceStatus presence, String statusText, long accountId)
+            throws SameThreadException {
+        if (!created) {
+            Log.e(THIS_FILE, "PJSIP is not started here, nothing can be done");
+            return;
+        }
+        Log.d(THIS_FILE, "@zajzi [Good] Setting presence...");
+        SipProfile account = new SipProfile();
+        account.id = accountId;
+        SipProfileState profileState = getProfileState(account);
+
+        // In case of already added, we have to act finely
+        // If it's local we can just consider that we have to re-add account
+        // since it will actually just touch the account with a modify
+        if (profileState != null && profileState.isAddedToStack()) {
+            // The account is already there in accounts list
+        	Log.d(THIS_FILE, "@zajzi [Even better] Setting presence...");
+        	pj_str_t body = pjsua.pj_str_copy(statusText);
+        	pjrpid_element elem = new pjrpid_element();
+        	elem.setNote(body);
+            pjsua.acc_set_online_status2(profileState.getPjsuaId(), getOnlineForStatus(presence),elem);
         }
 
     }

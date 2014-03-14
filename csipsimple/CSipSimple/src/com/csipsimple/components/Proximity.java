@@ -34,13 +34,16 @@ public class Proximity extends Component implements SensorEventListener {
 	@Override
 	public void onSensorChanged(SensorEvent event) {
 		Log.d(THIS_FILE,"Proximity sensor value changed");
-		if (event.values[0] == 0)
+		if (event.values[0] == 0) {
 			setStatus(ComponentStatus.ON);
-		else
+		}
+		else {
 			setStatus(ComponentStatus.OFF);
+		}
 		
 		if (getStatus() == ComponentStatus.ON) {
 			//TODO do something
+			
 //			Vibrator v = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
 //			v.vibrate(300);		
 		}

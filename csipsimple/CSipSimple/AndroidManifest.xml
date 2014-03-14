@@ -556,11 +556,11 @@
         
         <!-- COMPONENT PRESENCE -->
         <service
-            android:name="com.csipsimple.service.Component"
+            android:name="com.csipsimple.service.ComponentService"
             android:exported="true"
             android:permission="android.permission.VIBRATE" >
             <intent-filter>
-                <action android:name="com.csipsimple.service.Component" />
+                <action android:name="com.csipsimple.service.ComponentService" />
             </intent-filter>
         </service>
         

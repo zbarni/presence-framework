@@ -46,27 +46,22 @@ public class ComponentManager {
 	public static final String XML_COMP_NAME = "name";
 	public static final String XML_PROFILE = "profile";
 
-	public static String presenceXml;
-	public static Document presenceDoc;
+	private static String presenceXml = "@zajzi init";
+	private static Document presenceDoc;
 	// Service connection
     private ISipService service;
 	private static Context mContext;
     
+	// Sensors
 	public static Proximity proximity;
 	public static LocationTracker location;
 	public static ActuatorComponent vibrator;
 	public static Headset headset;
 	
+	// Actuators	
 
 	public ComponentManager(Context context) {
 		mContext = context;
-		
-		proximity = new Proximity(context, "proximity","Proximity");
-//		location = new LocationTracker(context, "gps.location","GPS receiver");
-		vibrator = new ActuatorComponent(context, "vibrator","Vibrator");
-		headset = new Headset(context, "wired.headset", "Wired headset");
-		
-		createPresenceDoc();
 	}
 	
 	public String getDeviceName() {
@@ -78,7 +73,6 @@ public class ComponentManager {
 			return capitalize(manufacturer) + " " + model;
 		}
 	}
-
 
 	private String capitalize(String s) {
 		if (s == null || s.length() == 0) {
@@ -92,8 +86,24 @@ public class ComponentManager {
 		}
 	} 
 	
+	public void initComponents() {
+		proximity = new Proximity(this.mContext, "proximity","Proximity");
+		headset = new Headset(this.mContext, "wired.headset", "Wired headset");
+
+//		location = new LocationTracker(context, "gps.location","GPS receiver");
+//		vibrator = new ActuatorComponent(this.mContext, "vibrator","Vibrator");
+		
+//		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//		v.vibrate(300);
+	}
+	
+	public void publish() {
+		createPresenceDoc();
+		safelyConnectTheService();
+	}
+	
 	@SuppressLint("NewApi")
-	public void createPresenceDoc() {
+	private void createPresenceDoc() {
 		Log.d(THIS_FILE,"Building XML");
 		String version = "";
 		try {
@@ -157,9 +167,7 @@ public class ComponentManager {
 		catch (ParserConfigurationException e) {
 			Log.e(THIS_FILE,"Parseconfiguration exception.");
 		}
-		safelyConnectTheService();
 	}
-	
 	
 //	@Override
 //	public void onServiceConnected(ComponentName name, IBinder _service) {
@@ -191,10 +199,10 @@ public class ComponentManager {
         public void onServiceConnected(ComponentName arg0, IBinder arg1) {
             service = ISipService.Stub.asInterface(arg1);
             try {
-            	service.setPresence(1, "test", 1);
+            	service.setComponentPresence(2, presenceXml, 1);
 			} catch (RemoteException e) {
 				// TODO: handle exception
-				Log.d(THIS_FILE,"@presence: Could not set component presence");
+				Log.d(THIS_FILE,"@zajzi presence: Could not set component presence");
 			}
         }
 

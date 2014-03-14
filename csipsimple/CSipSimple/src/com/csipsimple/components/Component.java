@@ -5,7 +5,7 @@ import com.csipsimple.utils.Log;
 import android.content.Context;
 
 public class Component {
-	private static final String THIS_FILE = "COMPONENT";
+	private static final String THIS_FILE = "CMP BASE";
 	
 	public enum ComponentStatus {
 		UNAVAILABLE,

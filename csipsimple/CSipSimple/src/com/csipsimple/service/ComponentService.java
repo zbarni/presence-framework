@@ -32,6 +32,14 @@ public class ComponentService extends Service {
 
 	private static final String THIS_FILE = "COMP SRV";
 
+	//components 	
+	private static Boolean HEADSET_CONNECTED = false;
+	private static Boolean BLUETOOTH_HEADSET_CONNECTED = false;
+	private static Boolean REAR_CAMERA_ON = false;
+	//		private static Boolean 
+	//		private static Boolean 
+	//		private static Boolean 
+	
 	public IBinder onBind (Intent intent) {
 		return null;
 	}
@@ -49,6 +57,8 @@ public class ComponentService extends Service {
 		Log.d(THIS_FILE,"Component Service Started!");
 		
 		ComponentManager compManager = new ComponentManager(this);
+		compManager.initComponents();
+		compManager.publish();
 		
 		return START_NOT_STICKY;
 	}
@@ -59,6 +69,4 @@ public class ComponentService extends Service {
 		Log.d(THIS_FILE,"Component Service Destroyed");
 		super.onDestroy();
 	}
-
-	
 }

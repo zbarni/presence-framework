@@ -672,6 +672,48 @@ public class SipService extends Service {
             });
         }
         
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public void setComponentPresence(final int presenceInt, final String statusText, final long accountId) throws RemoteException {
+            SipService.this.enforceCallingOrSelfPermission(SipManager.PERMISSION_USE_SIP, null);
+            if(pjService == null) {
+                return;
+            }
+            getExecutor().execute(new SipRunnable() {
+                @Override
+                protected void doRun() throws SameThreadException {
+                    presence = PresenceStatus.values()[presenceInt];
+                    
+//                    Cursor c = service.getContentResolver().query(SipProfile.ACCOUNT_URI, ACC_PROJECTION,
+//                    		SipProfile.FIELD_ACTIVE + "=?", new String[] {
+//                    		"1"
+//                    }, null);
+                    
+                    Cursor c = getContentResolver().query(SipProfile.ACCOUNT_URI, DBProvider.ACCOUNT_FULL_PROJECTION, 
+                    		SipProfile.FIELD_ACTIVE + "=?", new String[] {"1"}, null);
+                    if (c != null) {
+                    	try {
+                    		int index = 0;
+                    		if(c.getCount() > 0) {
+                    			c.moveToFirst();
+                    			do {
+                    				SipProfile account = new SipProfile(c);
+                    				Log.d(THIS_FILE, "#@zajzi looping over account nr. : " + Long.toString(account.id));
+                    				pjService.setComponentPresence(presence, statusText, account.id);
+                    				index ++;
+                    			} while (c.moveToNext() && index < 10);
+                    		}
+                    	} catch (Exception e) {
+                    		Log.e(THIS_FILE, "Error on looping over sip profiles", e);
+                    	} finally {
+                    		c.close();
+            			}
+            		}
+                }
+            });
+        }
 
         /**
          * {@inheritDoc}

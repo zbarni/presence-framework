@@ -524,5 +524,5 @@ public final class SipManager {
     /**
      * UA Component Service
      */
-    public static final String INTENT_COMPONENT_SERVICE = "com.csipsimple.service.Component";
+    public static final String INTENT_COMPONENT_SERVICE = "com.csipsimple.service.ComponentService";
 }
