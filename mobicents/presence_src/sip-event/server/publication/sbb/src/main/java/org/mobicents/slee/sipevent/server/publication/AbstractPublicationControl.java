@@ -24,14 +24,17 @@ package org.mobicents.slee.sipevent.server.publication;
 
 import java.io.Serializable;
 import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import javax.sip.address.URI;
 import javax.sip.header.ContentTypeHeader;
 import javax.sip.header.Header;
 import javax.sip.message.Response;
-import javax.xml.transform.dom.DOMSource;
 
+import org.apache.log4j.Logger;
 import org.mobicents.slee.sipevent.server.publication.data.ComposedPublication;
 import org.mobicents.slee.sipevent.server.publication.data.ComposedPublicationKey;
 import org.mobicents.slee.sipevent.server.publication.data.Publication;
@@ -60,7 +63,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 	protected abstract PublicationControlLogger getLogger();
 
 	protected abstract ImplementedPublicationControl getImplementedPublicationControl();
-	
+
 	private static final PublicationControlManagement management = PublicationControlManagement
 			.getInstance();
 	private static final PublicationControlDataSource dataSource = management.getDataSource();
@@ -90,9 +93,8 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 		final ImplementedPublicationControl impl = getImplementedPublicationControl();
 
 		try {
-
 			Document domDocument = unmarshallDocument(document, eventPackage, impl);
-			
+
 			if (domDocument == null) {
 				// If the content type of the request does
 				// not match the event package, or is not understood by the ESC,
@@ -108,7 +110,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				return UNSUPPORTED_MEDIA_TYPE;
 			}
 
-			
+
 			// authorize publication
 			if (!impl.authorizePublication(entity, eventPackage, domDocument)) {
 				if (logger.isInfoEnabled()) {
@@ -127,6 +129,11 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				publication = new Publication(publicationKey, document,
 						contentType, contentSubType);
 				publication.setDocumentAsDOM(domDocument);
+				// extract component model and store it in the database
+				// only if PUBLISH contains component model xml
+				if (publication.parseComponentModel()) {
+					addComponentModelToDatabase(publication);
+				}
 				// set timer
 				setTimer(publication, expires);
 				// update or create composed publication
@@ -171,7 +178,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 		StringReader reader = new StringReader(document);
 		try {
 			Document domDocument = DomUtils.DOCUMENT_BUILDER_NS_AWARE_FACTORY.newDocumentBuilder().parse(new InputSource(reader));
-			implementedPublicationControl.getSchema(eventPackage).newValidator().validate(new DOMSource(domDocument));
+			//			implementedPublicationControl.getSchema(eventPackage).newValidator().validate(new DOMSource(domDocument));
 			return domDocument;
 		}
 		catch (Exception e) {
@@ -235,7 +242,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				final Publication newPublication = new Publication(
 						newPublicationKey, publication.getDocumentAsString(),
 						publication.getContentType(), publication
-								.getContentSubType());
+						.getContentSubType());
 				// reset timer
 				resetTimer(publication, newPublication, expires);
 				// replace publication
@@ -306,6 +313,8 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				}
 				result = Response.CONDITIONAL_REQUEST_FAILED;
 			} else {
+				// remove from database
+				removeComponentModelFromDatabase(publication);
 				// cancel timer
 				cancelTimer(publication);
 				// remove old publication
@@ -318,7 +327,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 						publication, publications, true, impl);
 				if (composedPublication.getDocumentAsString() == null
 						&& management
-								.isUseAlternativeValueForExpiredPublication()) {
+						.isUseAlternativeValueForExpiredPublication()) {
 					// give the event package implementation sbb a chance to
 					// define
 					// an alternative publication value for the one expired,
@@ -328,16 +337,16 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 							.getAlternativeValueForExpiredPublication(publication);
 					if (alternativePublication != null) {
 						composedPublication
-								.setContentSubType(alternativePublication
-										.getContentSubType());
+						.setContentSubType(alternativePublication
+								.getContentSubType());
 						composedPublication
-								.setContentType(alternativePublication
-										.getContentType());
+						.setContentType(alternativePublication
+								.getContentType());
 						composedPublication.setDocumentAsString(alternativePublication
 								.getDocumentAsString());
 						composedPublication
-								.setDocumentAsDOM(alternativePublication
-										.getDocumentAsDOM());
+						.setDocumentAsDOM(alternativePublication
+								.getDocumentAsDOM());
 					}
 
 				}
@@ -437,6 +446,10 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 							newPublicationKey, document, contentType,
 							contentSubType);
 					newPublication.setDocumentAsDOM(unmarshalledContent);
+					if (newPublication.parseComponentModel()) {
+						removeComponentModelFromDatabase(publication);				
+						addComponentModelToDatabase(newPublication);
+					}
 					// get composed publication and rebuild it
 					final ComposedPublication composedPublication = updateComposedPublication(
 							newPublication, publications, oldETag, impl);
@@ -517,7 +530,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 								.getPublicationKey().getEventPackage()), false,impl);
 				if (composedPublication.getDocumentAsString() == null
 						&& management
-								.isUseAlternativeValueForExpiredPublication()) {
+						.isUseAlternativeValueForExpiredPublication()) {
 					// give the event package implementation sbb a chance to
 					// define
 					// an alternative publication value for the one expired,
@@ -527,16 +540,16 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 							.getAlternativeValueForExpiredPublication(publication);
 					if (alternativePublication != null) {
 						composedPublication
-								.setContentSubType(alternativePublication
-										.getContentSubType());
+						.setContentSubType(alternativePublication
+								.getContentSubType());
 						composedPublication
-								.setContentType(alternativePublication
-										.getContentType());
+						.setContentType(alternativePublication
+								.getContentType());
 						composedPublication.setDocumentAsString(alternativePublication
 								.getDocumentAsString());
 						composedPublication
-								.setDocumentAsDOM(alternativePublication
-										.getDocumentAsDOM());
+						.setDocumentAsDOM(alternativePublication
+								.getDocumentAsDOM());
 					}
 				}
 				// notify subscribers
@@ -622,7 +635,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				entity, eventPackage);
 
 		final ComposedPublication composedPublication = new ComposedPublication(composedPublicationKey);
-		
+
 		// rebuild composed content with all publications (except the one
 		// removed)
 		Document composedPublicationUnmarshalledContent = null;
@@ -679,4 +692,59 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 		}
 	}
 
+	public void addComponentModelToDatabase(Publication publication) {
+		if (publication.getComponentModelAsString() == "")
+			return;
+		
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "components";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "presence";
+		String password = "columbianyc";
+		try {
+			Class.forName(driver).newInstance();
+			Connection connect = DriverManager.getConnection(url+dbName,userName,password);
+
+			String sql = "INSERT INTO models (sip_uri, etag, component_model) VALUES (?,?,?)";
+			PreparedStatement statement = connect.prepareStatement(sql);
+			statement.setString(1, publication.getPublicationKey().getEntity());
+			statement.setString(2, publication.getPublicationKey().getETag());
+			statement.setString(3, publication.getComponentModelAsString());
+			statement.executeUpdate();
+			connect.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}          
+	}
+
+	public void removeComponentModelFromDatabase(Publication publication) {
+		if (publication.getComponentModelAsString() == "")
+			return;
+		
+		String url = "jdbc:mysql://localhost:3306/";
+		String dbName = "components";
+		String driver = "com.mysql.jdbc.Driver";
+		String userName = "presence";
+		String password = "columbianyc";
+		try {
+			PublicationControlLogger logger = getLogger();
+			logger.info("Deleting component model from database...");
+			
+			Class.forName(driver).newInstance();
+			Connection connect = DriverManager.getConnection(url+dbName,userName,password);
+
+			String sql = "DELETE FROM models WHERE etag=?";
+			PreparedStatement statement = connect.prepareStatement(sql);
+			statement.setString(1, publication.getPublicationKey().getETag());
+			if (statement.executeUpdate() == 0) {
+				logger.info("Deletion was unsuccesful from database...");
+			}
+			else {
+				logger.info("Publication was succesfully deleted from database.");
+			}
+			connect.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}          
+	}
 }

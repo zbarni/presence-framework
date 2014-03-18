@@ -214,6 +214,7 @@ public abstract class PublicationControlSbb extends AbstractPublicationControl i
 	}
 
 	public void sbbCreate() throws CreateException {
+//		logger.debug("@zajzi : [PublicationControlSbb] - creating PublicationControlSbb");
 	}
 
 	public void sbbExceptionThrown(Exception arg0, Object arg1,

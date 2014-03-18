@@ -18,8 +18,8 @@ public class LocationTracker extends Component implements LocationListener {
 	private boolean mGPSenabled;
 	private boolean isNetworkEnabled;
 
-	public LocationTracker(Context context, String id, String name) {
-		super(context, id, name);
+	public LocationTracker(Context context, String id, String name, String type) {
+		super(context, id, name, type);
 		initialize();
 	}
 

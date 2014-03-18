@@ -128,20 +128,20 @@ public class SipHome extends SherlockFragmentActivity implements OnWarningChange
 
     public void addTestAccount() {
     	String pwd =  "vizitunder";
-    	String fullUser = "szunyog@sip2sip.info";
+    	String fullUser = "zajzi@137.226.58.37:5080";
 
     	String[] splitUser = fullUser.split("@");
 
     	// We do some VERY basic thing here (minimal), a real app should probably manage input differently
     	SipProfile builtProfile = new SipProfile();
-    	builtProfile.display_name = "Barni Testing";
+    	builtProfile.display_name = "zajzi";
     	builtProfile.id = SipProfile.INVALID_ID;
     	builtProfile.acc_id = "<sip:"+fullUser+">";
     	builtProfile.reg_uri = "sip:"+splitUser[1];
     	builtProfile.realm = "*";
     	builtProfile.username = splitUser[0];
     	builtProfile.data = pwd;
-    	builtProfile.proxies = new String[] {"sip:proxy.sipthor.net"};
+    	builtProfile.proxies = new String[] {"sip:137.226.58.37:5060"};
 
     	ContentValues builtValues = builtProfile.getDbContentValues();
 

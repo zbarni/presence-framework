@@ -53,6 +53,7 @@ public class PublicationControlDataSource {
 	  +--- msps-cpub
 	  +------ eventPackage
 	  +--------- entity (Boolean.TRUE = composedPublication)
+	  +--- msps-comp-model
 	  
 	  note: publicationKey is (entity,eventPackage,eTag) 
 	 */
@@ -61,6 +62,7 @@ public class PublicationControlDataSource {
 	private Node pubRoot;  
 	private Node timersRoot;
 	private Node cPubRoot;	
+	private Node compModelRoot;
 	
 	public PublicationControlDataSource(MobicentsCache cache) {
 		jbcache = cache.getJBossCache(); 
@@ -82,6 +84,7 @@ public class PublicationControlDataSource {
 		pubRoot = root.addChild(Fqn.fromElements("msps-pub"));
 		timersRoot = root.addChild(Fqn.fromElements("msps-pub-timers"));
 		cPubRoot = root.addChild(Fqn.fromElements("msps-cpub"));
+		compModelRoot = root.addChild(Fqn.fromElements("msps-comp-model"));
 	}
 	
 	// ----

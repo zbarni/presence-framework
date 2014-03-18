@@ -1725,7 +1725,6 @@ public class PjSipService {
             Log.e(THIS_FILE, "PJSIP is not started here, nothing can be done");
             return;
         }
-        Log.d(THIS_FILE, "@zajzi [Good] Setting presence...");
         SipProfile account = new SipProfile();
         account.id = accountId;
         SipProfileState profileState = getProfileState(account);
@@ -1735,11 +1734,12 @@ public class PjSipService {
         // since it will actually just touch the account with a modify
         if (profileState != null && profileState.isAddedToStack()) {
             // The account is already there in accounts list
-        	Log.d(THIS_FILE, "@zajzi [Even better] Setting presence...");
+        	Log.d(THIS_FILE,"XML Call reached PJSIP (java), setting presence, theoretically");
         	pj_str_t body = pjsua.pj_str_copy(statusText);
         	pjrpid_element elem = new pjrpid_element();
         	elem.setNote(body);
             pjsua.acc_set_online_status2(profileState.getPjsuaId(), getOnlineForStatus(presence),elem);
+            Log.d(THIS_FILE,"XML pjsua has been called");
         }
 
     }

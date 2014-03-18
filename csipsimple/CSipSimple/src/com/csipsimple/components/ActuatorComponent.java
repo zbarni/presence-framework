@@ -11,9 +11,9 @@ import com.csipsimple.utils.Log;
 public class ActuatorComponent extends Component implements SensorEventListener {
 	private static final String THIS_FILE = "ACTUATOR";
 
-	public ActuatorComponent(Context context, String id, String name) {
-		super(context, id, name);
-		initialize();
+	public ActuatorComponent(Context context, String id, String name, String type) {
+		super(context, id, name, type);
+		initialize(); 
 	}
 	
 	public void initialize() {

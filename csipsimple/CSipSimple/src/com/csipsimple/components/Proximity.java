@@ -11,8 +11,8 @@ import com.csipsimple.utils.Log;
 public class Proximity extends Component implements SensorEventListener {
 	private static final String THIS_FILE = "PROXIMITY";
 
-	public Proximity(Context context, String id, String name) {
-		super(context, id, name);
+	public Proximity(Context context, String id, String name, String type) {
+		super(context, id, name, type);
 		initialize();
 	}
 	

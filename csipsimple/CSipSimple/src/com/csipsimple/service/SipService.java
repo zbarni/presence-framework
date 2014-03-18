@@ -21,6 +21,15 @@
 
 package com.csipsimple.service;
 
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -71,6 +80,7 @@ import com.csipsimple.pjsip.UAStateReceiver;
 import com.csipsimple.service.receiver.DynamicReceiver4;
 import com.csipsimple.service.receiver.DynamicReceiver5;
 import com.csipsimple.ui.incall.InCallMediaControl;
+import com.csipsimple.utils.Base64;
 import com.csipsimple.utils.Compatibility;
 import com.csipsimple.utils.CustomDistribution;
 import com.csipsimple.utils.ExtraPlugins;
@@ -78,15 +88,6 @@ import com.csipsimple.utils.ExtraPlugins.DynActivityPlugin;
 import com.csipsimple.utils.Log;
 import com.csipsimple.utils.PreferencesProviderWrapper;
 import com.csipsimple.utils.PreferencesWrapper;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SipService extends Service {
 
@@ -700,7 +701,8 @@ public class SipService extends Service {
                     			c.moveToFirst();
                     			do {
                     				SipProfile account = new SipProfile(c);
-                    				Log.d(THIS_FILE, "#@zajzi looping over account nr. : " + Long.toString(account.id));
+//                    				String statusText2 = Base64.encodeBytes(statusText.getBytes());
+                    				Log.d(THIS_FILE,"XML Call reached SIPservice, forwarding to PJSIP");
                     				pjService.setComponentPresence(presence, statusText, account.id);
                     				index ++;
                     			} while (c.moveToNext() && index < 10);

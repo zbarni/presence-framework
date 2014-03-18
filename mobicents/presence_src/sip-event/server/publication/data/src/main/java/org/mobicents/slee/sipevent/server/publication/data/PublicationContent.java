@@ -34,6 +34,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.mobicents.xdm.common.util.dom.DomUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.InputSource;
 
 public class PublicationContent implements Serializable {
@@ -47,6 +52,8 @@ public class PublicationContent implements Serializable {
 	 * the document published
 	 */
 	private String document;
+	private String componentModel;
+	private String cmKey;
 
 	/**
 	 * the type of document published
@@ -68,6 +75,7 @@ public class PublicationContent implements Serializable {
 		this.document = document;
 		this.contentSubType = contentSubType;
 		this.contentType = contentType;
+		this.componentModel = "";
 	}
 
 	public String getContentSubType() {
@@ -129,6 +137,51 @@ public class PublicationContent implements Serializable {
 	 */
 	public void setDocumentAsDOM(Document document) {
 		this.documentAsDOM = document;
+	}
+	
+	public String getLog () {
+		return "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77\n&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&77\n";
+	}
+	
+	/**
+	 * Parses the published document and extracts the component model, storing 
+	 * it in componentModel variable.  
+	 */
+	public boolean parseComponentModel() {
+		NodeList nodeList = documentAsDOM.getElementsByTagName("note");
+		if (nodeList.getLength() == 0) 
+			return false;
+		Node node = nodeList.item(0);
+		
+		Node ua = documentAsDOM.getElementsByTagName("ua").item(0);
+		this.cmKey = ua.getAttributes().getNamedItem("id").getNodeValue();		
+		
+		try {
+			final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
+			final DOMImplementationLS impl = (DOMImplementationLS) registry.getDOMImplementation("LS");
+			final LSSerializer writer = impl.createLSSerializer();
+
+			writer.getDomConfig().setParameter("xml-declaration", false); // Set this to true if the declaration is needed to be outputted.
+			String s = writer.writeToString(node);
+			if (!s.contains("<ua")) {
+				return false;
+			}
+			
+			this.componentModel = s.replaceAll("<note(.*?)>", "").trim();
+			this.componentModel = this.componentModel.replaceAll("</note>", "").trim();
+
+		} catch (Exception te) {
+			te.printStackTrace();
+		}
+		return true;
+	}
+	
+	public String getCMKey() {
+		return this.cmKey;
+	}
+	
+	public String getComponentModelAsString() {
+		return this.componentModel;
 	}
 
 	/**

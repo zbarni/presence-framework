@@ -119,13 +119,15 @@ public abstract class SipPublicationControlSbb implements Sbb, PublicationClient
 	/**
 	 * Initial event selector method for the PUBLISH event, defines the 
 	 * presentity as the custom name.
+	 * @zajzi_comm All PUBLISH messages from the same URI will be handled
+	 * by a single SBB.
 	 *  
 	 * @param ies
 	 * @return
 	 */
 	public InitialEventSelector iesPublish(InitialEventSelector ies) {
 		final RequestEvent event = (RequestEvent) ies.getEvent();
-		ies.setCustomName(event.getRequest().getRequestURI().toString());
+		ies.setCustomName(event.getRequest().getRequestURI().toString()); 
 		return ies;
 	}
 	
@@ -145,6 +147,7 @@ public abstract class SipPublicationControlSbb implements Sbb, PublicationClient
 		aci.detach(sbbLocalObject);
 		
 		// get child sbb that handles all the publication logic
+		logger.debug("@zajzi : [SipPublicationControlSbb] - getting PublicationControlSbbLocalObject childSbb");
 		PublicationControlSbbLocalObject childSbb = getPublicationControlChildSbb();						
 		
 		if (logger.isDebugEnabled()) {
@@ -191,6 +194,7 @@ public abstract class SipPublicationControlSbb implements Sbb, PublicationClient
 				URI entityURI = event.getRequest().getRequestURI();
 				String entity = entityURI.toString();
 				int i = entity.indexOf(';');
+				
 				if (i>0) {
 					// remove all parameters (can't find a reference indicating any param that should be kept...)
 					entity = entity.substring(0,i);
@@ -221,7 +225,8 @@ public abstract class SipPublicationControlSbb implements Sbb, PublicationClient
 							if (expires > getConfiguration().getMaxExpires()) {
 								expires = getConfiguration().getMaxExpires();
 							}						
-							// new publication or publication refresh ?	
+							// new publication or publication refresh ?
+							//@zbarni_comm sipIfMatch is a header set in PUBLISH messages when it's a refresh
 							SIPIfMatchHeader sipIfMatchHeader = (SIPIfMatchHeader)event.getRequest().getHeader(SIPIfMatchHeader.NAME);
 							if (sipIfMatchHeader != null) {
 								// refresh or modification of publication

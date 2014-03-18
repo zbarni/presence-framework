@@ -1,17 +1,21 @@
 package com.csipsimple.components;
 
 import java.io.StringWriter;
+//import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -87,8 +91,8 @@ public class ComponentManager {
 	} 
 	
 	public void initComponents() {
-		proximity = new Proximity(this.mContext, "proximity","Proximity");
-		headset = new Headset(this.mContext, "wired.headset", "Wired headset");
+		proximity = new Proximity(this.mContext, "proximity","Proximity", Component.SENSOR);
+		headset = new Headset(this.mContext, "wired.headset", "Wired headset", Component.SENSOR);
 
 //		location = new LocationTracker(context, "gps.location","GPS receiver");
 //		vibrator = new ActuatorComponent(this.mContext, "vibrator","Vibrator");
@@ -100,6 +104,7 @@ public class ComponentManager {
 	public void publish() {
 		createPresenceDoc();
 		safelyConnectTheService();
+		Log.d(THIS_FILE,"XML finished connecting.. waiting for async call, probably");
 	}
 	
 	@SuppressLint("NewApi")
@@ -122,8 +127,11 @@ public class ComponentManager {
 			Element os_name = presenceDoc.createElement(XML_OS_NAME);
 			Element os_version = presenceDoc.createElement(XML_OS_VERSION);
 			Element uri = presenceDoc.createElement(XML_URI);
+			Element sensors = presenceDoc.createElement(XML_SENSORS);
+			Element actuators = presenceDoc.createElement(XML_ACTUATORS);
 			
 			presenceDoc.appendChild(root);
+			root.setAttribute("id", "randomuri");
 		    root.appendChild(device);
 		    device.appendChild(type);
 		    type.setTextContent("Smartphone");
@@ -137,9 +145,19 @@ public class ComponentManager {
 		    os.appendChild(os_version);
 		    os_version.setTextContent(version);
 		    
-		    device.appendChild(uri);
-		    uri.setTextContent("blabla");
-//		    device.appendChild();
+		    //sensors
+		    root.appendChild(sensors);
+//		    Element s_proximity = presenceDoc.createElement(XML_SENSOR);
+//		    Element s_name = presenceDoc.createElement(XML_SENSOR);
+//		    s_proximity.setAttribute("id", proximity.getmId());
+//		    
+//		    sensors.appendChild(newChild)
+		    String string_sensors;
+		    string_sensors = proximity.getComponentXml();
+		    string_sensors += headset.getComponentXml();
+		    Text sensors_text = presenceDoc.createTextNode(string_sensors);
+		    sensors.setTextContent(string_sensors);
+		    
 //		    type.setTextContent("");
 //		    device.appendChild();
 //		    type.setTextContent("");
@@ -147,18 +165,20 @@ public class ComponentManager {
 //		    type.setTextContent("");
 //		    device.appendChild();
 //		    type.setTextContent("");
-//		    device.appendChild();
 		    
 		    
 //		    tagStudy.setAttribute(Study.ID, String.valueOf(study.mId));
 		    try {
 		    	Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		    	transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 		    	StringWriter writer = new StringWriter();
 		    	StreamResult result = new StreamResult(writer);
 		    	transformer.transform(new DOMSource(presenceDoc), result);
 		    	
 		    	presenceXml = writer.toString();
-		    	Log.d(THIS_FILE,"XML" + presenceXml);
+		    	// remove XML header because it goes into the body
+		    	presenceXml = StringEscapeUtils.unescapeXml(presenceXml);
+		    	Log.d(THIS_FILE,"XML " + presenceXml);
 		    }
 		    catch (TransformerException e) {
 		    	Log.e(THIS_FILE,"Transformer exception.");
@@ -187,6 +207,7 @@ public class ComponentManager {
 	 */
 	public void safelyConnectTheService() {
 		if(service == null) {
+			Log.d(THIS_FILE,"XML binding to service");
 			mContext.bindService(new Intent(mContext, SipService.class), connection, Context.BIND_AUTO_CREATE);
 //			Intent bindIntent = new Intent();
 //			bindIntent.setClassName(AIDL_MESSAGE_SERVICE_PACKAGE, AIDL_MESSAGE_SERVICE_PACKAGE + AIDL_MESSAGE_SERVICE_CLASS);

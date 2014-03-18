@@ -34,14 +34,8 @@ public class Headset extends Component {
 		};	
 	};
 
-	public Headset(Context context, String id, String name) {
-		super(context, id, name);
-		initialize();
-	}
-
 	public Headset(Context context, String id, String name, String type) {
-		super(context, id, name);
-		this.mType = type;		
+		super(context, id, name, type);
 		initialize();
 	}
 
