@@ -1,7 +1,5 @@
 package com.csipsimple.components;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -11,28 +9,40 @@ import com.csipsimple.utils.Log;
 
 public class Component {
 	private static final String THIS_FILE = "CMP BASE";
-	public static final String SENSOR = "SENSOR";
-	public static final String ACTUATOR = "ACTUATOR";
+	public static final String SENSOR = "sensor";
+	public static final String ACTUATOR = "actuator";
 	
+	private static ComponentManager componentManager;
 	private String mComponentType;
+	private Element mComponentElement;
 	
 	public enum ComponentStatus {
 		UNAVAILABLE,
-		AVAILABLE,
-		ON,
-		OFF;
+		AVAILABLE, // component is there but is NOT active
+		ON // component is there and it IS active 
 	}
 	
 	protected String mId;
-	public String getmId() {
+	protected String mName;
+	protected String mProfile = "http://google.com";
+	
+	protected ComponentStatus status;
+	// only read sensor data if this is true
+	protected boolean readSensor = false;
+	
+	protected ComponentManager getComponentManager() {
+		return componentManager;
+	}
+	
+	public String getId() {
 		return mId;
 	}
 
-	public void setmId(String mId) {
+	public void setId(String mId) {
 		this.mId = mId;
 	}
 
-	public String getmName() {
+	public String getName() {
 		return mName;
 	}
 
@@ -44,29 +54,17 @@ public class Component {
 		return mProfile;
 	}
 
-	public void setmProfile(String mProfile) {
+	public void setProfile(String mProfile) {
 		this.mProfile = mProfile;
 	}
-
-	protected String mName;
-	protected String mProfile = "http://google.com";
 	
-	protected Context mContext;	
-	
-	protected ComponentStatus status;
-	
-	// only read sensor data if this is true
-	protected boolean readSensor = false;
-	
-	protected android.hardware.SensorManager mSensorManager;
-	protected android.hardware.Sensor mSensor;
-	
-	public Component(Context context, String id, String name, String type) {
+	public Component(String id, String name, String type, ComponentManager cm) {
 		Log.d(THIS_FILE,"Component constructor");
 		this.mId = id;
 		this.mName = name;
-		this.mContext = context;
 		this.mComponentType = type;
+		this.mComponentElement = null;
+		Component.componentManager = cm;
 	}
 	
 	public ComponentStatus getStatus() {
@@ -78,36 +76,24 @@ public class Component {
 	}
 
 	public Context getContext() {
-		return mContext;
+		return componentManager.getContext();
 	}
 
-	public void setContext(Context mContext) {
-		this.mContext = mContext;
+	public Element getComponentElement(Document document) {
+		if (this.mComponentElement == null) {
+			this.mComponentElement = document.createElement((this.mComponentType == ACTUATOR) ? ACTUATOR : SENSOR);
+			this.mComponentElement.setAttribute("id", this.mId);
+			Element name = document.createElement("name");
+			Element profile = document.createElement("profile");
+			name.setTextContent(this.mName);
+			profile.setTextContent("http://temporary-profile-link");
+			this.mComponentElement.appendChild(name);
+			this.mComponentElement.appendChild(profile);
+		}
+		return (this.getStatus() == ComponentStatus.AVAILABLE || this.getStatus() == ComponentStatus.ON)  ? this.mComponentElement : null;
 	}
 	
-	public String getComponentXml() {
-		String xml;
-		
-//		Document presenceDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-//		Element root;
-//		if (this.mComponentType == ACTUATOR) {
-//			root = presenceDoc.createElement("actuator");
-//		}
-//		else {
-//			root = presenceDoc.createElement("sensor");
-//		}
-//		root.setAttribute("id", this.mId);
-//		Element name = presenceDoc.createElement("name");
-//		
-//		Element os_version = presenceDoc.createElement(XML_OS_VERSION);
-//		
-		xml = (this.mComponentType == ACTUATOR) ? "<actuator" : "<sensor";
-		// add id attribute
-		xml += " id=\"" + this.mId + "\">";
-		xml += "<name>" + this.mName + "</name>";
-		xml += "<profile>" + this.mProfile + "</profile>";
-		xml += (this.mComponentType == ACTUATOR) ? "</actuator>" : "</sensor>";
-		return xml;
+	public String getType() {
+		return this.mComponentType;
 	}
-
 }

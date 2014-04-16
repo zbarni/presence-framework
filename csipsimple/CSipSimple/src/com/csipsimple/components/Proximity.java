@@ -10,20 +10,27 @@ import com.csipsimple.utils.Log;
 
 public class Proximity extends Component implements SensorEventListener {
 	private static final String THIS_FILE = "PROXIMITY";
-
-	public Proximity(Context context, String id, String name, String type) {
-		super(context, id, name, type);
+	private android.hardware.SensorManager mSensorManager;
+	private android.hardware.Sensor mSensor;
+	
+	public Proximity(String id, String name, String type, ComponentManager cm) {
+		super(id, name, type, cm);
 		initialize();
 	}
 	
 	public void initialize() {
-		Log.d(THIS_FILE,"Proximity sensor initialized");
 		
 		mSensorManager = (SensorManager)getContext().getSystemService(Context.SENSOR_SERVICE);		
 		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-		mSensorManager.registerListener(this, mSensor,SensorManager.SENSOR_DELAY_NORMAL);
-		
-		setStatus(ComponentStatus.OFF);
+		if (mSensor == null) {
+			setStatus(ComponentStatus.UNAVAILABLE);
+			Log.d(THIS_FILE,"Proximity sensor unavailable");
+		}
+		else {
+			setStatus(ComponentStatus.AVAILABLE);
+			mSensorManager.registerListener(this, mSensor,SensorManager.SENSOR_DELAY_NORMAL);
+			Log.d(THIS_FILE,"Proximity sensor initialized");
+		}
 	}
 
 	@Override
@@ -38,7 +45,7 @@ public class Proximity extends Component implements SensorEventListener {
 			setStatus(ComponentStatus.ON);
 		}
 		else {
-			setStatus(ComponentStatus.OFF);
+			setStatus(ComponentStatus.AVAILABLE);
 		}
 		
 		if (getStatus() == ComponentStatus.ON) {

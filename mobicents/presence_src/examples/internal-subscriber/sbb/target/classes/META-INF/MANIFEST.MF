@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Export-Package: org.mobicents.slee.sipevent.examples;uses:="javax.slee
+ ,org.mobicents.slee.sipevent.server.subscription,javax.naming,javax.s
+ lee.serviceactivity,org.mobicents.slee.sipevent.server.subscription.d
+ ata,org.mobicents.slee,javax.slee.facilities,javax.sip.header,gov.nis
+ t.javax.sip,javax.slee.nullactivity,javax.sip,net.java.slee.resource.
+ sip,javax.sip.message,javax.sip.address"
+Implementation-Title: org.mobicents.servers.sippresence:example-intern
+ al-subscriber-sbb
+Implementation-Version: 1.1.0-SNAPSHOT
+Built-By: barni
+Tool: Bnd-1.15.0
+Bundle-Name: example-internal-subscriber-sbb
+Created-By: Apache Maven Bundle Plugin
+Implementation-URL: http://www.mobicents.org
+Implementation-Vendor-Id: JBoss, a Red Hat division
+Build-Jdk: 1.7.0_51
+Bundle-Version: 1.1.0.SNAPSHOT
+Bnd-LastModified: 1396883943232
+Bundle-ManifestVersion: 2
+Bundle-License: http://www.gnu.org/licenses/lgpl.html
+Bundle-Description: Mobicents :: Parent pom for 2.x releases
+Import-Package: gov.nist.javax.sip,javax.naming,javax.sip,javax.sip.ad
+ dress,javax.sip.header,javax.sip.message,javax.slee,javax.slee.facili
+ ties,javax.slee.nullactivity,javax.slee.serviceactivity,net.java.slee
+ .resource.sip,org.mobicents.slee,org.mobicents.slee.sipevent.server.s
+ ubscription,org.mobicents.slee.sipevent.server.subscription.data
+Bundle-SymbolicName: org.mobicents.servers.sippresence.example-interna
+ l-subscriber-sbb
+

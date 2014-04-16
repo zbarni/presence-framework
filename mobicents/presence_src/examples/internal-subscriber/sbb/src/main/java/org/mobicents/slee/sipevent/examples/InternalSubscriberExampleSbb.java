@@ -22,6 +22,12 @@
 
 package org.mobicents.slee.sipevent.examples;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.slee.ActivityContextInterface;
@@ -56,13 +62,19 @@ import org.mobicents.slee.sipevent.server.subscription.data.Subscription.Status;
  * 
  */
 public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
-		SubscriptionClientControlParent {
+SubscriptionClientControlParent {
 
-	String presenceDomain = System.getProperty("bind.address","127.0.0.1");
-	String subscriber = "sip:internal-subscriber@"+presenceDomain;
-	String notifier = "sip:user@"+presenceDomain;
+	String presenceDomain = System.getProperty("bind.address","127.0.0.1");	
+	String subscriberString = "";
+	String notifier = "";
 	String eventPackage = "presence";
 	int expires = 300;
+	private Subscriber subscriber;
+	private Connection dbConnection;
+
+	//	private static final PublicationControlManagement management = PublicationControlManagement
+	//			.getInstance();
+	//	private static final PublicationControlDataSource dataSource = management.getDataSource();
 
 	// --- INTERNAL CHILD SBB
 
@@ -79,34 +91,44 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 		return childSbb;
 	}
 
-	// --- CMP
-
 	public abstract void setSubscriptionId(String value);
 
 	public abstract String getSubscriptionId();
+
+	private void connectToDatabase() {
+		try {
+			Class.forName(DatabaseConnection.DB_DRIVER).newInstance();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		dbConnection = null;
+		try {
+			dbConnection = DriverManager.getConnection(
+					DatabaseConnection.DB_URL,
+					DatabaseConnection.DB_USERNAME,
+					DatabaseConnection.DB_PASSWORD);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+	}
 
 	/*
 	 * service activation event, create subscription
 	 */
 	public void onServiceStartedEvent(
 			javax.slee.serviceactivity.ServiceStartedEvent event,
-			ActivityContextInterface aci) {
+			ActivityContextInterface aci) throws SQLException {
+		connectToDatabase();
 
-		// check if it's my service that is starting
-			tracer.info("Service activated, subscribing state...");
-			try {
-				// create sub id
-				String subscriptionId = subscriber + ":" + notifier + ":"
-						+ eventPackage;
-				// save subscription id in cmp
-				setSubscriptionId(subscriptionId);
-				// subscribe
-				getSubscriptionControlChildSbb().subscribe(subscriber, "voyer",
-						notifier, eventPackage, subscriptionId, expires, null,
-						null, null);
-			} catch (Exception e) {
-				tracer.severe("",e);
-			}
+//		String gruu = "sip:presence@128.59.21.232";
+//		tracer.info("Subscribing to GRUU : " + gruu);
+//		notifier = "sip:laptopOKAY@137.226.143.23:5060";
+//		subscriberString = gruu;
+//		subscriber = new Subscriber(subscriberString, notifier, 5098, tracer);
+//		subscriber.subscribe();
 	}
 
 	@Override
@@ -115,9 +137,6 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 			int responseCode) {
 		tracer.info("subscribe ok: responseCode=" + responseCode + ",expires="
 				+ expires);
-		// let's set a periodic timer in the service activity, that originated
-		// this sbb entity (onServiceStartedEvent()...), to refresh the
-		// subscription
 		TimerOptions timerOptions = new TimerOptions();
 		ServiceActivity serviceActivity = serviceActivityFactory.getActivity();
 		ActivityContextInterface aci = null;
@@ -164,7 +183,7 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 	public void onTimerEvent(TimerEvent event, ActivityContextInterface aci) {
 		// resubscribe
 		try {
-			getSubscriptionControlChildSbb().resubscribe(subscriber, notifier,
+			getSubscriptionControlChildSbb().resubscribe(subscriberString, notifier,
 					eventPackage, getSubscriptionId(), expires);
 		} catch (Exception e) {
 			tracer.severe("",e);
@@ -195,7 +214,7 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 		if (getSubscriptionId() != null) {
 			tracer.info("Service deactivated, removing subscription...");
 			try {
-				getSubscriptionControlChildSbb().unsubscribe(subscriber,
+				getSubscriptionControlChildSbb().unsubscribe(subscriberString,
 						notifier, eventPackage, getSubscriptionId());
 			} catch (Exception e) {
 				tracer.severe("",e);
@@ -232,13 +251,13 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 		this.tracer = sbbContext.getTracer("InternalSubscriberExampleSbb");
 		try {
 			Context context = (Context) new InitialContext()
-					.lookup("java:comp/env");
+			.lookup("java:comp/env");
 			timerFacility = (TimerFacility) context
 					.lookup("slee/facilities/timer");
 			serviceActivityFactory = (ServiceActivityFactory) context
-				.lookup("slee/serviceactivity/factory");
+					.lookup("slee/serviceactivity/factory");
 			serviceActivityContextInterfaceFactory = (ServiceActivityContextInterfaceFactory) context
-				.lookup("slee/serviceactivity/activitycontextinterfacefactory");
+					.lookup("slee/serviceactivity/activitycontextinterfacefactory");
 		} catch (Exception e) {
 			tracer.severe("Unable to retrieve factories, facilities & providers",
 					e);
@@ -261,6 +280,7 @@ public abstract class InternalSubscriberExampleSbb implements javax.slee.Sbb,
 	}
 
 	public void sbbRemove() {
+		subscriber.cleanUp();
 	}
 
 	public void sbbLoad() {

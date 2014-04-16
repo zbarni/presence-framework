@@ -1,12 +1,11 @@
 package com.csipsimple.components;
 
-import android.content.Context;
 import android.location.*;
 import android.os.Bundle;
 
 import com.csipsimple.utils.Log;
 
-public class LocationTracker extends Component implements LocationListener {
+public class LocationTracker extends Component implements LocationListener, SensorInterface {
 	private static final String THIS_FILE = "LOCATION";
 	private static final long MIN_TIME_UPDATES = 1000 * 60 * 10;
 
@@ -18,8 +17,8 @@ public class LocationTracker extends Component implements LocationListener {
 	private boolean mGPSenabled;
 	private boolean isNetworkEnabled;
 
-	public LocationTracker(Context context, String id, String name, String type) {
-		super(context, id, name, type);
+	public LocationTracker(String id, String name, String type,ComponentManager cm) {
+		super(id, name, type, cm);
 		initialize();
 	}
 
@@ -29,24 +28,24 @@ public class LocationTracker extends Component implements LocationListener {
 			mLocationManager = (LocationManager)getContext().getSystemService(getContext().LOCATION_SERVICE);
 			// getting GPS status
 			mGPSenabled = mLocationManager
-					.isProviderEnabled(mLocationManager.GPS_PROVIDER);
+					.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 			// getting network status
 			isNetworkEnabled = mLocationManager
-					.isProviderEnabled(mLocationManager.NETWORK_PROVIDER);
+					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
 			if (!mGPSenabled && !isNetworkEnabled) {
 				// no network provider is enabled
-				setStatus(ComponentStatus.OFF);
+				setStatus(ComponentStatus.AVAILABLE);
 			} else {
 				setStatus(ComponentStatus.ON);
 				// First get location from Network Provider
 				if (isNetworkEnabled) {
-					mLocationManager.requestLocationUpdates(mLocationManager.NETWORK_PROVIDER, MIN_TIME_UPDATES, 0, this);
+					mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_UPDATES, 0, this);
 					Log.d("Network", "Network");
 					if (mLocationManager != null) {
 						mLocation = mLocationManager
-								.getLastKnownLocation(mLocationManager.NETWORK_PROVIDER);
+								.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 						if (mLocation != null) {
 							//							latitude = location.getLatitude();
 							//							longitude = location.getLongitude();
@@ -56,11 +55,11 @@ public class LocationTracker extends Component implements LocationListener {
 				// if GPS Enabled get lat/long using GPS Services
 				if (mGPSenabled) {
 					if (mLocation == null) {
-						mLocationManager.requestLocationUpdates(mLocationManager.GPS_PROVIDER, MIN_TIME_UPDATES, 0, this);
+						mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_UPDATES, 0, this);
 						Log.d("GPS Enabled", "GPS Enabled");
 						if (mLocationManager != null) {
 							mLocation = mLocationManager
-									.getLastKnownLocation(mLocationManager.GPS_PROVIDER);
+									.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 							if (mLocation != null) {
 								//								latitude = location.getLatitude();
 								//								longitude = location.getLongitude();
@@ -70,9 +69,8 @@ public class LocationTracker extends Component implements LocationListener {
 				}
 			}
 		} catch (Exception e) {
-			Log.e(THIS_FILE,"Exception ocurred while accessing location component.");
+			Log.e(THIS_FILE,"Exception ocurred while accessing location component.", e);
 		}
-
 	}
 
 	@Override
