@@ -203,6 +203,7 @@ interface ISipService{
 	// Presence
 	void setPresence(int presence, String statusText, long accountId);
 	void setComponentPresence(int presence, String statusText, long accountId);
+	void createSubscription(long accountId, String component);
 	int getPresence(long accountId);
 	String getPresenceStatus(long accountId);
 	

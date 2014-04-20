@@ -138,55 +138,55 @@ PJ_DEF(pj_status_t) pjrpid_add_element(pjpidf_pres *pres,
 	}
     }
 
-    /* Update namespace */
-    update_namespaces(pres, pool);
-
-    /* Add <person> */
-    nd_person = pj_xml_node_new(pool, &DM_PERSON);
-    if (elem->id.slen != 0) {
-	attr = pj_xml_attr_new(pool, &ID, &elem->id);
-    } else {
-	pj_str_t person_id;
-	/* xs:ID must start with letter */
-	//pj_create_unique_string(pool, &person_id);
-	person_id.ptr = (char*)pj_pool_alloc(pool, PJ_GUID_STRING_LENGTH+2);
-	person_id.ptr += 2;
-	pj_generate_unique_string(&person_id);
-	person_id.ptr -= 2;
-	person_id.ptr[0] = 'p';
-	person_id.ptr[1] = 'j';
-	person_id.slen += 2;
-
-	attr = pj_xml_attr_new(pool, &ID, &person_id);
-    }
-    pj_xml_add_attr(nd_person, attr);
-    pj_xml_add_node(pres, nd_person);
-
-    /* Add <activities> */
-    nd_activities = pj_xml_node_new(pool, &RPID_ACTIVITIES);
-    pj_xml_add_node(nd_person, nd_activities);
-
-    /* Add the activity */
-    switch (elem->activity) {
-    case PJRPID_ACTIVITY_AWAY:
-	nd_activity = pj_xml_node_new(pool, &RPID_AWAY);
-	break;
-    case PJRPID_ACTIVITY_BUSY:
-	nd_activity = pj_xml_node_new(pool, &RPID_BUSY);
-	break;
-    case PJRPID_ACTIVITY_UNKNOWN:
-    default:
-	nd_activity = pj_xml_node_new(pool, &RPID_UNKNOWN);
-	break;
-    }
-    pj_xml_add_node(nd_activities, nd_activity);
-
-    /* Add custom text if required. */
-    if (elem->note.slen != 0) {
-	nd_note = pj_xml_node_new(pool, &DM_NOTE);
-	pj_strdup(pool, &nd_note->content, &elem->note);
-	pj_xml_add_node(nd_person, nd_note);
-    }
+//    /* Update namespace */
+//    update_namespaces(pres, pool);
+//
+//    /* Add <person> */
+//    nd_person = pj_xml_node_new(pool, &DM_PERSON);
+//    if (elem->id.slen != 0) {
+//	attr = pj_xml_attr_new(pool, &ID, &elem->id);
+//    } else {
+//	pj_str_t person_id;
+//	/* xs:ID must start with letter */
+//	//pj_create_unique_string(pool, &person_id);
+//	person_id.ptr = (char*)pj_pool_alloc(pool, PJ_GUID_STRING_LENGTH+2);
+//	person_id.ptr += 2;
+//	pj_generate_unique_string(&person_id);
+//	person_id.ptr -= 2;
+//	person_id.ptr[0] = 'p';
+//	person_id.ptr[1] = 'j';
+//	person_id.slen += 2;
+//
+//	attr = pj_xml_attr_new(pool, &ID, &person_id);
+//    }
+//    pj_xml_add_attr(nd_person, attr);
+//    pj_xml_add_node(pres, nd_person);
+//
+//    /* Add <activities> */
+//    nd_activities = pj_xml_node_new(pool, &RPID_ACTIVITIES);
+//    pj_xml_add_node(nd_person, nd_activities);
+//
+//    /* Add the activity */
+//    switch (elem->activity) {
+//    case PJRPID_ACTIVITY_AWAY:
+//	nd_activity = pj_xml_node_new(pool, &RPID_AWAY);
+//	break;
+//    case PJRPID_ACTIVITY_BUSY:
+//	nd_activity = pj_xml_node_new(pool, &RPID_BUSY);
+//	break;
+//    case PJRPID_ACTIVITY_UNKNOWN:
+//    default:
+//	nd_activity = pj_xml_node_new(pool, &RPID_UNKNOWN);
+//	break;
+//    }
+//    pj_xml_add_node(nd_activities, nd_activity);
+//
+//    /* Add custom text if required. */
+//    if (elem->note.slen != 0) {
+//	nd_note = pj_xml_node_new(pool, &DM_NOTE);
+//	pj_strdup(pool, &nd_note->content, &elem->note);
+//	pj_xml_add_node(nd_person, nd_note);
+//    }
 
     /* Done */
     return PJ_SUCCESS;

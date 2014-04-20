@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -36,6 +37,7 @@ public class ComponentManager {
 	public static final String XML_UA = "ua";
 	public static final String XML_DEVICE = "device";
 	public static final String XML_TYPE = "type";
+	public static final String XML_CATEGORY = "category";
 	public static final String XML_MODEL = "model";
 	public static final String XML_OS = "os";
 	public static final String XML_URI = "uri";
@@ -48,10 +50,10 @@ public class ComponentManager {
 	public static final String XML_COMP_NAME = "name";
 	public static final String XML_PROFILE = "profile";
 
-//	private static String presenceXml = "@zajzi init";
-//	private static Document presenceDoc;
-//	private static Node sensorsNode = null;
-//	private static Node actuatorsNode = null;
+	//	private static String presenceXml = "@zajzi init";
+	//	private static Document presenceDoc;
+	//	private static Node sensorsNode = null;
+	//	private static Node actuatorsNode = null;
 	// Service connection
 	private static Context mContext;
 	private ComponentService mComponentService;
@@ -66,7 +68,7 @@ public class ComponentManager {
 	// Actuators	
 	public static Vibrator vibrator;
 	public static Loudspeaker loudspeaker; 
-	
+
 	public Context getContext() {
 		return mContext;
 	}
@@ -82,7 +84,7 @@ public class ComponentManager {
 			accounts.put(accId, createPresenceDoc(uri.replace("<", "").replace(">", "")));
 		}
 	}
-	
+
 	/**
 	 * TODO implement
 	 */
@@ -131,9 +133,31 @@ public class ComponentManager {
 			return null;
 		}
 	}
-	
-	public boolean isAccountRegistered(String uri) {
-		return accounts.containsKey(uri);
+
+	public boolean isAccountRegistered(long accId) {
+		return accounts.containsKey(accId);
+	}
+
+	public boolean updateGRUU(long accId, String uri) {
+		Log.d(THIS_FILE,"@XML Setting new GRUU : " + uri);
+		Document doc = accounts.get(accId);
+		NodeList nodeList = doc.getElementsByTagName(XML_UA);
+
+		// there should be exactly one <ua> element
+		assert(nodeList.getLength() == 1);
+		
+		Node ua = nodeList.item(0);
+		Node idNode = ua.getAttributes().getNamedItem("id");
+		
+		// <ua> tag has id attribute, correct
+		if (idNode != null) {
+			idNode.setNodeValue(uri + ";gr=urn:uuid:" + Installation.id(mContext));
+			return true;
+		}
+		else {
+			Log.e(THIS_FILE,"@XML <ua> element does not have ID attribute");
+			return false;
+		}
 	}
 
 	/**
@@ -163,7 +187,7 @@ public class ComponentManager {
 						parentNode.removeChild(comp);
 						Element tmp;
 						if ((tmp = c.getComponentElement(doc)) != null) {
-//							Log.d(THIS_FILE,"@XML heaset was added");
+							//							Log.d(THIS_FILE,"@XML heaset was added");
 							try {
 								parentNode.appendChild(tmp);
 							}
@@ -189,7 +213,8 @@ public class ComponentManager {
 					if (c.getType() == Component.SENSOR) {
 						NodeList nl = doc.getElementsByTagName(XML_SENSORS);
 						if (nl.getLength() > 0) {
-							nl.item(0).appendChild(elem);
+							Node el = nl.item(0);
+							el.appendChild(elem);
 						}
 					}
 					else {
@@ -240,6 +265,7 @@ public class ComponentManager {
 			Element root = doc.createElement(XML_UA);
 			Element device = doc.createElement(XML_DEVICE);
 			Element type = doc.createElement(XML_TYPE);
+			Element category = doc.createElement(XML_CATEGORY);
 			Element model = doc.createElement(XML_MODEL);
 			Element os = doc.createElement(XML_OS);
 			Element os_name = doc.createElement(XML_OS_NAME);
@@ -252,6 +278,8 @@ public class ComponentManager {
 			root.appendChild(device);
 			device.appendChild(type);
 			type.setTextContent("Smartphone");
+			device.appendChild(category);
+			category.setTextContent("mobile");
 
 			device.appendChild(model);
 			model.setTextContent(getDeviceName());
@@ -267,30 +295,30 @@ public class ComponentManager {
 			try {
 				Element elem = proximity.getComponentElement(doc);
 				if (elem != null) sensorsNode.appendChild(elem);
-				
+
 				elem = headset.getComponentElement(doc);
 				if (elem != null) sensorsNode.appendChild(elem);
-				
+
 				elem = vibrator.getComponentElement(doc);
 				if (elem != null) sensorsNode.appendChild(elem);
-				
+
 				elem = location.getComponentElement(doc);
 				if (elem != null) sensorsNode.appendChild(elem);
-				
+
 				elem = accelerometer.getComponentElement(doc);
 				if (elem != null) sensorsNode.appendChild(elem);
 			}
 			catch (Exception e) {
 				Log.e(THIS_FILE,"@XML problem adding child",e);
 			}
-			
+
 			//actuators
 			root.appendChild(actuatorsNode);
 			try {
 				Element elem;
 				elem = vibrator.getComponentElement(doc);
 				if (elem != null) actuatorsNode.appendChild(elem);
-				
+
 				elem = loudspeaker.getComponentElement(doc);
 				if (elem != null) actuatorsNode.appendChild(elem);
 			}
@@ -303,7 +331,7 @@ public class ComponentManager {
 		}
 		return doc;
 	}
-	
+
 	/**
 	 * Gets device manufacturer and model number.
 	 * @return string

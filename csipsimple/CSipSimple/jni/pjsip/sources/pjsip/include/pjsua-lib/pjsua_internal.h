@@ -216,7 +216,10 @@ typedef struct pjsua_acc
     pj_str_t	     user_part;	    /**< User part of local URI.	*/
     pj_bool_t	     is_sips;	    /**< Local URI uses "sips"?		*/
     pj_str_t	     contact;	    /**< Our Contact header.		*/
+    //@zajzi
+    pj_str_t		 gruu;
     pj_str_t         reg_contact;   /**< Contact header for REGISTER.
+
 				         It may be different than acc
 				         contact if outbound is used    */
     pjsip_host_port  via_addr;      /**< Address for Via header         */
@@ -293,6 +296,18 @@ typedef struct pjsua_transport_data
 
 /** Maximum length of subscription termination reason. */
 #define PJSUA_BUDDY_SUB_TERM_REASON_LEN	    32
+//@zajzi
+#define PJSUA_BUDDY_MAX_COMP_SUB 32
+typedef struct pjsua_buddy_component_sub
+{
+	pj_str_t 		 comp_name;
+	pjsip_dialog	*dlg;	    /**< The underlying dialog.		*/
+	pjsip_evsub		*sub;	    /**< Buddy presence subscription	*/
+    unsigned		 term_code; /**< Subscription termination code	*/
+    pj_str_t		 term_reason;/**< Subscription termination reason */
+    pj_timer_entry	 timer;	    /**< Resubscription timer		*/
+    void			*value;
+} pjsua_buddy_component_sub;
 
 /**
  * Buddy data.
@@ -301,7 +316,7 @@ typedef struct pjsua_buddy
 {
     pj_pool_t		*pool;	    /**< Pool for this buddy.		*/
     unsigned		 index;	    /**< Buddy index.			*/
-    void		*user_data; /**< Application data.		*/
+    void			*user_data; /**< Application data.		*/
     pj_str_t		 uri;	    /**< Buddy URI.			*/
     pj_str_t		 contact;   /**< Contact learned from subscrp.	*/
     pj_str_t		 name;	    /**< Buddy name.			*/
@@ -315,6 +330,9 @@ typedef struct pjsua_buddy
     pj_str_t		 term_reason;/**< Subscription termination reason */
     pjsip_pres_status	 status;    /**< Buddy presence status.		*/
     pj_timer_entry	 timer;	    /**< Resubscription timer		*/
+    pjsua_buddy_component_sub comp_subscriptions[PJSUA_BUDDY_MAX_COMP_SUB];
+    //@zajzi
+
 } pjsua_buddy;
 
 

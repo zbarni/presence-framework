@@ -3619,7 +3619,7 @@ PJ_DECL(pj_status_t) pjsua_acc_get_config(pjsua_acc_id acc_id,
 PJ_DECL(pj_status_t) pjsua_acc_modify(pjsua_acc_id acc_id,
 				      const pjsua_acc_config *acc_cfg);
 
-
+PJ_DECL(pj_str_t) pjsua_get_gruu(pjsua_acc_id acc_id);
 /**
  * Modify account's presence status to be advertised to remote/presence
  * subscribers. This would trigger the sending of outgoing NOTIFY request

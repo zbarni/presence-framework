@@ -762,13 +762,13 @@ PJ_DEF(pj_status_t) pjsip_publishc_send(pjsip_publishc *pubc,
 	    pp->tdata = tdata;
 	    pj_list_push_back(&pubc->pending_reqs, pp);
 	    pj_mutex_unlock(pubc->mutex);
-	    PJ_LOG(4,(THIS_FILE, "Request is queued, pubc has another "
+	    PJ_LOG(4,(THIS_FILE, "@pres-publish.cRequest is queued, pubc has another "
 				 "transaction pending"));
 	    return PJ_EPENDING;
 	} else {
 	    pjsip_tx_data_dec_ref(tdata);
 	    pj_mutex_unlock(pubc->mutex);
-	    PJ_LOG(4,(THIS_FILE, "Unable to send request, pubc has another "
+	    PJ_LOG(4,(THIS_FILE, "@pres-publish.cUnable to send request, pubc has another "
 				 "transaction pending"));
 	    return PJ_EBUSY;
 	}
@@ -801,7 +801,7 @@ PJ_DEF(pj_status_t) pjsip_publishc_send(pjsip_publishc *pubc,
 	// already decremented pending_tsx. Decrementing this here may 
 	// cause accessing freed memory location.
 	//--pubc->pending_tsx;
-	PJ_LOG(4,(THIS_FILE, "Error sending request, status=%d", status));
+	PJ_LOG(4,(THIS_FILE, "@pres-publish.cError sending request, status=%d", status));
     }
 
     return status;
