@@ -26,6 +26,17 @@ import com.csipsimple.api.SipCallSession;
 import com.csipsimple.api.MediaState;
 
 interface ISipService{
+	// @zajzi
+	//int addComponent(int accId, String compId);
+	//int getComponentCount(int accId);
+	//void removeComponent(int accId, int compIndex);
+	// void setComponentPresence(int presence, String statusText, long accountId);
+	void createComponentSubscription(long accountId, String component);
+	int addBuddyForOutgoingSubscription(String buddyUri);
+	void removeBuddyForOutgoingSubscription(String buddyUri);
+	//***
+
+
 	/**
 	* Get the current API version
 	* @return version number. 1000 x major version + minor version
@@ -194,7 +205,7 @@ interface ISipService{
 	* {@link SipManager#BITMASK_IN} =>  send to user (speaker/earpiece)
 	*  {@link SipManager#BITMASK_OUT}  => send to remote party (micro), 
 	* example : way = 3 : will play sound both ways
-	*/
+	*/ 
 	void playWaveFile(String filePath, int callId, int way);
 	
 	// SMS
@@ -202,8 +213,7 @@ interface ISipService{
 	
 	// Presence
 	void setPresence(int presence, String statusText, long accountId);
-	void setComponentPresence(int presence, String statusText, long accountId);
-	void createSubscription(long accountId, String component);
+	
 	int getPresence(long accountId);
 	String getPresenceStatus(long accountId);
 	

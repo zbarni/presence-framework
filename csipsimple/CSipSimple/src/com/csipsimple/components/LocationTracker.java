@@ -3,9 +3,10 @@ package com.csipsimple.components;
 import android.location.*;
 import android.os.Bundle;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class LocationTracker extends Component implements LocationListener, SensorInterface {
+public class LocationTracker extends AbstractComponent implements LocationListener, SensorInterface {
 	private static final String THIS_FILE = "LOCATION";
 	private static final long MIN_TIME_UPDATES = 1000 * 60 * 10;
 
@@ -17,8 +18,8 @@ public class LocationTracker extends Component implements LocationListener, Sens
 	private boolean mGPSenabled;
 	private boolean isNetworkEnabled;
 
-	public LocationTracker(String id, String name, String type,ComponentManager cm) {
-		super(id, name, type, cm);
+	public LocationTracker(String id, String name, String type,Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 
@@ -73,6 +74,11 @@ public class LocationTracker extends Component implements LocationListener, Sens
 		}
 	}
 
+	public void startGPS() {
+		Log.d(THIS_FILE,"@zbuddy starting gps okay");
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_UPDATES, 0, this);
+	}
+	
 	@Override
 	public void onLocationChanged(Location location) {
 	}

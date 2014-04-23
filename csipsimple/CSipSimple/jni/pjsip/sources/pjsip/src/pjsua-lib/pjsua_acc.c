@@ -34,7 +34,93 @@ enum
 
 static void schedule_reregistration(pjsua_acc *acc);
 static void keep_alive_timer_cb(pj_timer_heap_t *th, pj_timer_entry *te);
+// @zajzi
+static void reset_component(pjsua_acc *acc, unsigned index) {
+	pj_pool_t *pool = acc->components[index].pool;
+	pj_bzero(&acc->components[index], sizeof(acc->components[index]));
+	acc->components[index].pool = pool;
+	acc->components[index].index = index;
+}
 
+PJ_DEF (void) pjsua_add_component(pjsua_acc_id acc_id,
+		pj_str_t comp_name) {
+	PJ_LOG(4,(THIS_FILE, "@zcomp Adding component named %.*s",comp_name.slen,
+			comp_name.ptr));
+	pjsua_component *comp;
+	pj_str_t tmp;
+
+	PJ_ASSERT_RETURN(pjsua_acc_is_valid(acc_id), PJ_EINVAL);
+
+	pjsua_acc *acc = &pjsua_var.acc[acc_id];
+
+	// find empty slot in array
+	unsigned index;
+	for (index=0; index<(int)PJ_ARRAY_SIZE(acc->components); ++index) {
+		if (acc->components[index].name.slen == 0)
+			break;
+	}
+	comp = &acc->components[index];
+
+	/* Create pool for this component */
+	if (comp->pool) {
+		pj_pool_reset(comp->pool);
+	} else {
+		char name[PJ_MAX_OBJ_NAME];
+		pj_ansi_snprintf(name, sizeof(name), "comp%03d", index);
+		comp->pool = pjsua_pool_create(name, 256, 32);
+	}
+
+	pj_strdup_with_null(comp->pool,&tmp,&comp_name); // copy name to tmp
+	reset_component(acc,index); // reset
+	comp->name = tmp; // set name
+	comp->index = index; // set index
+	acc->components_cnt++; // increment counter
+
+	PJ_LOG(4,(THIS_FILE, "@zcomp Component %.*s was succesfully added, TOTAL NOW %d, acc_id : %d",
+			comp->name.slen, comp->name.ptr,acc->components_cnt, acc_id));
+//	*ind = index;
+//	return ind;
+}
+
+
+
+PJ_DEF(void) pjsua_get_component_count(pjsua_acc_id acc_id) {
+	PJ_ASSERT_RETURN(pjsua_acc_is_valid(acc_id), PJ_EINVAL);
+	PJ_LOG(4,(THIS_FILE, "@zcomp Returning nr of components: %d, acc id : %d",
+			pjsua_var.acc[acc_id].components_cnt, acc_id));
+//	*cnt = pjsua_var.acc[acc_id].components_cnt;
+}
+
+
+
+PJ_DEF(pj_status_t) pjsua_remove_component(pjsua_acc_id acc_id, int index) {
+//	PJ_LOG(4,(THIS_FILE, "@zcomp Removing component named %.*s",comp_name.slen,
+//			omp_name .ptr));
+	pjsua_component *comp;
+
+	PJ_ASSERT_RETURN(pjsua_acc_is_valid(acc_id), PJ_EINVAL);
+
+	pjsua_acc *acc = &pjsua_var.acc[acc_id];
+
+	if (acc->components[index].name.slen == 0) {
+		return PJ_SUCCESS;
+	}
+	comp = &acc->components[index];
+	PJ_LOG(4,(THIS_FILE, "@zcomp Removing component %.*s ",comp->name.slen,
+			comp->name.ptr));
+
+	comp->name.slen = 0;
+
+	reset_component(acc,index);
+	acc->components_cnt--;
+	return PJ_SUCCESS;
+}
+
+//********************************************************************************
+//********************************************************************************
+//********************************************************************************
+//********************************************************************************
+//********************************************************************************
 /*
  * Get number of current accounts.
  */

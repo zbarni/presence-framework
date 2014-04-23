@@ -5,17 +5,24 @@ import org.w3c.dom.Element;
 
 import android.content.Context;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class Component {
+public class AbstractComponent {
 	private static final String THIS_FILE = "CMP BASE";
-	public static final String SENSOR = "sensor";
-	public static final String ACTUATOR = "actuator";
 	
-	private static ComponentManager componentManager;
-	private String mComponentType;
-	private Element mComponentElement;
+	private String mType;
+	private Element mXmlElement;
+	private Components mDescriptor;
 	
+	public Components getDescriptor() {
+		return mDescriptor;
+	}
+
+	public void setDescriptor(Components mDescriptor) {
+		this.mDescriptor = mDescriptor;
+	}
+
 	public enum ComponentStatus {
 		UNAVAILABLE,
 		AVAILABLE, // component is there but is NOT active
@@ -29,10 +36,6 @@ public class Component {
 	protected ComponentStatus status;
 	// only read sensor data if this is true
 	protected boolean readSensor = false;
-	
-	protected ComponentManager getComponentManager() {
-		return componentManager;
-	}
 	
 	public String getId() {
 		return mId;
@@ -58,13 +61,13 @@ public class Component {
 		this.mProfile = mProfile;
 	}
 	
-	public Component(String id, String name, String type, ComponentManager cm) {
+	public AbstractComponent(String id, String name, String type, Components descriptor) {
 		Log.d(THIS_FILE,"Component constructor");
 		this.mId = id;
 		this.mName = name;
-		this.mComponentType = type;
-		this.mComponentElement = null;
-		Component.componentManager = cm;
+		this.mType = type;
+		this.mXmlElement = null;
+		this.mDescriptor = descriptor;
 	}
 	
 	public ComponentStatus getStatus() {
@@ -76,24 +79,28 @@ public class Component {
 	}
 
 	public Context getContext() {
-		return componentManager.getContext();
+		return ComponentManager.getInstance().getContext();
 	}
 
 	public Element getComponentElement(Document document) {
-		if (this.mComponentElement == null) {
-			this.mComponentElement = document.createElement((this.mComponentType == ACTUATOR) ? ACTUATOR : SENSOR);
-			this.mComponentElement.setAttribute("id", this.mId);
+		if (this.mXmlElement == null) {
+			this.mXmlElement = document.createElement((this.mType == ComponentProfile.ACTUATOR) ? 
+					ComponentProfile.ACTUATOR : ComponentProfile.SENSOR);
+			this.mXmlElement.setAttribute("id", this.mId);
+			
 			Element name = document.createElement("name");
 			Element profile = document.createElement("profile");
 			name.setTextContent(this.mName);
 			profile.setTextContent("http://temporary-profile-link");
-			this.mComponentElement.appendChild(name);
-			this.mComponentElement.appendChild(profile);
+			this.mXmlElement.appendChild(name);
+			this.mXmlElement.appendChild(profile);
 		}
-		return (this.getStatus() == ComponentStatus.AVAILABLE || this.getStatus() == ComponentStatus.ON)  ? this.mComponentElement : null;
+		return (this.getStatus() == ComponentStatus.AVAILABLE || 
+				this.getStatus() == ComponentStatus.ON) ? 
+						this.mXmlElement : null;
 	}
 	
 	public String getType() {
-		return this.mComponentType;
+		return this.mType;
 	}
 }

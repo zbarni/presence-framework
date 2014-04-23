@@ -7,6 +7,20 @@ public:
 	virtual void on_call_state (pjsua_call_id call_id, pjsip_event *e) {}
 	virtual void on_incoming_call (pjsua_acc_id acc_id, pjsua_call_id call_id,
 		pjsip_rx_data *rdata) {}
+
+	//@zajzi
+	virtual void on_incoming_subscribe(
+			pjsua_acc_id acc_id,
+			pjsua_srv_pres *srv_pres,
+			pjsua_buddy_id buddy_id,
+			const pj_str_t *from,
+			pjsip_rx_data *rdata,
+			pjsip_status_code *code,
+			pj_str_t *reason,
+			pjsua_msg_data *msg_data) {}
+	virtual void on_incoming_subscribe_component(
+				pjsua_acc_id acc_id) {}
+
 	virtual void on_call_tsx_state (pjsua_call_id call_id,
 		pjsip_transaction *tsx,
 		pjsip_event *e) {}

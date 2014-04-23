@@ -442,7 +442,9 @@ PJ_DEF(pj_status_t) pjsip_pres_set_status( pjsip_evsub *sub,
 	pj_strdup(pres->tmp_pool,
 		  &pres->status.info[i].rpid.note,
 		  &status->info[i].rpid.note);
-
+	pj_strdup(pres->tmp_pool,
+			  &pres->status.info[i].rpid.component,
+			  &status->info[i].rpid.component);
     }
 
     pres->status.info_cnt = status->info_cnt;

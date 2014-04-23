@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
+
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class Headset extends Component {
+public class Headset extends AbstractComponent {
 	private static final String THIS_FILE = "HEADSET";
 	private static final String BLUETOOTH = "BLUETOOTH";
 	private static final String WIRED = "WIRED";
@@ -35,15 +37,15 @@ public class Headset extends Component {
 		};	
 	};
 
-	public Headset(String id, String name, String type, ComponentManager cm) {
-		super(id, name, type, cm);
+	public Headset(String id, String name, String type, Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 
 	public void updateComponent() {
 		this.setStatus(this.mHeadsetConnected ? ComponentStatus.AVAILABLE : ComponentStatus.UNAVAILABLE); 
 		Log.d(THIS_FILE, "@headset updating headset");
-		this.getComponentManager().updateComponentModel(this);
+		ComponentManager.getInstance().onComponentChange(this);
 	}
 	
 	public void initialize() {

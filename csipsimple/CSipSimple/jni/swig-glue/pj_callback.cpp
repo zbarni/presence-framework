@@ -13,6 +13,28 @@ void on_call_state_wrapper(pjsua_call_id call_id, pjsip_event *e) {
 	registeredCallbackObject->on_call_state(call_id, e);
 }
 
+//@zajzi
+void on_incoming_subscribe_wrapper(
+		pjsua_acc_id acc_id,
+		pjsua_srv_pres *srv_pres,
+		pjsua_buddy_id buddy_id,
+		const pj_str_t *from,
+		pjsip_rx_data *rdata,
+		pjsip_status_code *code,
+		pj_str_t *reason,
+		pjsua_msg_data *msg_data) {
+	registeredCallbackObject->on_incoming_subscribe(acc_id, srv_pres, buddy_id,
+			from, rdata, code, reason, msg_data);
+//	registeredCallbackObject->on_incoming_subscribe(acc_id, rdata);
+}
+
+void on_incoming_subscribe_component_wrapper(
+		pjsua_acc_id acc_id) {
+	PJ_LOG(4,("@zbudyy", "@zbuddy Will forward to callback"));
+	registeredCallbackObject->on_incoming_subscribe_component(acc_id);
+//	registeredCallbackObject->on_incoming_subscribe(acc_id, rdata);
+}
+
 void on_incoming_call_wrapper (pjsua_acc_id acc_id, pjsua_call_id call_id,
 	pjsip_rx_data *rdata) {
 	registeredCallbackObject->on_incoming_call(acc_id, call_id, rdata);
@@ -385,7 +407,9 @@ struct pjsua_callback wrapper_callback_struct = {
 	NULL, // on_reg_started
 	&on_reg_state_wrapper,
 	NULL, //on_reg2_state
-	NULL, // incoming subscribe &on_incoming_subscribe_wrapper,
+	//@zajzi
+	&on_incoming_subscribe_wrapper, // incoming subscribe &on_incoming_subscribe_wrapper,
+	&on_incoming_subscribe_component_wrapper,
 	NULL, // srv_subscribe state &on_srv_subscribe_state_wrapper,
 	&on_buddy_state_wrapper,
 	NULL, // on_buddy_evsub_state

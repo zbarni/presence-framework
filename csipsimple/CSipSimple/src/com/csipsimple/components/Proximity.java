@@ -6,15 +6,16 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class Proximity extends Component implements SensorEventListener {
+public class Proximity extends AbstractComponent implements SensorEventListener {
 	private static final String THIS_FILE = "PROXIMITY";
 	private android.hardware.SensorManager mSensorManager;
 	private android.hardware.Sensor mSensor;
 	
-	public Proximity(String id, String name, String type, ComponentManager cm) {
-		super(id, name, type, cm);
+	public Proximity(String id, String name, String type, Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 	

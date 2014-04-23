@@ -976,6 +976,8 @@ typedef struct pjsua_callback
 				  pjsip_status_code *code,
 				  pj_str_t *reason,
 				  pjsua_msg_data *msg_data);
+    //@zajzi
+    void (*on_incoming_subscribe_component)(pjsua_acc_id acc_id);
 
     /**
      * Notification when server side subscription state has changed.
@@ -1401,6 +1403,7 @@ typedef enum pjsua_100rel_use
  */
 typedef struct pjsua_config
 {
+	pj_bool_t		publish_component_enabled;
 
     /** 
      * Maximum calls to support (default: 4). The value specified here
@@ -5114,6 +5117,21 @@ PJ_DECL(pj_status_t) pjsua_buddy_set_user_data(pjsua_buddy_id buddy_id,
  * @return		The application data.
  */
 PJ_DECL(void*) pjsua_buddy_get_user_data(pjsua_buddy_id buddy_id);
+
+
+//@zajzi
+PJ_DECL(pj_status_t) pjsua_add_component_subscription(pj_str_t comp_name,
+		pjsua_buddy_id buddy_id);
+/**
+ * Returns the index of the component in the components array.
+ */
+PJ_DECL(void) pjsua_add_component(pjsua_acc_id acc_id,
+		pj_str_t comp_name);
+
+PJ_DECL(void) pjsua_get_component_count(pjsua_acc_id acc_id);
+
+PJ_DECL(pj_status_t) pjsua_remove_component(pjsua_acc_id acc_id, int index);
+
 
 
 /**

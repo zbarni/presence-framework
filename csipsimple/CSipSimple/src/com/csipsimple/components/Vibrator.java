@@ -1,13 +1,14 @@
 package com.csipsimple.components;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class Vibrator extends Component implements Actuator {
+public class Vibrator extends AbstractComponent implements Actuator {
 	private static final String THIS_FILE = "VIBRATOR";
 	private android.os.Vibrator vibrator;
 	
-	public Vibrator(String id, String name, String type, ComponentManager cm) {
-		super(id, name, type, cm);
+	public Vibrator(String id, String name, String type, Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 

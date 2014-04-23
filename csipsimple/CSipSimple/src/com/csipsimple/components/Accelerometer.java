@@ -1,5 +1,6 @@
 package com.csipsimple.components;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
 import android.content.Context;
@@ -8,13 +9,13 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class Accelerometer extends Component implements SensorInterface, SensorEventListener {
+public class Accelerometer extends AbstractComponent implements SensorInterface, SensorEventListener {
 	private static final String THIS_FILE = "ACCELEROMETER";
 	private android.hardware.SensorManager mSensorManager;
 	private android.hardware.Sensor mSensor;
 
-	public Accelerometer(String id, String name, String type, ComponentManager cm) {
-		super(id, name, type, cm);
+	public Accelerometer(String id, String name, String type,Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 

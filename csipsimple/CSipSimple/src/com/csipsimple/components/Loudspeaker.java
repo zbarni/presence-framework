@@ -2,15 +2,16 @@ package com.csipsimple.components;
 
 import android.media.AudioManager;
 
+import com.csipsimple.components.ComponentProfile.Components;
 import com.csipsimple.utils.Log;
 
-public class Loudspeaker extends Component {
+public class Loudspeaker extends AbstractComponent {
 	private static final String THIS_FILE = "HEADSET";
 
 	private AudioManager audioManager;
 
-	public Loudspeaker(String id, String name, String type, ComponentManager cm) {
-		super(id, name, type, cm);
+	public Loudspeaker(String id, String name, String type, Components descriptor) {
+		super(id, name, type, descriptor);
 		initialize();
 	}
 

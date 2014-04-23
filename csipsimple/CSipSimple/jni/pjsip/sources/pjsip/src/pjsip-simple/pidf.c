@@ -71,6 +71,7 @@ static pj_str_t TIMESTAMP = { "timestamp", 9 };
 static pj_str_t BASIC = { "basic", 5 };
 static pj_str_t OPEN = { "open", 4 };
 static pj_str_t CLOSED = { "closed", 6 };
+static pj_str_t COMPONENT = { "component", 9 };
 static pj_str_t EMPTY_STRING = { NULL, 0 };
 
 static pj_str_t XMLNS = { "xmlns", 5 };

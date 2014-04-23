@@ -43,6 +43,7 @@ typedef struct pj_xml_node pjpidf_pres;
 typedef struct pj_xml_node pjpidf_tuple;
 typedef struct pj_xml_node pjpidf_status;
 typedef struct pj_xml_node pjpidf_note;
+typedef struct pj_xml_node pjpidf_component;
 
 typedef struct pjpidf_status_op
 {
@@ -68,6 +69,8 @@ typedef struct pjpidf_tuple_op
     pjpidf_note*    (*add_note)(pj_pool_t*, pjpidf_tuple*, const pj_str_t*);
     pjpidf_note*    (*get_first_note)(pjpidf_tuple*);
     pjpidf_note*    (*get_next_note)(pjpidf_tuple*, pjpidf_note*);
+
+//    pjpidf_component*    (*add_component)(pj_pool_t*, pjpidf_tuple*, const pj_str_t*);
 
     const pj_str_t* (*get_timestamp)(const pjpidf_tuple*);
     void	    (*set_timestamp)(pj_pool_t*, pjpidf_tuple*, const pj_str_t*);

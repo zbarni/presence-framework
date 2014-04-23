@@ -19,6 +19,8 @@ public:
     virtual ~SwigDirector_Callback();
     virtual void on_call_state(pjsua_call_id call_id, pjsip_event *e);
     virtual void on_incoming_call(pjsua_acc_id acc_id, pjsua_call_id call_id, pjsip_rx_data *rdata);
+    virtual void on_incoming_subscribe(pjsua_acc_id acc_id, pjsua_srv_pres *srv_pres, pjsua_buddy_id buddy_id, pj_str_t const *from, pjsip_rx_data *rdata, pjsip_status_code *code, pj_str_t *reason, pjsua_msg_data *msg_data);
+    virtual void on_incoming_subscribe_component(pjsua_acc_id acc_id);
     virtual void on_call_tsx_state(pjsua_call_id call_id, pjsip_transaction *tsx, pjsip_event *e);
     virtual void on_call_media_state(pjsua_call_id call_id);
     virtual void on_call_sdp_created(pjsua_call_id call_id, pjmedia_sdp_session *sdp, pj_pool_t *pool, pjmedia_sdp_session const *rem_sdp);
@@ -48,10 +50,10 @@ public:
     virtual int timer_cancel(int entry, int entryId);
 public:
     bool swig_overrides(int n) {
-      return (n < 29 ? swig_override[n] : false);
+      return (n < 31 ? swig_override[n] : false);
     }
 protected:
-    bool swig_override[29];
+    bool swig_override[31];
 };
 
 class SwigDirector_ZrtpCallback : public ZrtpCallback, public Swig::Director {

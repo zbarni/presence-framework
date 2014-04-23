@@ -34,6 +34,7 @@ static const pj_str_t DM_NOTE = {"dm:note", 7};
 static const pj_str_t DM_PERSON = {"dm:person", 9};
 static const pj_str_t ID = {"id", 2};
 static const pj_str_t NOTE = {"note", 4};
+static const pj_str_t COMPONENT = {"component", 9};
 static const pj_str_t RPID_ACTIVITIES = {"rpid:activities", 15};
 static const pj_str_t RPID_AWAY = {"rpid:away", 9};
 static const pj_str_t RPID_BUSY = {"rpid:busy", 9};
@@ -42,238 +43,253 @@ static const pj_str_t RPID_UNKNOWN = {"rpid:unknown", 12};
 
 /* Duplicate RPID element */
 PJ_DEF(void) pjrpid_element_dup(pj_pool_t *pool, pjrpid_element *dst,
-				const pjrpid_element *src)
-{
-    pj_memcpy(dst, src, sizeof(pjrpid_element));
-    pj_strdup(pool, &dst->id, &src->id);
-    pj_strdup(pool, &dst->note, &src->note);
-}
+		const pjrpid_element *src)
+		{
+	pj_memcpy(dst, src, sizeof(pjrpid_element));
+	pj_strdup(pool, &dst->id, &src->id);
+	pj_strdup(pool, &dst->note, &src->note);
+		}
 
 
 /* Update RPID namespaces. */
 static void update_namespaces(pjpidf_pres *pres,
-			      pj_pool_t *pool)
+		pj_pool_t *pool)
 {
-    /* Check if namespace is already present. */
-    if (pj_xml_find_attr(pres, &DM_NAME, NULL) != NULL)
-	return;
+	/* Check if namespace is already present. */
+	if (pj_xml_find_attr(pres, &DM_NAME, NULL) != NULL)
+		return;
 
-    pj_xml_add_attr(pres, pj_xml_attr_new(pool, &DM_NAME, &DM_VAL));
-    pj_xml_add_attr(pres, pj_xml_attr_new(pool, &RPID_NAME, &RPID_VAL));
+	pj_xml_add_attr(pres, pj_xml_attr_new(pool, &DM_NAME, &DM_VAL));
+	pj_xml_add_attr(pres, pj_xml_attr_new(pool, &RPID_NAME, &RPID_VAL));
 }
 
 
 /* Comparison function to find node name substring */
 static pj_bool_t substring_match(const pj_xml_node *node, 
-				 const char *part_name,
-				 pj_ssize_t part_len)
+		const char *part_name,
+		pj_ssize_t part_len)
 {
-    pj_str_t end_name;
+	pj_str_t end_name;
 
-    if (part_len < 1)
-	part_len = pj_ansi_strlen(part_name);
+	if (part_len < 1)
+		part_len = pj_ansi_strlen(part_name);
 
-    if (node->name.slen < part_len)
-	return PJ_FALSE;
+	if (node->name.slen < part_len)
+		return PJ_FALSE;
 
-    end_name.ptr = node->name.ptr + (node->name.slen - part_len);
-    end_name.slen = part_len;
+	end_name.ptr = node->name.ptr + (node->name.slen - part_len);
+	end_name.slen = part_len;
 
-    return pj_strnicmp2(&end_name, part_name, part_len)==0;
+	return pj_strnicmp2(&end_name, part_name, part_len)==0;
 }
 
 /* Util to find child node with the specified substring */
 static pj_xml_node *find_node(const pj_xml_node *parent, 
-			      const char *part_name)
+		const char *part_name)
 {
-    const pj_xml_node *node = parent->node_head.next, 
-		      *head = (pj_xml_node*) &parent->node_head;
-    pj_ssize_t part_len = pj_ansi_strlen(part_name);
+	const pj_xml_node *node = parent->node_head.next,
+			*head = (pj_xml_node*) &parent->node_head;
+	pj_ssize_t part_len = pj_ansi_strlen(part_name);
 
-    while (node != head) {
-	if (substring_match(node, part_name, part_len))
-	    return (pj_xml_node*) node;
+	while (node != head) {
+		if (substring_match(node, part_name, part_len))
+			return (pj_xml_node*) node;
 
-	node = node->next;
-    }
+		node = node->next;
+	}
 
-    return NULL;
+	return NULL;
 }
 
 /*
  * Add RPID element into existing PIDF document.
  */
 PJ_DEF(pj_status_t) pjrpid_add_element(pjpidf_pres *pres, 
-				       pj_pool_t *pool,
-				       unsigned options,
-				       const pjrpid_element *elem)
-{
-    pj_xml_node *nd_person, *nd_activities, *nd_activity, *nd_note;
-    pj_xml_attr *attr;
+		pj_pool_t *pool,
+		unsigned options,
+		const pjrpid_element *elem)
+		{
+	pj_xml_node *nd_person, *nd_activities, *nd_activity, *nd_note, *nd_component;
+	pj_xml_attr *attr;
 
-    PJ_ASSERT_RETURN(pres && pool && options==0 && elem, PJ_EINVAL);
+	PJ_ASSERT_RETURN(pres && pool && options==0 && elem, PJ_EINVAL);
 
-    PJ_UNUSED_ARG(options);
+	PJ_UNUSED_ARG(options);
 
-    /* Check if we need to add RPID information into the PIDF document. */
-    if (elem->id.slen==0 && 
-	elem->activity==PJRPID_ACTIVITY_UNKNOWN &&
-	elem->note.slen==0)
-    {
-	/* No RPID information to be added. */
-	return PJ_SUCCESS;
-    }
-
-    /* Add <note> to <tuple> */
-    if (elem->note.slen != 0) {
-	pj_xml_node *nd_tuple;
-
-	nd_tuple = find_node(pres, "tuple");
-
-	if (nd_tuple) {
-	    nd_note = pj_xml_node_new(pool, &NOTE);
-	    pj_strdup(pool, &nd_note->content, &elem->note);
-	    pj_xml_add_node(nd_tuple, nd_note);
-	    nd_note = NULL;
+	/* Check if we need to add RPID information into the PIDF document. */
+	if (elem->id.slen==0 &&
+			elem->activity==PJRPID_ACTIVITY_UNKNOWN &&
+			elem->note.slen==0 &&
+			elem->component.slen==0)
+	{
+		/* No RPID information to be added. */
+		return PJ_SUCCESS;
 	}
-    }
 
-//    /* Update namespace */
-//    update_namespaces(pres, pool);
-//
-//    /* Add <person> */
-//    nd_person = pj_xml_node_new(pool, &DM_PERSON);
-//    if (elem->id.slen != 0) {
-//	attr = pj_xml_attr_new(pool, &ID, &elem->id);
-//    } else {
-//	pj_str_t person_id;
-//	/* xs:ID must start with letter */
-//	//pj_create_unique_string(pool, &person_id);
-//	person_id.ptr = (char*)pj_pool_alloc(pool, PJ_GUID_STRING_LENGTH+2);
-//	person_id.ptr += 2;
-//	pj_generate_unique_string(&person_id);
-//	person_id.ptr -= 2;
-//	person_id.ptr[0] = 'p';
-//	person_id.ptr[1] = 'j';
-//	person_id.slen += 2;
-//
-//	attr = pj_xml_attr_new(pool, &ID, &person_id);
-//    }
-//    pj_xml_add_attr(nd_person, attr);
-//    pj_xml_add_node(pres, nd_person);
-//
-//    /* Add <activities> */
-//    nd_activities = pj_xml_node_new(pool, &RPID_ACTIVITIES);
-//    pj_xml_add_node(nd_person, nd_activities);
-//
-//    /* Add the activity */
-//    switch (elem->activity) {
-//    case PJRPID_ACTIVITY_AWAY:
-//	nd_activity = pj_xml_node_new(pool, &RPID_AWAY);
-//	break;
-//    case PJRPID_ACTIVITY_BUSY:
-//	nd_activity = pj_xml_node_new(pool, &RPID_BUSY);
-//	break;
-//    case PJRPID_ACTIVITY_UNKNOWN:
-//    default:
-//	nd_activity = pj_xml_node_new(pool, &RPID_UNKNOWN);
-//	break;
-//    }
-//    pj_xml_add_node(nd_activities, nd_activity);
-//
-//    /* Add custom text if required. */
-//    if (elem->note.slen != 0) {
-//	nd_note = pj_xml_node_new(pool, &DM_NOTE);
-//	pj_strdup(pool, &nd_note->content, &elem->note);
-//	pj_xml_add_node(nd_person, nd_note);
-//    }
+	/* Add <note> to <tuple> */
+	if (elem->note.slen != 0) {
+		pj_xml_node *nd_tuple;
 
-    /* Done */
-    return PJ_SUCCESS;
-}
+		nd_tuple = find_node(pres, "tuple");
+
+		if (nd_tuple) {
+			nd_note = pj_xml_node_new(pool, &NOTE);
+			pj_strdup(pool, &nd_note->content, &elem->note);
+			pj_xml_add_node(nd_tuple, nd_note);
+			nd_note = NULL;
+		}
+	}
+
+	/* Add <component> to <tuple> */
+	if (elem->component.slen != 0) {
+		pj_xml_node *nd_tuple;
+
+		nd_tuple = find_node(pres, "tuple");
+
+		if (nd_tuple) {
+			nd_component = pj_xml_node_new(pool, &COMPONENT);
+			pj_strdup(pool, &nd_component->content, &elem->component);
+			pj_xml_add_node(nd_tuple, nd_component);
+			nd_component = NULL;
+		}
+	}
+
+	//    /* Update namespace */
+	//    update_namespaces(pres, pool);
+	//
+	//    /* Add <person> */
+	//    nd_person = pj_xml_node_new(pool, &DM_PERSON);
+	//    if (elem->id.slen != 0) {
+	//	attr = pj_xml_attr_new(pool, &ID, &elem->id);
+	//    } else {
+	//	pj_str_t person_id;
+	//	/* xs:ID must start with letter */
+	//	//pj_create_unique_string(pool, &person_id);
+	//	person_id.ptr = (char*)pj_pool_alloc(pool, PJ_GUID_STRING_LENGTH+2);
+	//	person_id.ptr += 2;
+	//	pj_generate_unique_string(&person_id);
+	//	person_id.ptr -= 2;
+	//	person_id.ptr[0] = 'p';
+	//	person_id.ptr[1] = 'j';
+	//	person_id.slen += 2;
+	//
+	//	attr = pj_xml_attr_new(pool, &ID, &person_id);
+	//    }
+	//    pj_xml_add_attr(nd_person, attr);
+	//    pj_xml_add_node(pres, nd_person);
+	//
+	//    /* Add <activities> */
+	//    nd_activities = pj_xml_node_new(pool, &RPID_ACTIVITIES);
+	//    pj_xml_add_node(nd_person, nd_activities);
+	//
+	//    /* Add the activity */
+	//    switch (elem->activity) {
+	//    case PJRPID_ACTIVITY_AWAY:
+	//	nd_activity = pj_xml_node_new(pool, &RPID_AWAY);
+	//	break;
+	//    case PJRPID_ACTIVITY_BUSY:
+	//	nd_activity = pj_xml_node_new(pool, &RPID_BUSY);
+	//	break;
+	//    case PJRPID_ACTIVITY_UNKNOWN:
+	//    default:
+	//	nd_activity = pj_xml_node_new(pool, &RPID_UNKNOWN);
+	//	break;
+	//    }
+	//    pj_xml_add_node(nd_activities, nd_activity);
+	//
+	//    /* Add custom text if required. */
+	//    if (elem->note.slen != 0) {
+	//	nd_note = pj_xml_node_new(pool, &DM_NOTE);
+	//	pj_strdup(pool, &nd_note->content, &elem->note);
+	//	pj_xml_add_node(nd_person, nd_note);
+	//    }
+
+	/* Done */
+	return PJ_SUCCESS;
+		}
 
 
 /* Get <note> element from PIDF <tuple> element */
 static pj_status_t get_tuple_note(const pjpidf_pres *pres,
-				  pj_pool_t *pool,
-				  pjrpid_element *elem)
+		pj_pool_t *pool,
+		pjrpid_element *elem)
 {
-    const pj_xml_node *nd_tuple, *nd_note;
+	const pj_xml_node *nd_tuple, *nd_note;
 
-    nd_tuple = find_node(pres, "tuple");
-    if (!nd_tuple)
+	nd_tuple = find_node(pres, "tuple");
+	if (!nd_tuple)
+		return PJSIP_SIMPLE_EBADRPID;
+
+	nd_note = find_node(pres, "note");
+	if (nd_note) {
+		pj_strdup(pool, &elem->note, &nd_note->content);
+		return PJ_SUCCESS;
+	}
+
 	return PJSIP_SIMPLE_EBADRPID;
-
-    nd_note = find_node(pres, "note");
-    if (nd_note) {
-	pj_strdup(pool, &elem->note, &nd_note->content);
-	return PJ_SUCCESS;
-    }
-
-    return PJSIP_SIMPLE_EBADRPID;
 }
 
 /*
  * Get RPID element from PIDF document, if any.
  */
 PJ_DEF(pj_status_t) pjrpid_get_element(const pjpidf_pres *pres,
-				       pj_pool_t *pool,
-				       pjrpid_element *elem)
-{
-    const pj_xml_node *nd_person, *nd_activities, *nd_note = NULL;
-    const pj_xml_attr *attr;
+		pj_pool_t *pool,
+		pjrpid_element *elem)
+		{
+	const pj_xml_node *nd_person, *nd_activities, *nd_note = NULL;
+	const pj_xml_attr *attr;
 
-    /* Reset */
-    pj_bzero(elem, sizeof(*elem));
-    elem->activity = PJRPID_ACTIVITY_UNKNOWN;
+	/* Reset */
+	pj_bzero(elem, sizeof(*elem));
+	elem->activity = PJRPID_ACTIVITY_UNKNOWN;
 
-    /* Find <person> */
-    nd_person = find_node(pres, "person");
-    if (!nd_person) {
-	/* <person> not found, try to get <note> from <tuple> */
-	return get_tuple_note(pres, pool, elem);
-    }
-
-    /* Get element id attribute */
-    attr = pj_xml_find_attr((pj_xml_node*)nd_person, &ID, NULL);
-    if (attr)
-	pj_strdup(pool, &elem->id, &attr->value);
-
-    /* Get <activities> */
-    nd_activities = find_node(nd_person, "activities");
-    if (nd_activities) {
-	const pj_xml_node *nd_activity;
-
-	/* Try to get <note> from <activities> */
-	nd_note = find_node(nd_activities, "note");
-
-	/* Get the activity */
-	nd_activity = nd_activities->node_head.next;
-	if (nd_activity == nd_note)
-	    nd_activity = nd_activity->next;
-
-	if (nd_activity != (pj_xml_node*) &nd_activities->node_head) {
-	    if (substring_match(nd_activity, "busy", -1))
-		elem->activity = PJRPID_ACTIVITY_BUSY;
-	    else if (substring_match(nd_activity, "away", -1))
-		elem->activity = PJRPID_ACTIVITY_AWAY;
-	    else
-		elem->activity = PJRPID_ACTIVITY_UNKNOWN;
-
+	/* Find <person> */
+	nd_person = find_node(pres, "person");
+	if (!nd_person) {
+		/* <person> not found, try to get <note> from <tuple> */
+		return get_tuple_note(pres, pool, elem);
 	}
-    }
 
-    /* If <note> is not found, get <note> from <person> */
-    if (nd_note == NULL)
-	nd_note = find_node(nd_person, "note");
+	/* Get element id attribute */
+	attr = pj_xml_find_attr((pj_xml_node*)nd_person, &ID, NULL);
+	if (attr)
+		pj_strdup(pool, &elem->id, &attr->value);
 
-    if (nd_note) {
-	pj_strdup(pool, &elem->note, &nd_note->content);
-    } else {
-	get_tuple_note(pres, pool, elem);
-    }
+	/* Get <activities> */
+	nd_activities = find_node(nd_person, "activities");
+	if (nd_activities) {
+		const pj_xml_node *nd_activity;
 
-    return PJ_SUCCESS;
-}
+		/* Try to get <note> from <activities> */
+		nd_note = find_node(nd_activities, "note");
+
+		/* Get the activity */
+		nd_activity = nd_activities->node_head.next;
+		if (nd_activity == nd_note)
+			nd_activity = nd_activity->next;
+
+		if (nd_activity != (pj_xml_node*) &nd_activities->node_head) {
+			if (substring_match(nd_activity, "busy", -1))
+				elem->activity = PJRPID_ACTIVITY_BUSY;
+			else if (substring_match(nd_activity, "away", -1))
+				elem->activity = PJRPID_ACTIVITY_AWAY;
+			else
+				elem->activity = PJRPID_ACTIVITY_UNKNOWN;
+
+		}
+	}
+
+	/* If <note> is not found, get <note> from <person> */
+	if (nd_note == NULL)
+		nd_note = find_node(nd_person, "note");
+
+	if (nd_note) {
+		pj_strdup(pool, &elem->note, &nd_note->content);
+	} else {
+		get_tuple_note(pres, pool, elem);
+	}
+
+	return PJ_SUCCESS;
+		}
 
 

@@ -89,6 +89,8 @@ typedef struct pjrpid_element
     /** Optional text describing the person/element. */
     pj_str_t		    note;
 
+    pj_str_t			component;
+
 } pjrpid_element;
 
 

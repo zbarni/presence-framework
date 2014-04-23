@@ -26,6 +26,7 @@
 
 static void subscribe_buddy_presence(pjsua_buddy_id buddy_id);
 static void unsubscribe_buddy_presence(pjsua_buddy_id buddy_id);
+static void subscribe_to_component(pjsua_buddy_id buddy_id, int index);
 
 
 /*
@@ -147,16 +148,16 @@ static void unlock_buddy(struct buddy_lock *lck)
  * Get total number of buddies.
  */
 PJ_DEF(unsigned) pjsua_get_buddy_count(void)
-								{
+										{
 	return pjsua_var.buddy_cnt;
-								}
+										}
 
 
 /*
  * Find buddy.
  */
 PJ_DEF(pjsua_buddy_id) pjsua_buddy_find(const pj_str_t *uri_str)
-								{
+										{
 	pj_str_t input;
 	pj_pool_t *pool;
 	pjsip_uri *uri;
@@ -177,17 +178,17 @@ PJ_DEF(pjsua_buddy_id) pjsua_buddy_find(const pj_str_t *uri_str)
 	pj_pool_release(pool);
 
 	return buddy_id;
-								}
+										}
 
 
 /*
  * Check if buddy ID is valid.
  */
 PJ_DEF(pj_bool_t) pjsua_buddy_is_valid(pjsua_buddy_id buddy_id)
-								{
+										{
 	return buddy_id>=0 && buddy_id<(int)PJ_ARRAY_SIZE(pjsua_var.buddy) &&
 			pjsua_var.buddy[buddy_id].uri.slen != 0;
-								}
+										}
 
 
 /*
@@ -342,7 +343,7 @@ PJ_DEF(pj_status_t) pjsua_buddy_set_user_data( pjsua_buddy_id buddy_id,
  * Get the user data associated with the budy object.
  */
 PJ_DEF(void*) pjsua_buddy_get_user_data(pjsua_buddy_id buddy_id)
-								{
+										{
 	struct buddy_lock lck;
 	pj_status_t status;
 	void *user_data;
@@ -358,7 +359,7 @@ PJ_DEF(void*) pjsua_buddy_get_user_data(pjsua_buddy_id buddy_id)
 	unlock_buddy(&lck);
 
 	return user_data;
-								}
+										}
 
 
 /*
@@ -371,7 +372,91 @@ static void reset_buddy(pjsua_buddy_id id)
 	pjsua_var.buddy[id].pool = pool;
 	pjsua_var.buddy[id].index = id;
 }
+/****************************************************************************
+/****************************************************************************
+/************************                   *********************************
+/************************       @zajzi      *********************************
+/************************				    *********************************
+/****************************************************************************
+/****************************************************************************/
+static void reset_component_subscription(pjsua_buddy *buddy, int sub_index) {
+	pj_pool_t *pool = buddy->comp_subscriptions[sub_index].pool;
+	pj_bzero(&buddy->comp_subscriptions[sub_index], sizeof(buddy->comp_subscriptions[sub_index]));
+	buddy->comp_subscriptions[sub_index].pool = pool;
+	buddy->comp_subscriptions[sub_index].index = sub_index;
+}
 
+PJ_DEF(pj_status_t) pjsua_add_component_subscription(pj_str_t comp_name,
+		pjsua_buddy_id buddy_id) {
+	pjsua_buddy *buddy;
+	pjsua_buddy_component_sub *c_sub;
+	int index;
+	pj_str_t tmp;
+	struct buddy_lock lck;
+	pj_status_t status;
+
+	PJ_ASSERT_RETURN(buddy_id >= 0 &&
+			buddy_id<(int)PJ_ARRAY_SIZE(pjsua_var.buddy),
+			PJ_EINVAL);
+
+	if (pjsua_var.buddy[buddy_id].uri.slen == 0) {
+		return PJ_SUCCESS;
+	}
+
+	status = lock_buddy("pjsua_subscribe_to_component()", buddy_id, &lck, 0);
+	if (status != PJ_SUCCESS)
+		return status;
+
+	buddy = &pjsua_var.buddy[buddy_id];
+
+	/* Find empty slot */
+	for (index=0; index<(int)PJ_ARRAY_SIZE(buddy->comp_subscriptions); ++index) {
+		if (buddy->comp_subscriptions[index].comp_name.slen == 0)
+			break;
+	}
+
+	c_sub = &buddy->comp_subscriptions[index];
+
+	/* Create pool for this subscription */
+	if (c_sub->pool) {
+		pj_pool_reset(c_sub->pool);
+	} else {
+		char name[PJ_MAX_OBJ_NAME];
+		pj_ansi_snprintf(name, sizeof(name), "comp%03d", index);
+		c_sub->pool = pjsua_pool_create(name, 512, 32);
+	}
+
+	/* Init buffers for presence subscription status */
+	c_sub->term_reason.ptr = (char*)pj_pool_alloc(c_sub->pool,
+			PJSUA_BUDDY_SUB_TERM_REASON_LEN);
+
+	pj_strdup_with_null(c_sub->pool,&tmp,&comp_name);
+
+	/* Reset buddy, to make sure everything is cleared with default
+	 * values
+	 */
+	reset_component_subscription(buddy,index);
+	c_sub->comp_name = tmp;
+	PJ_LOG(4,(THIS_FILE, "@zbuddy Subscribing to component name %.*s",
+			c_sub->comp_name.slen, c_sub->comp_name.ptr));
+
+	c_sub->index = index;
+
+// ######################################################################
+
+	subscribe_to_component(buddy_id, index);
+//		pjsua_buddy_subscribe_pres(index, cfg->subscribe);
+//
+//		pj_log_pop_indent();
+
+	unlock_buddy(&lck);
+	return PJ_SUCCESS;
+}
+
+
+/****************************************************************************
+/****************************************************************************
+/****************************************************************************/
 
 /*
  * Add new buddy.
@@ -423,8 +508,8 @@ PJ_DEF(pj_status_t) pjsua_buddy_add( const pjsua_buddy_config *cfg,
 
 	/* Init buffers for presence subscription status */
 	buddy->term_reason.ptr = (char*)
-			    								 pj_pool_alloc(buddy->pool,
-			    										 PJSUA_BUDDY_SUB_TERM_REASON_LEN);
+			    										 pj_pool_alloc(buddy->pool,
+			    												 PJSUA_BUDDY_SUB_TERM_REASON_LEN);
 
 	/* Get name and display name for buddy */
 	pj_strdup_with_null(buddy->pool, &tmp, &cfg->uri);
@@ -489,7 +574,7 @@ PJ_DEF(pj_status_t) pjsua_buddy_add( const pjsua_buddy_config *cfg,
  * Delete buddy.
  */
 PJ_DEF(pj_status_t) pjsua_buddy_del(pjsua_buddy_id buddy_id)
-								{
+										{
 	struct buddy_lock lck;
 	pj_status_t status;
 
@@ -533,7 +618,7 @@ PJ_DEF(pj_status_t) pjsua_buddy_del(pjsua_buddy_id buddy_id)
 	unlock_buddy(&lck);
 	pj_log_pop_indent();
 	return PJ_SUCCESS;
-								}
+										}
 
 
 /*
@@ -568,7 +653,7 @@ PJ_DEF(pj_status_t) pjsua_buddy_subscribe_pres( pjsua_buddy_id buddy_id,
  * Update buddy's presence.
  */
 PJ_DEF(pj_status_t) pjsua_buddy_update_pres(pjsua_buddy_id buddy_id)
-								{
+										{
 	struct buddy_lock lck;
 	pj_status_t status;
 
@@ -602,14 +687,14 @@ PJ_DEF(pj_status_t) pjsua_buddy_update_pres(pjsua_buddy_id buddy_id)
 	unlock_buddy(&lck);
 	pj_log_pop_indent();
 	return PJ_SUCCESS;
-								}
+										}
 
 
 /*
  * Dump presence subscriptions to log file.
  */
 PJ_DEF(void) pjsua_pres_dump(pj_bool_t verbose)
-								{
+										{
 	unsigned acc_id;
 	unsigned i;
 
@@ -723,7 +808,7 @@ PJ_DEF(void) pjsua_pres_dump(pj_bool_t verbose)
 	}
 
 	PJSUA_UNLOCK();
-								}
+										}
 
 
 /***************************************************************************
@@ -954,8 +1039,8 @@ static pj_bool_t pres_on_rx_request(pjsip_rx_data *rdata)
 
 	/* Capture the value of Expires header. */
 	expires_hdr = (pjsip_expires_hdr*)
-    										  pjsip_msg_find_hdr(rdata->msg_info.msg, PJSIP_H_EXPIRES,
-    												  NULL);
+    												  pjsip_msg_find_hdr(rdata->msg_info.msg, PJSIP_H_EXPIRES,
+    														  NULL);
 	if (expires_hdr)
 		uapres->expires = expires_hdr->ivalue;
 	else
@@ -966,15 +1051,22 @@ static pj_bool_t pres_on_rx_request(pjsip_rx_data *rdata)
 	pjsua_msg_data_init(&msg_data);
 
 	/* Notify application callback, if any */
-	if (pjsua_var.ua_cfg.cb.on_incoming_subscribe) {
-		pjsua_buddy_id buddy_id;
-
-		buddy_id = find_buddy(rdata->msg_info.from->uri);
-
-		(*pjsua_var.ua_cfg.cb.on_incoming_subscribe)(acc_id, uapres, buddy_id,
-				&dlg->remote.info_str,
-				rdata, &st_code, &reason,
-				&msg_data);
+//	if (pjsua_var.ua_cfg.cb.on_incoming_subscribe) {
+//		PJ_LOG(4,(THIS_FILE, "@zbuddy On Incoming Subscribe is not zero",
+//					acc_id));
+//		pjsua_buddy_id buddy_id;
+//
+//		buddy_id = find_buddy(rdata->msg_info.from->uri);
+//
+//		(*pjsua_var.ua_cfg.cb.on_incoming_subscribe)(acc_id, uapres, buddy_id,
+//				&dlg->remote.info_str,
+//				rdata, &st_code, &reason,
+//				&msg_data);
+//	}
+	if (pjsua_var.ua_cfg.cb.on_incoming_subscribe_component) {
+		PJ_LOG(4,(THIS_FILE, "@zbuddy On Incoming Subscribe is not zero",
+					acc_id));
+		(*pjsua_var.ua_cfg.cb.on_incoming_subscribe_component)(acc_id);
 	}
 
 	/* Handle rejection case */
@@ -1146,9 +1238,9 @@ PJ_DEF(pj_status_t) pjsua_pres_notify( pjsua_acc_id acc_id,
 static void publish_cb(struct pjsip_publishc_cbparam *param)
 {
 	pjsua_acc *acc = (pjsua_acc*) param->token;
-//	PJ_LOG(4,(THIS_FILE, "@pres PUBLISH response Code %d",param->code));
+	//	PJ_LOG(4,(THIS_FILE, "@pres PUBLISH response Code %d",param->code));
 	if (param->code/100 != 2 || param->status != PJ_SUCCESS) {
-//		PJ_LOG(4,(THIS_FILE, "@pres Presence callback, status !(200 <= code < 300). Destroy publication and set session = NULL"));
+		//		PJ_LOG(4,(THIS_FILE, "@pres Presence callback, status !(200 <= code < 300). Destroy publication and set session = NULL"));
 		pjsip_publishc_destroy(param->pubc);
 		acc->publish_sess = NULL;
 
@@ -1174,7 +1266,7 @@ static void publish_cb(struct pjsip_publishc_cbparam *param)
 
 	} else {
 		if (param->expiration < 1) {
-//			PJ_LOG(4,(THIS_FILE, "@pres Code , but param expiration < 1. Session = NULL"));
+			//			PJ_LOG(4,(THIS_FILE, "@pres Code , but param expiration < 1. Session = NULL"));
 			/* Could happen if server "forgot" to include Expires header
 			 * in the response. We will not renew, so destroy the pubc.
 			 */
@@ -1305,7 +1397,7 @@ static pj_status_t send_publish(int acc_id, pj_bool_t active)
 /* Create client publish session */
 pj_status_t pjsua_pres_init_publish_acc(int acc_id)
 {
-//	PJ_LOG(4,(THIS_FILE, "@pres creating publication session"));
+	//	PJ_LOG(4,(THIS_FILE, "@pres creating publication session"));
 	const pj_str_t STR_PRESENCE = { "presence", 8 };
 	pjsua_acc_config *acc_cfg = &pjsua_var.acc[acc_id].cfg;
 	pjsua_acc *acc = &pjsua_var.acc[acc_id];
@@ -1439,7 +1531,7 @@ void pjsua_pres_delete_acc(int acc_id, unsigned flags)
 	pjsua_pres_unpublish(acc, flags);
 }
 
-
+//TODO how to update components and generato notifications
 /* Update server subscription (e.g. when our online status has changed) */
 void pjsua_pres_update_acc(int acc_id, pj_bool_t force)
 {
@@ -1481,7 +1573,7 @@ void pjsua_pres_update_acc(int acc_id, pj_bool_t force)
 
 		uapres = uapres->next;
 	}
-	PJ_LOG(4,(THIS_FILE, "@pres AFTER LOOP"));
+//	PJ_LOG(4,(THIS_FILE, "@pres AFTER LOOP"));
 	/* Send PUBLISH if required. We only do this when we have a PUBLISH
 	 * session. If we don't have a PUBLISH session, then it could be
 	 * that we're waiting until registration has completed before we
@@ -1493,9 +1585,9 @@ void pjsua_pres_update_acc(int acc_id, pj_bool_t force)
 	}
 
 	if (acc_cfg->publish_enabled && acc->publish_sess) {
-		PJ_LOG(4,(THIS_FILE, "@pres preparing to REALLY SEND PUBLISH"));
+//		PJ_LOG(4,(THIS_FILE, "@pres preparing to REALLY SEND PUBLISH"));
 		if (force || acc->publish_state != acc->online_status) {
-			PJ_LOG(4,(THIS_FILE, "@pres REALLY SENDING PUBLISH"));
+//			PJ_LOG(4,(THIS_FILE, "@pres REALLY SENDING PUBLISH"));
 			send_publish(acc_id, PJ_TRUE);
 		}
 	}
@@ -1575,8 +1667,8 @@ static void pjsua_evsub_on_state( pjsip_evsub *sub, pjsip_event *event)
 
 			if (buddy->term_reason.ptr == NULL) {
 				buddy->term_reason.ptr = (char*)
-													 pj_pool_alloc(buddy->pool,
-															 PJSUA_BUDDY_SUB_TERM_REASON_LEN);
+															 pj_pool_alloc(buddy->pool,
+																	 PJSUA_BUDDY_SUB_TERM_REASON_LEN);
 			}
 			pj_strncpy(&buddy->term_reason,
 					pjsip_evsub_get_termination_reason(sub),
@@ -1647,8 +1739,8 @@ static void pjsua_evsub_on_state( pjsip_evsub *sub, pjsip_event *event)
 
 						msg = event->body.tsx_state.src.rdata->msg_info.msg;
 						sub_hdr = (const pjsip_sub_state_hdr*)
-												  pjsip_msg_find_hdr_by_name(msg, &sub_state,
-														  NULL);
+														  pjsip_msg_find_hdr_by_name(msg, &sub_state,
+																  NULL);
 						if (sub_hdr && sub_hdr->retry_after > 0)
 							resub_delay = sub_hdr->retry_after * 1000;
 					}
@@ -1730,14 +1822,14 @@ static void pjsua_evsub_on_tsx_state(pjsip_evsub *sub,
 
 	/* Find contact header. */
 	contact_hdr = (pjsip_contact_hdr*)
-										  pjsip_msg_find_hdr(event->body.rx_msg.rdata->msg_info.msg,
-												  PJSIP_H_CONTACT, NULL);
+												  pjsip_msg_find_hdr(event->body.rx_msg.rdata->msg_info.msg,
+														  PJSIP_H_CONTACT, NULL);
 	if (!contact_hdr || !contact_hdr->uri) {
 		return;
 	}
 
 	buddy->contact.ptr = (char*)
-											 pj_pool_alloc(buddy->pool, PJSIP_MAX_URL_SIZE);
+													 pj_pool_alloc(buddy->pool, PJSIP_MAX_URL_SIZE);
 	buddy->contact.slen = pjsip_uri_print( PJSIP_URI_IN_CONTACT_HDR,
 			contact_hdr->uri,
 			buddy->contact.ptr,
@@ -1777,6 +1869,172 @@ static void pjsua_evsub_on_rx_notify(pjsip_evsub *sub,
 	PJ_UNUSED_ARG(p_body);
 }
 
+//@zajzi
+static void subscribe_to_component (pjsua_buddy_id buddy_id, int sub_index) {
+	pjsip_evsub_user pres_callback;
+	pj_pool_t *tmp_pool = NULL, *uri_pool = NULL;
+	pjsua_buddy *buddy;
+	int acc_id;
+	pjsua_acc *acc;
+	pj_str_t contact;
+	pjsip_tx_data *tdata;
+	pj_status_t status;
+	pjsua_buddy_component_sub *c_sub;
+
+
+	/* Event subscription callback. */
+	pj_bzero(&pres_callback, sizeof(pres_callback));
+	pres_callback.on_evsub_state = &pjsua_evsub_on_state;
+	pres_callback.on_tsx_state = &pjsua_evsub_on_tsx_state;
+	pres_callback.on_rx_notify = &pjsua_evsub_on_rx_notify;
+
+	buddy = &pjsua_var.buddy[buddy_id];
+	c_sub = &buddy->comp_subscriptions[sub_index];
+	acc_id = pjsua_acc_find_for_outgoing(&buddy->uri);
+
+	acc = &pjsua_var.acc[acc_id];
+
+//	// create new uri containing parameter
+//	tmp_pool = pjsua_pool_create("tmpbuddy", 512, 256);
+//	struct pjsip_sip_uri uri_with_param = pjsip_uriclone();
+
+
+	PJ_LOG(4,(THIS_FILE, "Buddy %d: subscribing to component %.*s, ,using account %d..",
+			buddy_id,c_sub->comp_name.slen, c_sub->comp_name.ptr, acc_id));
+	pj_log_push_indent();
+
+	/* Generate suitable Contact header unless one is already set in
+	 * the account
+	 */
+	if (acc->contact.slen) {
+		contact = acc->contact;
+	} else {
+		tmp_pool = pjsua_pool_create("tmpbuddy", 512, 256);
+
+		status = pjsua_acc_create_uac_contact(tmp_pool, &contact,
+				acc_id, &buddy->uri);
+		if (status != PJ_SUCCESS) {
+			pjsua_perror(THIS_FILE, "Unable to generate Contact header",
+					status);
+			pj_pool_release(tmp_pool);
+			pj_log_pop_indent();
+			return;
+		}
+	}
+
+	/* Create UAC dialog */
+	status = pjsip_dlg_create_uac( pjsip_ua_instance(),
+			&acc->cfg.id,
+			&contact,
+			&buddy->uri,
+			NULL, &c_sub->dlg);
+	if (status != PJ_SUCCESS) {
+		pjsua_perror(THIS_FILE, "Unable to create dialog",
+				status);
+		if (tmp_pool) pj_pool_release(tmp_pool);
+		pj_log_pop_indent();
+		return;
+	}
+
+	/* Increment the dialog's lock otherwise when presence session creation
+	 * fails the dialog will be destroyed prematurely.
+	 */
+	pjsip_dlg_inc_lock(c_sub->dlg);
+
+	if (acc->cfg.allow_via_rewrite && acc->via_addr.host.slen > 0) {
+		pjsip_dlg_set_via_sent_by(c_sub->dlg, &acc->via_addr, acc->via_tp);
+	} else if (!pjsua_sip_acc_is_using_stun(acc_id)) {
+		/* Choose local interface to use in Via if acc is not using
+		 * STUN. See https://trac.pjsip.org/repos/ticket/1412
+		 */
+		pjsip_host_port via_addr;
+		const void *via_tp;
+
+		if (pjsua_acc_get_uac_addr(acc_id, c_sub->dlg->pool, &buddy->uri,
+				&via_addr, NULL, NULL,
+				&via_tp) == PJ_SUCCESS)
+		{
+			pjsip_dlg_set_via_sent_by(c_sub->dlg, &via_addr,
+					(pjsip_transport*)via_tp);
+		}
+	}
+
+
+	status = pjsip_pres_create_uac( c_sub->dlg, &pres_callback,
+			PJSIP_EVSUB_NO_EVENT_ID, &c_sub->sub);
+	if (status != PJ_SUCCESS) {
+		c_sub->sub = NULL;
+		pjsua_perror(THIS_FILE, "Unable to create presence client",
+				status);
+		/* This should destroy the dialog since there's no session
+		 * referencing it
+		 */
+		if (c_sub->dlg) pjsip_dlg_dec_lock(c_sub->dlg);
+		if (tmp_pool) pj_pool_release(tmp_pool);
+		pj_log_pop_indent();
+		return;
+	}
+
+	/* If account is locked to specific transport, then lock dialog
+	 * to this transport too.
+	 */
+	if (acc->cfg.transport_id != PJSUA_INVALID_ID) {
+		pjsip_tpselector tp_sel;
+
+		pjsua_init_tpselector(acc->cfg.transport_id, &tp_sel);
+		pjsip_dlg_set_transport(c_sub->dlg, &tp_sel);
+	}
+
+	/* Set route-set */
+	if (!pj_list_empty(&acc->route_set)) {
+		pjsip_dlg_set_route_set(c_sub->dlg, &acc->route_set);
+	}
+
+	/* Set credentials */
+	if (acc->cred_cnt) {
+		pjsip_auth_clt_set_credentials( &c_sub->dlg->auth_sess,
+				acc->cred_cnt, acc->cred);
+	}
+
+	/* Set authentication preference */
+	pjsip_auth_clt_set_prefs(&c_sub->dlg->auth_sess, &acc->cfg.auth_pref);
+
+	pjsip_evsub_set_mod_data(c_sub->sub, pjsua_var.mod.id, buddy);
+
+	status = pjsip_pres_initiate(c_sub->sub, -1, &tdata);
+	if (status != PJ_SUCCESS) {
+		if (c_sub->dlg) pjsip_dlg_dec_lock(c_sub->dlg);
+		if (c_sub->sub) {
+			pjsip_pres_terminate(c_sub->sub, PJ_FALSE);
+		}
+		c_sub->sub = NULL;
+		pjsua_perror(THIS_FILE, "Unable to create initial SUBSCRIBE",
+				status);
+		if (tmp_pool) pj_pool_release(tmp_pool);
+		pj_log_pop_indent();
+		return;
+	}
+
+	pjsua_process_msg_data(tdata, NULL);
+
+	status = pjsip_pres_send_request(c_sub->sub, tdata);
+	if (status != PJ_SUCCESS) {
+		if (c_sub->dlg) pjsip_dlg_dec_lock(c_sub->dlg);
+		if (c_sub->sub) {
+			pjsip_pres_terminate(c_sub->sub, PJ_FALSE);
+		}
+		c_sub->sub = NULL;
+		pjsua_perror(THIS_FILE, "Unable to send initial SUBSCRIBE",
+				status);
+		if (tmp_pool) pj_pool_release(tmp_pool);
+		pj_log_pop_indent();
+		return;
+	}
+
+	pjsip_dlg_dec_lock(c_sub->dlg);
+	if (tmp_pool) pj_pool_release(tmp_pool);
+	pj_log_pop_indent();
+}
 
 /* It does what it says.. */
 static void subscribe_buddy_presence(pjsua_buddy_id buddy_id)
@@ -2381,7 +2639,7 @@ static void pres_timer_cb(pj_timer_heap_t *th,
 
 		/* Retry PUBLISH */
 		if (acc->cfg.publish_enabled && acc->publish_sess==NULL) {
-//			PJ_LOG(4,(THIS_FILE, "@pres Timer callback RETRY PUBLISH (new session)"));
+			//			PJ_LOG(4,(THIS_FILE, "@pres Timer callback RETRY PUBLISH (new session)"));
 			pjsua_pres_init_publish_acc(acc->index);
 		}
 

@@ -21,52 +21,78 @@
 
 package com.csipsimple.service;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
+import com.csipsimple.api.SipProfileState;
+import com.csipsimple.components.AccountWrapper;
 import com.csipsimple.components.ComponentManager;
+import com.csipsimple.components.PublicationManager;
+//import com.csipsimple.components.SubscriptionManager;
 import com.csipsimple.utils.Log;
 
-public class ComponentService extends Service {
+public class ComponentService {
 
 	private static final String THIS_FILE = "COMP SRV";
-
-	//components 	
-	private static Boolean HEADSET_CONNECTED = false;
-	private static Boolean BLUETOOTH_HEADSET_CONNECTED = false;
-	private static Boolean REAR_CAMERA_ON = false;
-	//		private static Boolean 
-	//		private static Boolean 
-	//		private static Boolean 
+	private SipService service;
+	private static PublicationManager mPublicationManager;
+//	private static SubscriptionManager mSubscriptionManager;
+	private HashMap<Long,AccountWrapper> accounts = new HashMap<Long,AccountWrapper>();
 	
-	public IBinder onBind (Intent intent) {
-		return null;
+	public void addAccount(long accId) {
+		if (!this.accounts.containsKey((Long) accId)) {
+			Log.d(THIS_FILE,"@XML Adding account to compmanager : " + 
+					service.getAccount(accId).getUriString() + " id : " + accId);
+			
+			AccountWrapper acc = new AccountWrapper(service.getAccount(accId));
+			this.accounts.put(accId,acc);
+			acc.setDocument(mPublicationManager.createPresenceDoc(acc.getProfile()
+					.getUriString().replace("<", "").replace(">", "")));
+			
+			Log.d(THIS_FILE,"@XML sizae after addingh " + this.accounts.size());
+		}
 	}
-
-	public void onCreate () {
-		super.onCreate();
-		// TODO Auto-generated method stub
-		Log.d(THIS_FILE,"Component Service Created");
-//		this.stopSelf();
+	
+	public HashMap<Long,AccountWrapper> getAccounts() {
+		return this.accounts;
 	}
-
-	public int onStartCommand (Intent intent, int flags, int startId) {
-		// We want this service to continue running until it is explicitly
-		// stopped, so return sticky.
-		Log.d(THIS_FILE,"Component Service Started!");
+	
+	public void updateAccount(SipProfileState sp) {
+		if (!isAccountRegistered(sp.getAccountId())) {
+			addAccount(sp.getAccountId());
+		}
+		this.accounts.get(Long.valueOf(sp.getAccountId())).loadComponents(service);
 		
-		ComponentManager compManager = new ComponentManager(this);
-		compManager.initComponents();
-		compManager.publish();
+		// TODO, temporary
+		this.accounts.get(Long.valueOf(sp.getAccountId())).getProfile().gruu = 
+				sp.getGruu().replace("<", "").replace(">", "");
+		mPublicationManager.updatePublication(accounts.get(Long.valueOf(sp.getAccountId())));
+	}
+	
+	public boolean isAccountRegistered(long accId) {
+		return accounts.containsKey((Long)accId);
+	}
+	
+	public ComponentService (SipService srv) {
+		service = srv;
+		// this is very important
+		ComponentManager.getInstance().initManager(this);
+		mPublicationManager = new PublicationManager(this);
+//		mSubscriptionManager = new SubscriptionManager(this);
 		
-		return START_NOT_STICKY;
+		Log.d(THIS_FILE,"Component Service Initialized!");
 	}
 
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		Log.d(THIS_FILE,"Component Service Destroyed");
-		super.onDestroy();
+	public SipService getSipService() {
+		return service;
 	}
+	
+	public PublicationManager getPublicationManager() {
+		return mPublicationManager;
+	}
+	
+	
+//	public SubscriptionManager getSubscriptionManager() {
+//		return mSubscriptionManager;
+//	}
 }

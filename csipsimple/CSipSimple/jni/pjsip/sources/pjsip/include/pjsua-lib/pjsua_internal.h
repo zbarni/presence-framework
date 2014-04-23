@@ -203,6 +203,23 @@ struct pjsua_srv_pres
 };
 
 /**
+ * @zajzi
+ * Component
+ */
+#define MAX_COMPONENT_NUMBER 32
+typedef struct pjsua_component
+{
+    pj_pool_t	    *pool;	    /**< Pool for this account.		*/
+    pj_str_t 		 name;		/**	Component name */
+    unsigned 		 index;		/** Index in the components array */
+    pjsip_dialog	*dlg;	    /**< The underlying dialog.		*/
+    pjsip_evsub		*sub;	    /**< External presence subscription	to component */
+    unsigned		 term_code; /**< Subscription termination code	*/
+    pj_str_t		 term_reason;/**< Subscription termination reason */
+    pj_timer_entry	 timer;	    /**< Resubscription timer		*/
+    void			*value;
+} pjsua_component;
+/**
  * Account
  */
 typedef struct pjsua_acc
@@ -273,6 +290,9 @@ typedef struct pjsua_acc
     pjsip_dialog    *mwi_dlg;	    /**< Dialog for MWI sub.		*/
 
     pj_uint16_t      next_rtp_port; /**< Next RTP port to be used.      */
+    //@zajzi
+    unsigned		 components_cnt;
+    pjsua_component  components[MAX_COMPONENT_NUMBER];
 } pjsua_acc;
 
 
@@ -300,6 +320,8 @@ typedef struct pjsua_transport_data
 #define PJSUA_BUDDY_MAX_COMP_SUB 32
 typedef struct pjsua_buddy_component_sub
 {
+	pj_pool_t		*pool;	    /**< Pool for this buddy.		*/
+	unsigned 		 index;
 	pj_str_t 		 comp_name;
 	pjsip_dialog	*dlg;	    /**< The underlying dialog.		*/
 	pjsip_evsub		*sub;	    /**< Buddy presence subscription	*/
@@ -330,8 +352,8 @@ typedef struct pjsua_buddy
     pj_str_t		 term_reason;/**< Subscription termination reason */
     pjsip_pres_status	 status;    /**< Buddy presence status.		*/
     pj_timer_entry	 timer;	    /**< Resubscription timer		*/
-    pjsua_buddy_component_sub comp_subscriptions[PJSUA_BUDDY_MAX_COMP_SUB];
     //@zajzi
+    pjsua_buddy_component_sub comp_subscriptions[PJSUA_BUDDY_MAX_COMP_SUB];
 
 } pjsua_buddy;
 
