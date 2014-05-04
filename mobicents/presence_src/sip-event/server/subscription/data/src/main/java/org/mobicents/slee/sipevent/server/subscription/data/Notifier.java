@@ -45,6 +45,7 @@ public class Notifier implements Serializable {
 		 
 	private final static String PRES_LIST = "pres-list=";
 	private final static String POC_GROUP = "poc-group=";
+	private final static String POC_GROUP = "poc-group=";
 		
 	public Notifier(String notifier) {
 		String[] notifierParts = notifier.split(COLON);

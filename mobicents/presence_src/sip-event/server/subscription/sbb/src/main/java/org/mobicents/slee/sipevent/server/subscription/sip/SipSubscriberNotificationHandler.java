@@ -45,6 +45,7 @@ import javax.xml.transform.TransformerException;
 
 import net.java.slee.resource.sip.DialogActivity;
 
+import org.mobicents.slee.sipevent.server.external.ExternalSubscriptionHandler;
 import org.mobicents.slee.sipevent.server.subscription.ImplementedSubscriptionControlSbbLocalObject;
 import org.mobicents.slee.sipevent.server.subscription.NotifyContent;
 import org.mobicents.slee.sipevent.server.subscription.data.Subscription;
@@ -117,7 +118,7 @@ public class SipSubscriberNotificationHandler {
 	private Request setNotifyContent(Subscription subscription, Request notify,
 			Object content, ContentTypeHeader contentTypeHeader,
 			ImplementedSubscriptionControlSbbLocalObject childSbb, boolean doNotifierFiltering, boolean isStateChange)
-			throws ParseException, IOException {
+					throws ParseException, IOException {
 
 		String notifyContent = null; 
 		// filter content if needed
@@ -125,11 +126,11 @@ public class SipSubscriberNotificationHandler {
 			content = childSbb
 					.filterContentPerSubscriber(subscription, content);			
 		}
-		
+
 		//if (content == null && subscription.)
 		// filter content per notifier (subscriber rules)
 		// TODO
-		
+
 		// marshall content to string if needed
 		if (content instanceof Node) {
 			try {
@@ -141,7 +142,7 @@ public class SipSubscriberNotificationHandler {
 		else {
 			notifyContent = (String) content;
 		}
-		
+
 		if (notifyContent == null) {
 			if (isStateChange) {
 				// if this happens then no notification should be sent
@@ -152,7 +153,7 @@ public class SipSubscriberNotificationHandler {
 				return notify;
 			}
 		}
-		
+
 		notify.setContent(notifyContent, contentTypeHeader);
 		return notify;
 	}
@@ -165,9 +166,8 @@ public class SipSubscriberNotificationHandler {
 	public void createAndSendNotify(SubscriptionControlDataSource dataSource,
 			Subscription subscription, DialogActivity dialog,
 			ImplementedSubscriptionControlSbbLocalObject childSbb)
-			throws TransactionDoesNotExistException, SipException,
-			ParseException {
-
+					throws TransactionDoesNotExistException, SipException,
+					ParseException {
 		// create notify
 		Request notify = null;
 		// add content if subscription is active
@@ -181,10 +181,10 @@ public class SipSubscriberNotificationHandler {
 							subscription,
 							notify,
 							sipSubscriptionHandler.sbb
-									.getWInfoSubscriptionHandler()
-									.getFullWatcherInfoContent(dataSource,
-											subscription),
-							sipSubscriptionHandler.sbb
+							.getWInfoSubscriptionHandler()
+							.getFullWatcherInfoContent(dataSource,
+									subscription),
+									sipSubscriptionHandler.sbb
 									.getWInfoSubscriptionHandler()
 									.getWatcherInfoContentHeader(), childSbb, false, false);
 				} catch (Exception e) {
@@ -247,7 +247,7 @@ public class SipSubscriberNotificationHandler {
 			notify.setHeader(sipSubscriptionHandler.sbb.getHeaderFactory()
 					.createMaxForwardsHeader(
 							sipSubscriptionHandler.sbb.getConfiguration()
-									.getMaxForwards()));
+							.getMaxForwards()));
 			/*
 			 * NOTIFY requests MUST contain a "Subscription-State" header with a
 			 * value of "active", "pending", or "terminated". The "active" value

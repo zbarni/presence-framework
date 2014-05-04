@@ -24,6 +24,9 @@ package org.mobicents.slee.sipevent.server.external;
 
 import gov.nist.javax.sip.Utils;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -67,6 +70,7 @@ import javax.sip.header.ViaHeader;
 import javax.sip.message.MessageFactory;
 import javax.sip.message.Request;
 import javax.sip.message.Response;
+import javax.slee.ActivityContextInterface;
 import javax.slee.facilities.ActivityContextNamingFacility;
 import javax.slee.facilities.TimerFacility;
 import javax.slee.facilities.Tracer;
@@ -77,6 +81,11 @@ import net.java.slee.resource.sip.SipActivityContextInterfaceFactory;
 import net.java.slee.resource.sip.SleeSipProvider;
 
 import org.mobicents.slee.SbbContextExt;
+import org.mobicents.slee.sipevent.server.subscription.data.Subscription;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import net.java.slee.resource.sip.DialogActivity;
 /**
@@ -87,9 +96,10 @@ import net.java.slee.resource.sip.DialogActivity;
 public class Subscriber implements SipListener {
 
 	private final String eventPackage = "presence";
-	
+
 	private final static Timer timer = new Timer();
-	
+	private static boolean alreadyCreated = false;
+
 	private SipProvider sipProvider;
 	private AddressFactory addressFactory;
 	private MessageFactory messageFactory;
@@ -99,8 +109,8 @@ public class Subscriber implements SipListener {
 	private String notifierPort;
 	private String transport;
 	private ListeningPoint listeningPoint;
-	
-	
+	private final String subscriberR = "sip:presence@128.59.21.232";
+
 	private SipActivityContextInterfaceFactory sipActivityContextInterfaceFactory;
 	/**
 	 * SLEE Facilities
@@ -110,91 +120,85 @@ public class Subscriber implements SipListener {
 	private NullActivityContextInterfaceFactory nullACIFactory;
 	private NullActivityFactory nullActivityFactory;
 
-		
-	
-	private Dialog dialog; 
 	private int expires = 300;
-	private String localIP = "10.255.255.10";
-		
-	private final String subscriber;
-	private final String notifier;
-	private final int listeningPort;
-	
+	private String localIP = "128.59.21.232";
+
+
+	private final int listeningPort = 5098;
+	private ExternalSubscriptionHandler externalSubscriptionHandler;
+
 	private Tracer tracer;
-	
+
 	private enum StateMachine {
 		starting,
 		started,
 		stopping
 	}
-	
+
 	private StateMachine stateMachine;
-	
-	public Subscriber(String subscriber, String notifier, int listeningPort, Tracer tracer) {
-		this.subscriber = subscriber;
-		this.notifier = notifier;
-		this.listeningPort = listeningPort;
-		this.tracer = tracer;
-	}
-	
-	public void subscribe() {
+
+	public Subscriber(ExternalSubscriptionHandler handler) {
+		this.externalSubscriptionHandler = handler; 
+
+		if (tracer == null) {
+			tracer = externalSubscriptionHandler.sbb.getSbbContext().getTracer(getClass().getSimpleName());
+		}
 		
 		this.stateMachine = StateMachine.starting;
 		try {
 			initSipStack();
-			sendInitialRequest();
+
 		} catch (Exception e) {					
 			e.printStackTrace();
 			tracer.info(e.getMessage());
-		}	
+		}
 	}
 
 	@SuppressWarnings("deprecation")
 	private void initSipStack() throws PeerUnavailableException, TransportNotSupportedException, InvalidArgumentException, ObjectInUseException, TooManyListenersException {
-			// init sip stack
-			notifierPort = "5091";
+		// init sip stack
+		notifierPort = "5091";
+		transport = "udp";
 
-			transport = "udp";
+		SipFactory sipFactory = SipFactory.getInstance();
+		sipFactory.setPathName("gov.nist");
+		Properties properties = new Properties();
 
-			SipFactory sipFactory = SipFactory.getInstance();
-			sipFactory.setPathName("gov.nist");
-			Properties properties = new Properties();
+		properties.setProperty("javax.sip.USE_ROUTER_FOR_ALL_URIS", "false");
 
-			properties.setProperty("javax.sip.USE_ROUTER_FOR_ALL_URIS", "false");
+		properties.setProperty("javax.sip.STACK_NAME", subscriberR);
+		properties.setProperty("gov.nist.javax.sip.DEBUG_LOG",
+				"subscriber_"+listeningPort+"_debug.txt");
+		properties.setProperty("gov.nist.javax.sip.SERVER_LOG",
+				"subscriber_"+listeningPort+"_log.txt");
 
-			properties.setProperty("javax.sip.STACK_NAME", subscriber);
-			properties.setProperty("gov.nist.javax.sip.DEBUG_LOG",
-					"subscriber_"+listeningPort+"_debug.txt");
-			properties.setProperty("gov.nist.javax.sip.SERVER_LOG",
-					"subscriber_"+listeningPort+"_log.txt");
+		properties.setProperty("javax.sip.FORKABLE_EVENTS", "foo");
 
-			properties.setProperty("javax.sip.FORKABLE_EVENTS", "foo");
+		// Set to 0 in your production code for max speed.
+		// You need 16 for logging traces. 32 for debug + traces.
+		// Your code will limp at 32 but it is best for debugging.
+		properties.setProperty("gov.nist.javax.sip.TRACE_LEVEL", "16");
 
-			// Set to 0 in your production code for max speed.
-			// You need 16 for logging traces. 32 for debug + traces.
-			// Your code will limp at 32 but it is best for debugging.
-			properties.setProperty("gov.nist.javax.sip.TRACE_LEVEL", "16");
+		sipStack = sipFactory.createSipStack(properties);
 
-			sipStack = sipFactory.createSipStack(properties);
-			
-			headerFactory = sipFactory.createHeaderFactory();
-			addressFactory = sipFactory.createAddressFactory();
-			messageFactory = sipFactory.createMessageFactory();
-			
-			sipProvider = null;
-			for (Iterator<SipStack> p = sipStack.getSipProviders();p.hasNext();) {
-				sipProvider = (SipProvider) p.next();
-//				tracer.info("sip provider name : " + sipProvider.getStackName());
-			}
-			if (sipProvider == null) {
-				this.listeningPoint = sipStack.createListeningPoint(localIP, listeningPort,
-						transport);
-				sipProvider = sipStack.createSipProvider(listeningPoint);
-			}
-			if (sipProvider.getListeningPoint() == null)
-				sipProvider.addSipListener(this);
+		headerFactory = sipFactory.createHeaderFactory();
+		addressFactory = sipFactory.createAddressFactory();
+		messageFactory = sipFactory.createMessageFactory();
+
+		sipProvider = null;
+		for (Iterator<SipStack> p = sipStack.getSipProviders();p.hasNext();) {
+			sipProvider = (SipProvider) p.next();
+		}
+		if (sipProvider == null) {
+			tracer.info("sippprovider is null, creating listening point and provider");
+			this.listeningPoint = sipStack.createListeningPoint(localIP, listeningPort,
+					transport);
+			sipProvider = sipStack.createSipProvider(listeningPoint);
+			sipProvider.addSipListener(this);
+			alreadyCreated = true;
+		}
 	}
-	
+
 	public void cleanUp() {
 		tracer.info("Cleaning up stip stack");
 		try {
@@ -217,9 +221,9 @@ public class Subscriber implements SipListener {
 			tracer.info("Stackprovider exception : " + e);
 		}
 	}
-	
-	private void sendInitialRequest() throws ParseException, InvalidArgumentException, SipException {
-		
+
+	public ClientTransaction prepareInitialRequest(String subscriber, String notifier) throws ParseException, InvalidArgumentException, SipException {
+
 		// create From Header
 		Address fromAddress = addressFactory.createAddress(subscriber);
 		FromHeader fromHeader = headerFactory.createFromHeader(
@@ -254,132 +258,122 @@ public class Subscriber implements SipListener {
 				toHeader, viaHeaders, maxForwards);
 		// Create contact headers
 		SipURI contactURI = (SipURI) addressFactory.createURI(subscriber);  
-//				+ ":"	+ listeningPoint.getIPAddress());
-//		contactURI.setTransportParam(transport);
+		//				+ ":"	+ listeningPoint.getIPAddress());
+		//		contactURI.setTransportParam(transport);
 		contactURI.setPort(port);
 		// add the contact address.
 		Address contactAddress = addressFactory.createAddress(contactURI);
 		// create and save contact header
 		contactHeader = headerFactory.createContactHeader(contactAddress);
 		request.addHeader(contactHeader);
-		tracer.info("Out SUBSCRIBE Request ist : " + request);
 
 		// add route
-//		request.addHeader(headerFactory.createRouteHeader(addressFactory
-//				.createAddress("<;transport=" + transport + ";lr>")));
-					
+		request.addHeader(headerFactory.createRouteHeader(addressFactory
+				.createAddress("<sip:128.59.21.232:5060;transport=" + transport + ";lr>")));
+
 		// Create an event header for the subscription.
 		request.addHeader(headerFactory.createEventHeader(this.eventPackage));
 
 		// add expires
 		request.addHeader(headerFactory.createExpiresHeader(this.expires));
-		
+
 		// add accept headers
 		request.addHeader(headerFactory.createAcceptHeader("application", "pidf+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("application", "rlmi+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("multipart", "related"));
-		
-		// add supported header
-//		request.addHeader(headerFactory.createSupportedHeader("eventlist"));
-		
-		// create the client transaction.
-		ClientTransaction clientTransaction = sipProvider.getNewClientTransaction(request);
 
-		// save the dialog
-		this.dialog = clientTransaction.getDialog();
-		
-		// send the request out.
-		clientTransaction.sendRequest();
+		// add supported header
+		//		request.addHeader(headerFactory.createSupportedHeader("eventlist"));
+
+		return sipProvider.getNewClientTransaction(request);
 	}
-	
-	private void refresh() throws SipException, InvalidArgumentException, ParseException {
+
+	public void refresh(Subscription subscription, ActivityContextInterface aci) {
+		Dialog dialog = (Dialog) aci.getActivity();
+		if (dialog == null) {
+			tracer.severe("Dialog could not be retrieved from aci. Will not refresh");
+		}
 		
 		Request request = dialog.createRequest(Request.SUBSCRIBE);
-		
+
 		// Create a new MaxForwardsHeader
 		request.addHeader(headerFactory
 				.createMaxForwardsHeader(70));
-		
+
 		// Create an event header for the subscription.
 		request.addHeader(headerFactory.createEventHeader(this.eventPackage));
 
 		// add expires
 		request.addHeader(headerFactory.createExpiresHeader(this.expires));
-		
+
 		// add accept headers
 		request.addHeader(headerFactory.createAcceptHeader("application", "pidf+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("application", "rlmi+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("multipart", "related"));
-		
+
 		// add supported header
 		request.addHeader(headerFactory.createSupportedHeader("eventlist"));
-		
+
 		// re-set request uri
-		request.setRequestURI(addressFactory.createURI(notifier));
-		
+		request.setRequestURI(addressFactory.createURI(subscription.getNotifier().toString()));
+
 		// create client tx and send request
 		sipProvider.getNewClientTransaction(request).sendRequest();
+		subscription.refresh(expires);
+		externalSubscriptionHandler.sbb.setSubscriptionTimerAndPersistSubscription(
+				subscription, expires-1, aci);
 	}
-	
-	public void unsubscribe() throws SipException, InvalidArgumentException, ParseException {
+
+	public void unsubscribe(Subscription subscription, ActivityContextInterface aci) {
 		
+		Dialog dialog = (Dialog) aci.getActivity();
+		if (dialog == null) {
+			tracer.severe("Dialog could not be retrieved from aci. Will not unsubscribe");
+		}
 		Request request = dialog.createRequest(Request.SUBSCRIBE);
-		
+
 		// Create a new MaxForwardsHeader
 		request.addHeader(headerFactory
 				.createMaxForwardsHeader(70));
-		
+
 		// Create an event header for the subscription.
 		request.addHeader(headerFactory.createEventHeader(this.eventPackage));
 
 		// add expires
 		request.addHeader(headerFactory.createExpiresHeader(0));
-		
+
 		// add accept headers
 		request.addHeader(headerFactory.createAcceptHeader("application", "pidf+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("application", "rlmi+xml"));
 		request.addHeader(headerFactory.createAcceptHeader("multipart", "related"));
-		
+
 		// add supported header
 		request.addHeader(headerFactory.createSupportedHeader("eventlist"));
-		
+
 		// re-set request uri
-		request.setRequestURI(addressFactory.createURI(notifier));
-		
+		request.setRequestURI(addressFactory.createURI(subscription.getNotifier().toString()));
+
 		// create client tx and send request
 		sipProvider.getNewClientTransaction(request).sendRequest();
 	}
-	
-	private void setRefreshTimer(int expires) {
-		TimerTask task = new TimerTask() {
 
-			@Override
-			public void run() {
-				try {
-					this.cancel();
-					refresh();
-				} catch (Exception e) {					
-					e.printStackTrace();
-				}
-			}
-		};
-		timer.schedule(task, (expires-1)*1000);
-	}
-	
 	// JAIN SIP LISTENER
-	
+
 	public void processDialogTerminated(DialogTerminatedEvent arg0) {
 		// TODO Auto-generated method stub
-		
+		tracer.info("\n\n#############    process dialog terminated\n\n");
 	}
 
 	public void processIOException(IOExceptionEvent arg0) {
-//		tracer.info("processIOException: arg0 = "+arg0);
+		//		tracer.info("processIOException: arg0 = "+arg0);
 	}
 
 	public void processRequest(RequestEvent arg0) {
 		Request request = arg0.getRequest();
-		System.out.println("processRequest: request = "+request);
+		tracer.info("\n\n#############   processRequest: request = "+request +"\n\n");
+
+		externalSubscriptionHandler.getNotificationHandler().processNotify(request);;
+
 		try {
 			arg0.getServerTransaction().sendResponse(messageFactory.createResponse(Response.OK, request));
 		} catch (Exception e) {
@@ -389,57 +383,56 @@ public class Subscriber implements SipListener {
 	}
 
 	public void processResponse(ResponseEvent arg0) {
-		
+
 		Response response = arg0.getResponse();
-		System.out.println("Subscriber "+subscriber+" rcvd response:\n"+response);
-		
-		switch (this.stateMachine) {
-		case starting:
-			// initial request response
-			if (response.getStatusCode() > 299) {				
-				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");			
-			}
-			else if (response.getStatusCode() > 199) {
-				if (this.dialog == null) {
-					this.dialog = arg0.getDialog();
-				}
-				ExpiresHeader expiresHeader = response.getExpires();
-				if (expiresHeader != null) {
-					this.expires = expiresHeader.getExpires();
-					setRefreshTimer(this.expires);									
-				}
-			}			
-			break;
-		case started:
-			// refresh request response
-			if (response.getStatusCode() > 299) {
-				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
-			}
-			else if (response.getStatusCode() > 199) {
-				ExpiresHeader expiresHeader = response.getExpires();
-				if (expiresHeader != null) {
-					this.expires = expiresHeader.getExpires();
-					setRefreshTimer(this.expires);									
-				}
-			}			
-			break;	
-		case stopping:
-			// refresh request response
-			if (response.getStatusCode() > 299) {
-				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
-			}
-			else if (response.getStatusCode() > 199) {
-				// TODO finished
-			}
-			else {
-				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
-			}
-			break;
-			
-		default:
-			tracer.info("invalid state "+this.stateMachine+" on subscriber "+subscriber);
-			
-		}
+//		tracer.info("\n\n#############  Subscriber "+subscriber+" rcvd response:\n"+response +"\n\n");
+//		switch (this.stateMachine) {
+//		case starting:
+//			// initial request response
+//			if (response.getStatusCode() > 299) {				
+//				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");			
+//			}
+//			else if (response.getStatusCode() > 199) {
+//				if (this.dialog == null) {
+//					this.dialog = arg0.getDialog();
+//				}
+//				ExpiresHeader expiresHeader = response.getExpires();
+//				if (expiresHeader != null) {
+//					this.expires = expiresHeader.getExpires();
+//					setRefreshTimer(this.expires);									
+//				}
+//			}			
+//			break;
+//		case started:
+//			// refresh request response
+//			if (response.getStatusCode() > 299) {
+//				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
+//			}
+//			else if (response.getStatusCode() > 199) {
+//				ExpiresHeader expiresHeader = response.getExpires();
+//				if (expiresHeader != null) {
+//					this.expires = expiresHeader.getExpires();
+//					setRefreshTimer(this.expires);									
+//				}
+//			}			
+//			break;	
+//		case stopping:
+//			// refresh request response
+//			if (response.getStatusCode() > 299) {
+//				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
+//			}
+//			else if (response.getStatusCode() > 199) {
+//				// TODO finished
+//			}
+//			else {
+//				tracer.info("unexpected response when "+this.stateMachine+" subscriber "+subscriber+", can't proceeed");
+//			}
+//			break;
+//
+//		default:
+//			tracer.info("invalid state "+this.stateMachine+" on subscriber "+subscriber);
+//
+//		}
 	}
 
 	public void processTimeout(TimeoutEvent arg0) {
@@ -447,7 +440,7 @@ public class Subscriber implements SipListener {
 	}
 
 	public void processTransactionTerminated(TransactionTerminatedEvent arg0) {
-		
+		tracer.info("process transaction terminated");
 	}
 
 }

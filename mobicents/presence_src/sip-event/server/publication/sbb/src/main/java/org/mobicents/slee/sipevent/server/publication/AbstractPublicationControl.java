@@ -35,6 +35,7 @@ import javax.sip.header.Header;
 import javax.sip.message.Response;
 
 import org.apache.log4j.Logger;
+import org.mobicents.slee.sipevent.server.publication.data.ComponentModel;
 import org.mobicents.slee.sipevent.server.publication.data.ComposedPublication;
 import org.mobicents.slee.sipevent.server.publication.data.ComposedPublicationKey;
 import org.mobicents.slee.sipevent.server.publication.data.Publication;
@@ -81,8 +82,8 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 			int expires) {
 
 		final PublicationControlLogger logger = getLogger();
-		if (logger.isDebugEnabled()) {
-			logger.debug("new publication request: entity=" + entity
+		if (logger.isDebugEnabled() || true) {
+			logger.info("new publication request: entity=" + entity
 					+ ",eventPackage=" + eventPackage);
 		}
 
@@ -110,7 +111,6 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				return UNSUPPORTED_MEDIA_TYPE;
 			}
 
-
 			// authorize publication
 			if (!impl.authorizePublication(entity, eventPackage, domDocument)) {
 				if (logger.isInfoEnabled()) {
@@ -132,7 +132,14 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				// extract component model and store it in the database
 				// only if PUBLISH contains component model xml
 				if (publication.parseComponentModel()) {
-					addComponentModelToDatabase(publication);
+					// save this publication separately
+					try {
+						addToMergedComponentModels(publication);						
+					}
+					catch (Exception e) {
+						logger.error("Component model error while adding", e);
+					}
+					
 				}
 				// set timer
 				setTimer(publication, expires);
@@ -213,8 +220,8 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 			String oldETag, int expires) {
 
 		final PublicationControlLogger logger = getLogger();
-		if (logger.isDebugEnabled()) {
-			logger.debug("refresh Publication: entity=" + entity
+		if (logger.isDebugEnabled()|| true) {
+			logger.info("refresh Publication: entity=" + entity
 					+ ",eventPackage=" + eventPackage + ",eTag=" + oldETag
 					+ ",expires=" + expires);
 		}
@@ -276,6 +283,28 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 	 */
 	protected abstract void cancelTimer(Publication publication);
 
+	/**
+	 * @param publication
+	 * Removes publication from merged XML component model and updates 
+	 * the new merged component model in the cache.
+	 * The merged component model does not get deleted.
+	 */
+	
+	public void removeFromMergedComponentModels(Publication publication) {
+		final PublicationControlLogger logger = getLogger();
+		logger.info("Removing publication from aggregated component model");
+		
+		ComponentModel cm = dataSource.get(publication.getPublicationKey().getEntity());
+		if (cm == null) {
+			logger.info("No master document with URI " + publication.getPublicationKey().getEntity() + " has been found");
+			return;
+		}
+		
+		cm.removePublication(publication);
+		dataSource.update(cm);
+		logger.info("Publication removed from master document");
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -286,8 +315,8 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 	public int removePublication(String entity, String eventPackage, String eTag) {
 
 		final PublicationControlLogger logger = getLogger();
-		if (logger.isDebugEnabled()) {
-			logger.debug("removePublication: entity=" + entity
+		if (logger.isDebugEnabled() || true) {
+			logger.info("removePublication: entity=" + entity
 					+ ",eventPackage=" + eventPackage + ",eTag=" + eTag);
 		}
 
@@ -314,7 +343,9 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 				result = Response.CONDITIONAL_REQUEST_FAILED;
 			} else {
 				// remove from database
+				removeFromMergedComponentModels(publication);
 				removeComponentModelFromDatabase(publication);
+				
 				// cancel timer
 				cancelTimer(publication);
 				// remove old publication
@@ -366,6 +397,34 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 		return result;
 	}
 
+	/**
+	 * @param publication
+	 * Adds publication to merged component model and updates this
+	 * in cache. If no merged component model for the entity exists, 
+	 * a new merged component model is created and the publication is 
+	 * added to this new one.    
+	 */
+	public void addToMergedComponentModels(Publication publication) {
+		final PublicationControlLogger logger = getLogger();
+		logger.info("Adding publication to aggregated component model");
+		
+		ComponentModel cm = dataSource.get(publication.getPublicationKey().getEntity());
+		if (cm == null) {
+			ComponentModel newCm = ComponentModel.fromPublication(publication);
+			newCm.addPublication(publication);
+			logger.info((dataSource.add(newCm) == true) ? "Aggregated component model was successfully added to cache." 
+					: "Cache error while adding aggregated component model.");
+		}
+		else {
+			if (cm.addPublication(publication)) {
+				logger.info("Publication was added to / modified in the master document");
+			}
+			else 
+				logger.info("Publication could not be added to / modified in master document");
+			dataSource.update(cm);
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -379,7 +438,7 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 			String contentSubType, int expires) {
 
 		final PublicationControlLogger logger = getLogger();
-		if (logger.isDebugEnabled()) {
+		if (logger.isDebugEnabled()|| true) {
 			getLogger().debug(
 					"modifyPublication: entity=" + entity + ",eventPackage="
 							+ eventPackage + ",eTag=" + oldETag);
@@ -447,8 +506,12 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 							contentSubType);
 					newPublication.setDocumentAsDOM(unmarshalledContent);
 					if (newPublication.parseComponentModel()) {
+						// tmp
 						removeComponentModelFromDatabase(publication);				
-						addComponentModelToDatabase(newPublication);
+						// TODO stays, make it better
+						removeFromMergedComponentModels(publication);
+						addToMergedComponentModels(newPublication);
+						
 					}
 					// get composed publication and rebuild it
 					final ComposedPublication composedPublication = updateComposedPublication(
@@ -690,31 +753,6 @@ public abstract class AbstractPublicationControl implements PublicationControl {
 			return resultList
 					.toArray(new Publication[resultList.size()]);
 		}
-	}
-
-	public void addComponentModelToDatabase(Publication publication) {
-		if (publication.getComponentModelAsString() == "")
-			return;
-		
-		String url = "jdbc:mysql://localhost:3306/";
-		String dbName = "components";
-		String driver = "com.mysql.jdbc.Driver";
-		String userName = "presence";
-		String password = "columbianyc";
-		try {
-			Class.forName(driver).newInstance();
-			Connection connect = DriverManager.getConnection(url+dbName,userName,password);
-
-			String sql = "INSERT INTO models (sip_uri, etag, component_model) VALUES (?,?,?)";
-			PreparedStatement statement = connect.prepareStatement(sql);
-			statement.setString(1, publication.getPublicationKey().getEntity());
-			statement.setString(2, publication.getPublicationKey().getETag());
-			statement.setString(3, publication.getComponentModelAsString());
-			statement.executeUpdate();
-			connect.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}          
 	}
 
 	public void removeComponentModelFromDatabase(Publication publication) {

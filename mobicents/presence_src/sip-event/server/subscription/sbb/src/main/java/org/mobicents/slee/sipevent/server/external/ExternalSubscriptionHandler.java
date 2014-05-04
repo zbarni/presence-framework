@@ -25,7 +25,7 @@ package org.mobicents.slee.sipevent.server.external;
 import org.mobicents.slee.sipevent.server.subscription.SubscriptionControlSbb;
 
 /**
- * Handler for INTERNAL SUBSCRIPTION related requests.
+ * Handler for External SUBSCRIPTION related requests.
  * 
  * @author martins
  * 
@@ -34,46 +34,26 @@ public class ExternalSubscriptionHandler {
 
 	protected SubscriptionControlSbb sbb;
 
-	private NewInternalSubscriptionHandler newInternalSubscriptionHandler;
-	private RefreshInternalSubscriptionHandler refreshInternalSubscriptionHandler;
-	private RemoveInternalSubscriptionHandler removeInternalSubscriptionHandler;
-	private InternalSubscriberNotificationHandler internalSubscriberNotificationHandler;
 	private NewExternalSubscriptionHandler newExternalSubscriptionHandler;
+	private NotificationHandler notificationHandler;
+	private Subscriber subscriber;
 
 	public ExternalSubscriptionHandler(SubscriptionControlSbb sbb) {
 		this.sbb = sbb;
-		newInternalSubscriptionHandler = new NewInternalSubscriptionHandler(
-				this);
-		newExternalSubscriptionHandler = new NewExternalSubscriptionHandler(
-				this);
-		refreshInternalSubscriptionHandler = new RefreshInternalSubscriptionHandler(
-				this);
-		removeInternalSubscriptionHandler = new RemoveInternalSubscriptionHandler(
-				this);
-		internalSubscriberNotificationHandler = new InternalSubscriberNotificationHandler(
-				this);
+		newExternalSubscriptionHandler = new NewExternalSubscriptionHandler(this);
+		notificationHandler = new NotificationHandler(this);
+		subscriber = new Subscriber(this);
 	}
 
-	// getters
-	
-	public InternalSubscriberNotificationHandler getInternalSubscriberNotificationHandler() {
-		return internalSubscriberNotificationHandler;
-	}
-
-	public NewInternalSubscriptionHandler getNewInternalSubscriptionHandler() {
-		return newInternalSubscriptionHandler;
-	}
-	
 	public NewExternalSubscriptionHandler getNewExternalSubscriptionHandler() {
 		return newExternalSubscriptionHandler;
 	}
 
-	public RefreshInternalSubscriptionHandler getRefreshInternalSubscriptionHandler() {
-		return refreshInternalSubscriptionHandler;
+	public NotificationHandler getNotificationHandler() {
+		return notificationHandler;
 	}
-
-	public RemoveInternalSubscriptionHandler getRemoveInternalSubscriptionHandler() {
-		return removeInternalSubscriptionHandler;
+	
+	public Subscriber getSubscriber() {
+		return subscriber;
 	}
-
 }

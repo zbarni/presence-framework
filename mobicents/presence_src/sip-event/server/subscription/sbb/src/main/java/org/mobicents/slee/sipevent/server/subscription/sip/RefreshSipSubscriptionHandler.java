@@ -29,6 +29,7 @@ import javax.slee.facilities.Tracer;
 
 import net.java.slee.resource.sip.DialogActivity;
 
+import org.mobicents.slee.sipevent.server.external.ExternalSubscriptionHandler;
 import org.mobicents.slee.sipevent.server.subscription.ImplementedSubscriptionControlSbbLocalObject;
 import org.mobicents.slee.sipevent.server.subscription.data.Subscription;
 import org.mobicents.slee.sipevent.server.subscription.data.SubscriptionControlDataSource;
@@ -89,13 +90,20 @@ public class RefreshSipSubscriptionHandler {
 		}
 
 		if (!subscription.isResourceList()) {
-			// notify subscriber
-			try {
-				sipSubscriptionHandler.getSipSubscriberNotificationHandler()
-				.createAndSendNotify(dataSource, subscription,
-						(DialogActivity) aci.getActivity(), childSbb);
-			} catch (Exception e) {
-				tracer.severe("failed to notify subscriber", e);
+			//@zajzi
+			if (ExternalSubscriptionHandler.isComponentSubscription(subscription)) {
+				sipSubscriptionHandler.sbb.getExternalSubscriptionHandler().getRefreshExternalSubscriptionHandler()
+					.refreshExternalSubscription(dataSource, childSbb, subscription, aci);
+			}
+			else {
+				// notify subscriber
+				try {
+					sipSubscriptionHandler.getSipSubscriberNotificationHandler()
+					.createAndSendNotify(dataSource, subscription,
+							(DialogActivity) aci.getActivity(), childSbb);
+				} catch (Exception e) {
+					tracer.severe("failed to notify subscriber", e);
+				}
 			}
 		}
 

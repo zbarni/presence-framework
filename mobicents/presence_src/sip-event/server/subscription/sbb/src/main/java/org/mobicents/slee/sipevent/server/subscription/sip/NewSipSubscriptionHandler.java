@@ -37,6 +37,7 @@ import javax.slee.facilities.Tracer;
 
 import net.java.slee.resource.sip.DialogActivity;
 
+import org.mobicents.slee.sipevent.server.external.ExternalSubscriptionHandler;
 import org.mobicents.slee.sipevent.server.subscription.ImplementedSubscriptionControlSbbLocalObject;
 import org.mobicents.slee.sipevent.server.subscription.data.Notifier;
 import org.mobicents.slee.sipevent.server.subscription.data.Subscription;
@@ -79,6 +80,8 @@ public class NewSipSubscriptionHandler {
 			int expires, SubscriptionControlDataSource dataSource,
 			ImplementedSubscriptionControlSbbLocalObject childSbb) {
 
+		tracer.info("");
+		
 		// get subscription data from request
 		Address fromAddress = ((FromHeader) event.getRequest().getHeader(
 				FromHeader.NAME)).getAddress();
@@ -86,7 +89,7 @@ public class NewSipSubscriptionHandler {
 		String subscriberDisplayName = fromAddress.getDisplayName();
 		
 		Notifier notifier = new Notifier(event.getRequest().getRequestURI().toString());
-				
+
 		// get content
 		String content = null;
 		String contentType = null;
@@ -115,7 +118,7 @@ public class NewSipSubscriptionHandler {
 									event.getRequest());
 					response = sipSubscriptionHandler
 							.addContactHeader(response);
-					event.getServerTransaction().sendResponse(response);					
+					event.getServerTransaction().sendResponse(response);				
 				} catch (Exception f) {
 					tracer.severe("Can't send RESPONSE", f);
 				}
@@ -280,8 +283,9 @@ public class NewSipSubscriptionHandler {
 				: Subscription.Status.active;
 		Subscription subscription = new Subscription(key, subscriber, notifier,
 				initialStatus, subscriberDisplayName, expires, eventList,dataSource);
-
-		if (!eventList || (responseCode == Response.ACCEPTED)) {
+		//@zajzi
+		if ((!eventList || (responseCode == Response.ACCEPTED) 
+				&& !ExternalSubscriptionHandler.isComponentSubscription(subscription)))  {
 			// single resource or pending subscription (no notify content), notify subscriber
 			try {
 				sipSubscriptionHandler.getSipSubscriberNotificationHandler()

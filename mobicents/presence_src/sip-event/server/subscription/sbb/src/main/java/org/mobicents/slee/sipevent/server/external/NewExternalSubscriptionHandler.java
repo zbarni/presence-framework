@@ -30,16 +30,25 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.sip.ClientTransaction;
+import javax.sip.InvalidArgumentException;
 import javax.sip.RequestEvent;
+import javax.sip.SipException;
 import javax.sip.address.Address;
 import javax.sip.address.SipURI;
 import javax.sip.header.ExpiresHeader;
+import javax.sip.message.Request;
 import javax.slee.ActivityContextInterface;
 import javax.slee.facilities.Tracer;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import net.java.slee.resource.sip.DialogActivity;
+
 import org.mobicents.slee.sipevent.server.subscription.SubscriptionControlSbb;
+import org.mobicents.slee.sipevent.server.subscription.data.Notifier;
+import org.mobicents.slee.sipevent.server.subscription.data.Subscription;
+import org.mobicents.slee.sipevent.server.subscription.data.SubscriptionKey;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -55,6 +64,9 @@ public class NewExternalSubscriptionHandler {
 	private static Tracer tracer;
 	
 	private ExternalSubscriptionHandler externalSubscriptionHandler;
+	public static final String subscriber = "sip:presence@128.59.21.232";
+	private final String eventPackage = "presence";
+	private final String subscriberDisplayName = "The Zajzon Project";
 
 	public NewExternalSubscriptionHandler(
 			ExternalSubscriptionHandler externalSubscriptionHandler) {
@@ -86,43 +98,102 @@ public class NewExternalSubscriptionHandler {
 		} else {
 			// expires is > 0 but < min expires, respond (Interval
 			// Too Brief) with Min-Expires = MINEXPIRES
-//			sbb.getParentSbb().subscribeError(subscriber, notifier.getUri(),
-//					eventPackage, subscriptionId, Response.INTERVAL_TOO_BRIEF);
 			return;
 		}
 
 		SipURI uri = (SipURI) event.getRequest().getRequestURI();
+		String paramList = getParameters(uri);
 
-		ArrayList<Address> userAgentList = getGruuList();
+		ArrayList<Address> userAgentList = getGruuList(stripAllParameters(uri));
 		
 		for (Address addr : userAgentList) {
-			tracer.info("\n\n\n################################" + addr + " \n\n");
+			ClientTransaction clientTransaction = null;
+			String notifier = addr.getURI().toString() + paramList;
+
+			tracer.info("Susbcribing to : "+ notifier);
+			// prepare request, we get a client transaction with dialog ID back
+			try {
+				clientTransaction = externalSubscriptionHandler.getSubscriber()
+						.prepareInitialRequest(subscriber,notifier);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SipException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if (clientTransaction == null) {
+				tracer.info("Client transaction is null, can not create external subscription");
+			}
+			
+			String subscriptionId = subscriber + ":" + notifier + ":" + eventPackage;
+			SubscriptionKey key = new SubscriptionKey(clientTransaction.getDialog().getDialogId(),					
+					eventPackage, subscriptionId);
+			
+			// find subscription
+			Subscription subscription = sbb.getConfiguration().getDataSource().get(key);
+
+			if (subscription != null) {
+				// subscription exists, should notify subscribers, no?
+				tracer.info("Subscription already exists");
+			} 
+			else {
+				createAndSendSubscribe(event.getRequest(), notifier, key, subscriptionId, clientTransaction);
+			}
 		}
-		
-		
-		tracer.info("Subscribing to GRUU : " + uri.toString());
-		String subscriberString = "sip:presence@128.59.21.232";
-		Subscriber subscriber = new Subscriber(subscriberString, stripAllParameters(uri).toString(), 5098, tracer);
-		subscriber.subscribe();
-		
-//		// create subscription key
-//		SubscriptionKey key = new SubscriptionKey(
-//				SubscriptionKey.NO_DIALOG_ID, 
-//				eventPackage, subscriptionId);
-//		// find subscription
-//		Subscription subscription = dataSource.get(key);
-//
-//		if (subscription != null) {
-//			// subscription exists
-//			sbb.getParentSbb().subscribeError(subscriber, notifier.getUri(),
-//					eventPackage, subscriptionId,
-//					Response.CONDITIONAL_REQUEST_FAILED);
-//		} else {
-//			authorizeNewInternalSubscription(subscriber, subscriberDisplayName, notifier, key, expires, content, contentType, contentSubtype, eventList, dataSource, childSbb);						
-//		}
 	}
 	
-	public static SipURI stripAllParameters(SipURI uri) {
+	private void createAndSendSubscribe(Request request, 
+			String notifierParam,
+			SubscriptionKey key,
+			String subscriptionId,
+			ClientTransaction clientTransaction) {
+		SubscriptionControlSbb sbb;
+		Notifier notifier;
+		ActivityContextInterface subscriptionAci = null;
+		
+		sbb = externalSubscriptionHandler.sbb;
+		notifier = new Notifier(notifierParam);
+		subscriptionAci = sbb.getSipActivityContextInterfaceFactory().getActivityContextInterface(clientTransaction);
+		
+		if (subscriptionAci == null) {
+			tracer.severe("Failed to find dialog activity context interface");
+		}
+
+		try {
+			sbb.getActivityContextNamingfacility().bind(subscriptionAci,key.toString());
+		} catch (Exception e) {
+			tracer.severe("Failed to create internal subscription aci", e);
+			return;
+		}
+		
+		Subscription newSubscription = new Subscription(key, subscriber, notifier, 
+				Subscription.Status.pending, 
+				subscriberDisplayName, 300, false, 
+				externalSubscriptionHandler.sbb.getConfiguration().getDataSource());
+		
+		externalSubscriptionHandler.sbb.setSubscriptionTimerAndPersistSubscription(
+				newSubscription, 299, subscriptionAci);
+		
+		if (tracer.isInfoEnabled()) {
+			tracer.info("Created " + newSubscription);
+		}
+	}
+	
+	private String getParameters(SipURI uri) {
+		String p = "";
+		for (Iterator<String> it = uri.getParameterNames(); it.hasNext(); ) {
+			String param = it.next();
+			p += ";" + param + "=" + uri.getParameter(param); 
+		}
+		return p;
+	}
+	
+	public SipURI stripAllParameters(SipURI uri) {
 		SipURI newUri = (SipURI)uri.clone();
 		for (Iterator<String> iter = uri.getParameterNames();iter.hasNext();) {
 			newUri.removeParameter(iter.next());
@@ -144,16 +215,15 @@ public class NewExternalSubscriptionHandler {
 	    return document;
 	}
 	
-	private ArrayList<Address> getGruuList() {
+	private ArrayList<Address> getGruuList(SipURI uri) {
 		SubscriptionControlSbb sbb = externalSubscriptionHandler.sbb;
 		ArrayList<Address> list = new ArrayList<Address>();
 		try {
 			PreparedStatement verifyStatement = sbb.getDBConnection().prepareStatement("SELECT * FROM master_documents WHERE sip_uri=?");
-			verifyStatement.setString(1, "sip:gandalf@128.59.21.232");
+			verifyStatement.setString(1, uri.toString());
 			ResultSet rs = verifyStatement.executeQuery();
 			// previous doc exists
 			while (rs.next()) {
-//				String userURI = rs.getString(1);
 				String masterDoc = rs.getString(2);
 				
 				Document document = getDocumentFromString(masterDoc); 
@@ -172,10 +242,8 @@ public class NewExternalSubscriptionHandler {
 		catch (SQLException e) {
 			tracer.info(e.toString());
 		} catch (DOMException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
